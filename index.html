@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مسابقة المستويات - جيم</title>
+    <title>اختبار المستوى لأعضاء جروب المشتركين</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
+      /* ====== إعدادات عامة ====== */
       body {
         font-family: "Cairo", sans-serif;
         margin: 0;
@@ -24,6 +25,7 @@
         overflow-x: hidden;
         animation: bgMove 20s linear infinite;
       }
+
       @keyframes bgMove {
         0% {
           background-position: 0% 50%;
@@ -35,13 +37,27 @@
           background-position: 0% 50%;
         }
       }
+
       h1 {
         text-align: center;
         margin-bottom: 20px;
         font-size: 2.5rem;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         letter-spacing: 2px;
+        animation: titleBounce 1s ease-out;
       }
+
+      @keyframes titleBounce {
+        0% {
+          transform: translateY(-30px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
       .centered {
         display: flex;
         justify-content: center;
@@ -52,13 +68,32 @@
         padding: 30px 20px;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        animation: fadeIn 0.8s ease-out;
       }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       input {
         padding: 12px 15px;
         border: none;
         border-radius: 12px;
+        font-weight: bold;
         width: 250px;
+        transition: 0.3s;
         outline: none;
+      }
+      input:focus {
+        box-shadow: 0 0 15px #ffeb3b;
       }
       button {
         padding: 12px 20px;
@@ -69,10 +104,14 @@
         transition: 0.3s;
         background: linear-gradient(45deg, #ff5722, #ff9800);
         color: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
       }
       button:hover {
         transform: scale(1.08) translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
       }
+
+      /* ====== أقسام اللعبة ====== */
       #login-section,
       #levels,
       #question-box,
@@ -82,6 +121,7 @@
         margin: 20px auto;
         display: none;
       }
+
       .level-card {
         padding: 18px 25px;
         margin: 12px 0;
@@ -90,7 +130,19 @@
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
+        transition: 0.4s;
+        font-weight: bold;
         background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        font-size: 1.2rem;
+        transform: translateX(-50px);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+      }
+      .level-card:hover {
+        transform: scale(1.03) translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
       }
       .level-card.open {
         background: linear-gradient(90deg, #4caf50, #81c784);
@@ -105,6 +157,14 @@
         cursor: not-allowed;
         color: #bbb;
       }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
       .answers button {
         display: block;
         margin: 12px 0;
@@ -113,12 +173,80 @@
         background: linear-gradient(135deg, #2196f3, #21cbf3);
         color: #fff;
         border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s;
+      }
+      .answers button:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      /* ====== لوحة المتصدرين ====== */
+      #leaderboard .leader-user {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 15px 20px;
+        margin: 12px 0;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.5s ease-out;
+      }
+      .details-btn {
+        margin-left: 10px;
+        background: linear-gradient(135deg, #1976d2, #64b5f6);
+        color: #fff;
+      }
+      .details-btn:hover {
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
       }
       .back-btn {
         background: linear-gradient(135deg, #d32f2f, #f44336);
         color: #fff;
         margin-top: 10px;
       }
+
+      /* ====== مراجعة الإجابات ====== */
+      #review-content {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 12px;
+        white-space: pre-wrap;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      /* ====== نافذة الرسائل ====== */
+      #message-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(30, 30, 50, 0.95);
+        color: #fff;
+        padding: 25px 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        text-align: center;
+        font-size: 1.2rem;
+        display: none;
+        z-index: 999;
+      }
+      #message-box button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(45deg, #ff5722, #ff9800);
+        color: #fff;
+        cursor: pointer;
+      }
+      #message-box button:hover {
+        transform: scale(1.05);
+      }
+
+      /* ====== استجابة الموبايل ====== */
       @media (max-width: 600px) {
         #levels,
         #question-box,
@@ -134,7 +262,7 @@
     </style>
   </head>
   <body>
-    <h1>مسابقة المستويات</h1>
+    <h1>اختبار المستوى لأعضاء جروب المشتركين</h1>
 
     <div id="login-section" class="centered">
       <input type="text" id="username" placeholder="اسم المستخدم" />
@@ -143,7 +271,6 @@
     </div>
 
     <button id="leaderboard-btn" style="display: none">لوحة المتصدرين</button>
-
     <div id="levels"></div>
 
     <div id="question-box">
@@ -161,6 +288,11 @@
 
     <div id="leaderboard">
       <button id="back-to-levels-btn" class="back-btn">عودة للمستويات</button>
+    </div>
+
+    <div id="message-box">
+      <div id="message-text"></div>
+      <button id="close-msg-btn">حسناً</button>
     </div>
 
     <audio
@@ -289,55 +421,54 @@
         ],
       };
 
+      // ===== نافذة الرسائل =====
+      const messageBox = document.getElementById("message-box");
+      const messageText = document.getElementById("message-text");
+      const closeMsgBtn = document.getElementById("close-msg-btn");
+      function showMessage(msg) {
+        messageText.innerText = msg;
+        messageBox.style.display = "block";
+      }
+      closeMsgBtn.addEventListener("click", () => {
+        messageBox.style.display = "none";
+      });
+
+      // ===== تسجيل الدخول =====
       const loginSection = document.getElementById("login-section");
       const loginBtn = document.getElementById("login-btn");
-      const levelsDiv = document.getElementById("levels");
-      const questionBox = document.getElementById("question-box");
-      const answersDiv = document.getElementById("answers");
-      const nextBtn = document.getElementById("next-btn");
-      const backLevelsBtn = document.getElementById("back-levels-btn");
-      const leaderboardBtn = document.getElementById("leaderboard-btn");
-      const leaderboardDiv = document.getElementById("leaderboard");
-      const reviewBox = document.getElementById("review-box");
-      const reviewTitle = document.getElementById("review-title");
-      const reviewContent = document.getElementById("review-content");
-      const backReviewBtn = document.getElementById("back-review-btn");
-      const backToLevelsBtn = document.getElementById("back-to-levels-btn");
-
       loginBtn.addEventListener("click", async function () {
         const name = document.getElementById("username").value.trim();
         const pass = document.getElementById("password").value.trim();
         if (!name || !pass) {
-          alert("ادخل اسم وكلمة مرور");
+          showMessage("ادخل اسم وكلمة مرور");
           return;
         }
+
         const userRef = ref(db, `users/${name}`);
         const snapshot = await get(userRef);
+
         if (snapshot.exists()) {
           const data = snapshot.val();
           if (data.password !== pass) {
-            alert("كلمة المرور خاطئة");
+            showMessage("كلمة المرور خاطئة");
             return;
           }
-          currentUser = name;
-          if (!data.progress)
-            await update(userRef, {
-              progress: { 1: false, 2: false, 3: false },
-            });
-          if (!data.answers) await update(userRef, { answers: {} });
         } else {
           await set(userRef, {
             password: pass,
             progress: { 1: false, 2: false, 3: false },
             answers: {},
           });
-          currentUser = name;
         }
+
+        currentUser = name;
         loginSection.style.display = "none";
-        leaderboardBtn.style.display = "block";
+        document.getElementById("leaderboard-btn").style.display = "block";
         renderLevels();
       });
 
+      // ===== عرض المستويات =====
+      const levelsDiv = document.getElementById("levels");
       function createLevelCard(i, status) {
         const div = document.createElement("div");
         div.className = `level-card ${status}`;
@@ -348,7 +479,6 @@
           div.addEventListener("click", () => startLevel(i));
         return div;
       }
-
       async function renderLevels() {
         levelsDiv.innerHTML = "";
         const snapshot = await get(ref(db, `users/${currentUser}`));
@@ -366,10 +496,12 @@
           levelsDiv.appendChild(createLevelCard(i, status));
         }
         levelsDiv.style.display = "block";
-        questionBox.style.display = "none";
-        leaderboardDiv.style.display = "none";
-        reviewBox.style.display = "none";
       }
+
+      // ===== بدء المستوى =====
+      const questionBox = document.getElementById("question-box");
+      const answersDiv = document.getElementById("answers");
+      const backLevelsBtn = document.getElementById("back-levels-btn");
 
       function startLevel(level) {
         currentLevel = level;
@@ -399,23 +531,23 @@
           ? document.getElementById("correct-sound")
           : document.getElementById("wrong-sound");
         sound.play();
+
         await set(
-          ref(
-            db,
-            `users/${currentUser}/answers/${currentLevel}/${
-              currentQuestionIndex + 1
-            }`
-          ),
+          ref(db, `users/${currentUser}/answers/${currentLevel}/${q.q}`),
           isCorrect
         );
         currentQuestionIndex++;
-        if (currentQuestionIndex >= currentQuestions.length)
-          checkLevelCompletion();
-        else showQuestion();
+        if (currentQuestionIndex >= currentQuestions.length) {
+          await checkLevelCompletion();
+        } else showQuestion();
       }
 
-      backLevelsBtn.addEventListener("click", () => renderLevels());
+      backLevelsBtn.addEventListener("click", () => {
+        questionBox.style.display = "none";
+        renderLevels();
+      });
 
+      // ===== التحقق من اجتياز المستوى =====
       async function checkLevelCompletion() {
         const snapshot = await get(
           ref(db, `users/${currentUser}/answers/${currentLevel}`)
@@ -424,73 +556,49 @@
         const total = Object.keys(answers).length;
         const correct = Object.values(answers).filter((v) => v).length;
         const required = Math.ceil(levelsData[currentLevel].passRate * total);
-        if (correct >= required)
+
+        if (correct >= required) {
           await update(ref(db, `users/${currentUser}/progress`), {
             [currentLevel]: true,
           });
-        alert(
-          correct >= required
-            ? "تم اجتياز المستوى!"
-            : "لم تحقق النسبة المطلوبة، حاول مرة أخرى."
-        );
+          showMessage("تم اجتياز المستوى!");
+        } else showMessage("لم تحقق النسبة المطلوبة، حاول مرة أخرى.");
+
+        questionBox.style.display = "none";
         renderLevels();
       }
 
-      leaderboardBtn.addEventListener("click", displayLeaderboard);
-      async function displayLeaderboard() {
-        leaderboardDiv.innerHTML = "";
-        leaderboardDiv.style.display = "block";
+      // ===== لوحة المتصدرين =====
+      const leaderboardBtn = document.getElementById("leaderboard-btn");
+      const leaderboardDiv = document.getElementById("leaderboard");
+      const backToLevelsBtn = document.getElementById("back-to-levels-btn");
+
+      leaderboardBtn.addEventListener("click", async () => {
         levelsDiv.style.display = "none";
-        reviewBox.style.display = "none";
-        const snapshot = await get(ref(db, "users"));
-        if (!snapshot.exists()) return;
+        leaderboardDiv.style.display = "block";
+        const snapshot = await get(ref(db, `users`));
         const users = snapshot.val();
-        Object.keys(users).forEach((name) => {
-          const user = users[name];
-          const progress = user.progress || {};
+        leaderboardDiv.innerHTML =
+          '<button id="back-to-levels-btn" class="back-btn">عودة للمستويات</button>';
+        const sorted = Object.entries(users)
+          .map(([name, data]) => ({
+            name,
+            score: Object.values(data.progress).filter((v) => v).length,
+          }))
+          .sort((a, b) => b.score - a.score);
+        sorted.forEach((u) => {
           const div = document.createElement("div");
           div.className = "leader-user";
-          div.innerHTML = `<strong>${name}</strong>`;
-          Object.keys(progress).forEach((level) => {
-            if (progress[level]) {
-              const levelSpan = document.createElement("span");
-              levelSpan.innerText = `المستوى ${level}`;
-              levelSpan.style.marginLeft = "5px";
-              const detailsBtn = document.createElement("button");
-              detailsBtn.innerText = "تفاصيل";
-              detailsBtn.className = "details-btn";
-              detailsBtn.addEventListener("click", () =>
-                reviewAnswers(name, level)
-              );
-              div.appendChild(levelSpan);
-              div.appendChild(detailsBtn);
-            }
-          });
+          div.innerHTML = `${u.name} : ${u.score} ✅`;
           leaderboardDiv.appendChild(div);
         });
-      }
-
-      async function reviewAnswers(name, level) {
-        const snapshot = await get(ref(db, `users/${name}/answers/${level}`));
-        if (!snapshot.exists()) {
-          alert("لا يوجد إجابات لهذا المستوى");
-          return;
-        }
-        const answers = snapshot.val();
-        let msg = `مراجعة إجابات المستوى ${level}:\n`;
-        Object.keys(answers).forEach((qid) => {
-          msg += `سؤال ${qid}: ${answers[qid] ? "✅ صح" : "❌ غلط"}\n`;
-        });
-        reviewTitle.innerText = `${name} - المستوى ${level}`;
-        reviewContent.innerText = msg;
-        leaderboardDiv.style.display = "none";
-        reviewBox.style.display = "block";
-      }
-
-      backReviewBtn.addEventListener("click", () => renderLevels());
-      backToLevelsBtn.addEventListener("click", () => renderLevels());
-
-      document.getElementById("login-section").style.display = "flex";
+        document
+          .getElementById("back-to-levels-btn")
+          .addEventListener("click", () => {
+            leaderboardDiv.style.display = "none";
+            renderLevels();
+          });
+      });
     </script>
   </body>
 </html>
