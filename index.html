@@ -25,7 +25,6 @@
         overflow-x: hidden;
         animation: bgMove 20s linear infinite;
       }
-
       @keyframes bgMove {
         0% {
           background-position: 0% 50%;
@@ -37,7 +36,6 @@
           background-position: 0% 50%;
         }
       }
-
       h1 {
         text-align: center;
         margin-bottom: 20px;
@@ -46,7 +44,6 @@
         letter-spacing: 2px;
         animation: titleBounce 1s ease-out;
       }
-
       @keyframes titleBounce {
         0% {
           transform: translateY(-30px);
@@ -57,7 +54,12 @@
           opacity: 1;
         }
       }
-
+      h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+      }
+      /* ====== مراكز الإدخال ====== */
       .centered {
         display: flex;
         justify-content: center;
@@ -71,7 +73,6 @@
         backdrop-filter: blur(8px);
         animation: fadeIn 0.8s ease-out;
       }
-
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -82,7 +83,6 @@
           transform: translateY(0);
         }
       }
-
       input {
         padding: 12px 15px;
         border: none;
@@ -110,7 +110,6 @@
         transform: scale(1.08) translateY(-2px);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
       }
-
       /* ====== أقسام اللعبة ====== */
       #login-section,
       #levels,
@@ -121,7 +120,6 @@
         margin: 20px auto;
         display: none;
       }
-
       .level-card {
         padding: 18px 25px;
         margin: 12px 0;
@@ -140,6 +138,21 @@
         opacity: 0;
         animation: slideIn 0.5s forwards;
       }
+      .level-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .level-card:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      .level-card:nth-child(3) {
+        animation-delay: 0.5s;
+      }
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
       .level-card:hover {
         transform: scale(1.03) translateY(-3px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
@@ -157,14 +170,7 @@
         cursor: not-allowed;
         color: #bbb;
       }
-
-      @keyframes slideIn {
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
+      /* ====== إجابات الأسئلة ====== */
       .answers button {
         display: block;
         margin: 12px 0;
@@ -180,7 +186,38 @@
         transform: scale(1.05) translateY(-2px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
       }
-
+      .answers button.correct {
+        animation: correctGlow 0.6s;
+      }
+      .answers button.wrong {
+        animation: wrongShake 0.6s;
+      }
+      @keyframes correctGlow {
+        0% {
+          box-shadow: 0 0 10px #00ff00;
+        }
+        50% {
+          box-shadow: 0 0 25px #00ff00;
+        }
+        100% {
+          box-shadow: 0 0 10px #00ff00;
+        }
+      }
+      @keyframes wrongShake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+      }
       /* ====== لوحة المتصدرين ====== */
       #leaderboard .leader-user {
         background: rgba(0, 0, 0, 0.4);
@@ -207,7 +244,6 @@
         color: #fff;
         margin-top: 10px;
       }
-
       /* ====== مراجعة الإجابات ====== */
       #review-content {
         background: rgba(0, 0, 0, 0.5);
@@ -216,36 +252,6 @@
         white-space: pre-wrap;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
       }
-
-      /* ====== نافذة الرسائل ====== */
-      #message-box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(30, 30, 50, 0.95);
-        color: #fff;
-        padding: 25px 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-        text-align: center;
-        font-size: 1.2rem;
-        display: none;
-        z-index: 999;
-      }
-      #message-box button {
-        margin-top: 15px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 12px;
-        background: linear-gradient(45deg, #ff5722, #ff9800);
-        color: #fff;
-        cursor: pointer;
-      }
-      #message-box button:hover {
-        transform: scale(1.05);
-      }
-
       /* ====== استجابة الموبايل ====== */
       @media (max-width: 600px) {
         #levels,
@@ -271,6 +277,7 @@
     </div>
 
     <button id="leaderboard-btn" style="display: none">لوحة المتصدرين</button>
+
     <div id="levels"></div>
 
     <div id="question-box">
@@ -288,11 +295,6 @@
 
     <div id="leaderboard">
       <button id="back-to-levels-btn" class="back-btn">عودة للمستويات</button>
-    </div>
-
-    <div id="message-box">
-      <div id="message-text"></div>
-      <button id="close-msg-btn">حسناً</button>
     </div>
 
     <audio
@@ -421,53 +423,39 @@
         ],
       };
 
-      // ===== نافذة الرسائل =====
-      const messageBox = document.getElementById("message-box");
-      const messageText = document.getElementById("message-text");
-      const closeMsgBtn = document.getElementById("close-msg-btn");
-      function showMessage(msg) {
-        messageText.innerText = msg;
-        messageBox.style.display = "block";
-      }
-      closeMsgBtn.addEventListener("click", () => {
-        messageBox.style.display = "none";
-      });
-
-      // ===== تسجيل الدخول =====
+      // -------- تسجيل الدخول --------
       const loginSection = document.getElementById("login-section");
       const loginBtn = document.getElementById("login-btn");
       loginBtn.addEventListener("click", async function () {
         const name = document.getElementById("username").value.trim();
         const pass = document.getElementById("password").value.trim();
         if (!name || !pass) {
-          showMessage("ادخل اسم وكلمة مرور");
+          alert("ادخل اسم وكلمة مرور");
           return;
         }
-
         const userRef = ref(db, `users/${name}`);
         const snapshot = await get(userRef);
-
         if (snapshot.exists()) {
           const data = snapshot.val();
           if (data.password !== pass) {
-            showMessage("كلمة المرور خاطئة");
+            alert("كلمة المرور خاطئة");
             return;
           }
+          currentUser = name;
         } else {
           await set(userRef, {
             password: pass,
             progress: { 1: false, 2: false, 3: false },
             answers: {},
           });
+          currentUser = name;
         }
-
-        currentUser = name;
         loginSection.style.display = "none";
         document.getElementById("leaderboard-btn").style.display = "block";
         renderLevels();
       });
 
-      // ===== عرض المستويات =====
+      // -------- عرض المستويات --------
       const levelsDiv = document.getElementById("levels");
       function createLevelCard(i, status) {
         const div = document.createElement("div");
@@ -498,9 +486,10 @@
         levelsDiv.style.display = "block";
       }
 
-      // ===== بدء المستوى =====
+      // -------- بدء المستوى --------
       const questionBox = document.getElementById("question-box");
       const answersDiv = document.getElementById("answers");
+      const nextBtn = document.getElementById("next-btn");
       const backLevelsBtn = document.getElementById("back-levels-btn");
 
       function startLevel(level) {
@@ -511,7 +500,6 @@
         questionBox.style.display = "block";
         showQuestion();
       }
-
       function showQuestion() {
         const q = currentQuestions[currentQuestionIndex];
         document.getElementById("question-text").innerText = q.q;
@@ -523,7 +511,6 @@
           answersDiv.appendChild(btn);
         });
       }
-
       async function answerQuestion(selected) {
         const q = currentQuestions[currentQuestionIndex];
         const isCorrect = selected === q.answer;
@@ -531,9 +518,13 @@
           ? document.getElementById("correct-sound")
           : document.getElementById("wrong-sound");
         sound.play();
-
         await set(
-          ref(db, `users/${currentUser}/answers/${currentLevel}/${q.q}`),
+          ref(
+            db,
+            `users/${currentUser}/answers/${currentLevel}/${
+              currentQuestionIndex + 1
+            }`
+          ),
           isCorrect
         );
         currentQuestionIndex++;
@@ -541,13 +532,12 @@
           await checkLevelCompletion();
         } else showQuestion();
       }
-
       backLevelsBtn.addEventListener("click", () => {
         questionBox.style.display = "none";
         renderLevels();
       });
 
-      // ===== التحقق من اجتياز المستوى =====
+      // -------- التحقق من اجتياز المستوى --------
       async function checkLevelCompletion() {
         const snapshot = await get(
           ref(db, `users/${currentUser}/answers/${currentLevel}`)
@@ -556,49 +546,108 @@
         const total = Object.keys(answers).length;
         const correct = Object.values(answers).filter((v) => v).length;
         const required = Math.ceil(levelsData[currentLevel].passRate * total);
-
         if (correct >= required) {
           await update(ref(db, `users/${currentUser}/progress`), {
             [currentLevel]: true,
           });
-          showMessage("تم اجتياز المستوى!");
-        } else showMessage("لم تحقق النسبة المطلوبة، حاول مرة أخرى.");
-
+          showPopup("تم اجتياز المستوى! ✅");
+        } else {
+          showPopup("لم تحقق النسبة المطلوبة، حاول مرة أخرى ❌");
+        }
         questionBox.style.display = "none";
         renderLevels();
       }
 
-      // ===== لوحة المتصدرين =====
+      // -------- لوحة المتصدرين --------
       const leaderboardBtn = document.getElementById("leaderboard-btn");
       const leaderboardDiv = document.getElementById("leaderboard");
+      const reviewBox = document.getElementById("review-box");
+      const reviewTitle = document.getElementById("review-title");
+      const reviewContent = document.getElementById("review-content");
+      const backReviewBtn = document.getElementById("back-review-btn");
       const backToLevelsBtn = document.getElementById("back-to-levels-btn");
 
-      leaderboardBtn.addEventListener("click", async () => {
-        levelsDiv.style.display = "none";
+      leaderboardBtn.addEventListener("click", displayLeaderboard);
+      backToLevelsBtn.addEventListener("click", () => {
+        leaderboardDiv.style.display = "none";
+        renderLevels();
+      });
+
+      async function displayLeaderboard() {
         leaderboardDiv.style.display = "block";
-        const snapshot = await get(ref(db, `users`));
-        const users = snapshot.val();
-        leaderboardDiv.innerHTML =
-          '<button id="back-to-levels-btn" class="back-btn">عودة للمستويات</button>';
-        const sorted = Object.entries(users)
-          .map(([name, data]) => ({
-            name,
-            score: Object.values(data.progress).filter((v) => v).length,
-          }))
-          .sort((a, b) => b.score - a.score);
-        sorted.forEach((u) => {
+        levelsDiv.style.display = "none";
+        const snapshot = await get(ref(db, "users"));
+        leaderboardDiv.innerHTML = "";
+        backToLevelsBtn.style.display = "block";
+        const usersData = snapshot.val();
+        const arr = Object.entries(usersData).map(([name, v]) => ({
+          name,
+          progress: v.progress || {},
+          answers: v.answers || {},
+        }));
+        arr.sort((a, b) => {
+          const sumA = Object.values(a.progress).filter((x) => x).length;
+          const sumB = Object.values(b.progress).filter((x) => x).length;
+          return sumB - sumA;
+        });
+        arr.forEach((u) => {
           const div = document.createElement("div");
           div.className = "leader-user";
-          div.innerHTML = `${u.name} : ${u.score} ✅`;
+          let passedLevels = Object.entries(u.progress)
+            .filter(([k, v]) => v)
+            .map(([k, v]) => `المستوى ${k}`)
+            .join(", ");
+          div.innerHTML = `<span>${u.name}</span><span>${
+            passedLevels || "لم يجتز"
+          } </span>`;
+          const detailsBtn = document.createElement("button");
+          detailsBtn.className = "details-btn";
+          detailsBtn.innerText = "تفاصيل";
+          detailsBtn.addEventListener("click", () => showReview(u));
+          div.appendChild(detailsBtn);
           leaderboardDiv.appendChild(div);
         });
-        document
-          .getElementById("back-to-levels-btn")
-          .addEventListener("click", () => {
-            leaderboardDiv.style.display = "none";
-            renderLevels();
+      }
+
+      function showReview(user) {
+        reviewTitle.innerText = `تفاصيل ${user.name}`;
+        let content = "";
+        Object.entries(user.answers).forEach(([level, answers]) => {
+          content += `المستوى ${level}:\n`;
+          Object.entries(answers).forEach(([qnum, correct]) => {
+            const questionText = questionsData[level][qnum - 1].q;
+            content += `${questionText} - ${correct ? "✅" : "❌"}\n`;
           });
+          content += "\n";
+        });
+        reviewContent.innerText = content;
+        reviewBox.style.display = "block";
+        leaderboardDiv.style.display = "none";
+      }
+      backReviewBtn.addEventListener("click", () => {
+        reviewBox.style.display = "none";
+        leaderboardDiv.style.display = "block";
       });
+
+      // -------- تحسين النوافذ المنبثقة --------
+      function showPopup(msg) {
+        const div = document.createElement("div");
+        div.style.position = "fixed";
+        div.style.top = "50%";
+        div.style.left = "50%";
+        div.style.transform = "translate(-50%,-50%)";
+        div.style.background = "linear-gradient(135deg,#2196f3,#21cbf3)";
+        div.style.color = "#fff";
+        div.style.padding = "25px 35px";
+        div.style.fontSize = "1.3rem";
+        div.style.borderRadius = "20px";
+        div.style.boxShadow = "0 10px 25px rgba(0,0,0,0.7)";
+        div.style.zIndex = 9999;
+        div.style.textAlign = "center";
+        div.innerText = msg;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 1800);
+      }
     </script>
   </body>
 </html>
