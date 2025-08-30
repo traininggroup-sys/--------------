@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>اختبار المستوى لأعضاء جروب المشتركين</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
@@ -10,95 +10,68 @@
     />
     <style>
       :root {
-        --bg1: #1e1e2f;
-        --bg2: #3e3b5e;
-        --bg3: #5c3c91;
-        --card: rgba(255, 255, 255, 0.06);
+        --bg1: #0f1724;
+        --bg2: #1e293b;
+        --accent1: #ff8a65;
+        --accent2: #ffca28;
+      }
+      * {
+        box-sizing: border-box;
       }
       body {
-        font-family: "Cairo", sans-serif;
         margin: 0;
-        color: #fff;
+        font-family: "Cairo", sans-serif;
         min-height: 100vh;
+        background: linear-gradient(135deg, var(--bg1), var(--bg2));
+        color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 24px 12px 60px;
-        background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-        background-size: 200% 200%;
-        animation: bgMove 20s linear infinite;
-      }
-      @keyframes bgMove {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
+        padding: 20px;
       }
       h1 {
-        margin: 0 0 16px;
+        margin: 8px 0 14px;
+        font-size: 24px;
         text-align: center;
-        font-size: 28px;
-        letter-spacing: 1px;
       }
-      .bar {
+      .topbar {
         display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
         justify-content: center;
         margin-bottom: 12px;
+        flex-wrap: wrap;
       }
       button {
-        padding: 10px 16px;
-        border: none;
+        cursor: pointer;
+        border: 0;
+        padding: 10px 14px;
         border-radius: 12px;
         font-weight: 700;
-        cursor: pointer;
-        background: linear-gradient(45deg, #ff5722, #ff9800);
+        background: linear-gradient(45deg, var(--accent1), #ff7043);
         color: #fff;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-        transition: transform 0.15s ease, box-shadow 0.2s ease,
-          opacity 0.2s ease;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
       }
-      button:hover {
-        transform: translateY(-2px) scale(1.03);
+      button.ghost {
+        background: linear-gradient(45deg, #455a64, #607d8b);
       }
-      .ghost {
-        background: linear-gradient(45deg, #546e7a, #90a4ae);
-      }
-      .danger {
+      button.danger {
         background: linear-gradient(45deg, #d32f2f, #f44336);
       }
-      .ok {
+      button.ok {
         background: linear-gradient(45deg, #2e7d32, #66bb6a);
       }
       .card {
-        width: min(740px, 96vw);
-        background: var(--card);
-        border-radius: 18px;
-        backdrop-filter: blur(6px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-        padding: 18px;
-        margin: 10px auto;
+        width: min(880px, 96vw);
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        margin-bottom: 12px;
         display: none;
-        animation: fadeIn 0.3s ease;
       }
       .card.show {
         display: block;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
       }
       .centered {
         display: flex;
@@ -106,50 +79,28 @@
         gap: 12px;
       }
       input {
-        padding: 12px 14px;
-        border: none;
-        border-radius: 12px;
-        outline: none;
-        width: 100%;
-        font-weight: 700;
-        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
-        background: rgba(0, 0, 0, 0.35);
+        padding: 12px;
+        border-radius: 10px;
+        border: 0;
+        background: rgba(255, 255, 255, 0.03);
         color: #fff;
+        outline: none;
+        font-weight: 700;
       }
       input:focus {
-        box-shadow: 0 0 0 3px #ffeb3b99;
+        box-shadow: 0 0 0 3px rgba(255, 202, 40, 0.12);
       }
-      /* levels */
       .level-card {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 12px;
-        background: var(--card);
-        padding: 14px 16px;
-        border-radius: 14px;
+        padding: 14px;
+        border-radius: 12px;
         margin: 10px 0;
+        background: rgba(255, 255, 255, 0.02);
         cursor: pointer;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-        font-weight: 700;
-        transform: translateX(-40px);
-        opacity: 0;
-        animation: slideIn 0.45s forwards;
-      }
-      .level-card:nth-child(1) {
-        animation-delay: 0.05s;
-      }
-      .level-card:nth-child(2) {
-        animation-delay: 0.15s;
-      }
-      .level-card:nth-child(3) {
-        animation-delay: 0.25s;
-      }
-      @keyframes slideIn {
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        font-weight: 800;
       }
       .level-card.open {
         background: linear-gradient(90deg, #4caf50, #81c784);
@@ -157,96 +108,79 @@
       }
       .level-card.passed {
         background: linear-gradient(90deg, #ffeb3b, #fdd835);
-        color: #1a1a1a;
+        color: #111;
       }
       .level-card.locked {
-        background: #555;
+        background: #444;
         color: #bbb;
         cursor: not-allowed;
       }
-      /* answers */
+      .question {
+        font-size: 18px;
+        margin: 6px 0 10px;
+      }
       .answers button {
         display: block;
         width: 100%;
-        margin: 10px 0;
-        border-radius: 12px;
-        font-size: 1.05rem;
-        background: linear-gradient(135deg, #2196f3, #21cbf3);
+        margin: 8px 0;
+        padding: 12px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #29b6f6, #0288d1);
       }
-      .question {
-        font-size: 20px;
-        margin: 10px 0 6px;
+      .leader-user {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.25);
+        margin: 8px 0;
+      }
+      pre {
+        white-space: pre-wrap;
+        background: rgba(0, 0, 0, 0.35);
+        padding: 10px;
+        border-radius: 10px;
       }
       .subtle {
         opacity: 0.85;
-        font-size: 14px;
-      }
-      /* leaderboard */
-      .leader-user {
-        background: rgba(0, 0, 0, 0.35);
-        border-radius: 14px;
-        padding: 12px 14px;
-        margin: 10px 0;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.12);
         font-size: 13px;
       }
-      /* review */
-      pre {
-        white-space: pre-wrap;
-        background: rgba(0, 0, 0, 0.45);
-        padding: 12px;
-        border-radius: 12px;
-      }
-      /* toast */
       .toast {
         position: fixed;
-        inset-inline: 0;
-        bottom: 18px;
-        margin-inline: auto;
-        width: min(520px, 90vw);
-        background: #111c;
-        border: 1px solid #ffffff22;
-        color: #fff;
-        border-radius: 14px;
-        padding: 12px 14px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 16px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 12px 16px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         display: flex;
-        gap: 10px;
+        gap: 12px;
         align-items: center;
-        z-index: 999;
+        z-index: 9999;
         opacity: 0;
-        transform: translateY(12px);
-        pointer-events: none;
+        transition: opacity 0.18s, transform 0.18s;
       }
       .toast.show {
         opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.18s ease, transform 0.18s ease;
-      }
-      .toast .title {
-        font-weight: 800;
+        transform: translateX(-50%) translateY(0);
       }
       .toast.ok {
-        background: #1b5e20ee;
+        background: linear-gradient(90deg, #2e7d32, #388e3c);
       }
       .toast.warn {
-        background: #b71c1cee;
+        background: linear-gradient(90deg, #c62828, #ef5350);
       }
       @media (max-width: 600px) {
         h1 {
-          font-size: 22px;
+          font-size: 18px;
+        }
+        .card {
+          padding: 12px;
+        }
+        .topbar {
+          gap: 8px;
         }
       }
     </style>
@@ -254,7 +188,7 @@
   <body>
     <h1>اختبار المستوى لأعضاء جروب المشتركين</h1>
 
-    <div class="bar">
+    <div class="topbar">
       <button id="leaderboard-btn" class="ghost">لوحة المتصدرين 🏆</button>
       <button id="back-to-levels-btn" class="danger" style="display: none">
         عودة للمستويات
@@ -264,11 +198,14 @@
     <!-- Login -->
     <div id="login-section" class="card show">
       <div class="centered">
-        <input type="text" id="username" placeholder="اسم المستخدم" />
-        <input type="password" id="password" placeholder="كلمة المرور" />
-        <button id="login-btn" class="ok">دخول</button>
+        <input
+          id="username"
+          placeholder="اسم المستخدم (لا أحرف خاصة - ننصح بحروف صغيرة)"
+        />
+        <input id="password" type="password" placeholder="كلمة المرور" />
+        <button id="login-btn" class="ok">دخول / تسجيل</button>
         <div class="subtle">
-          ملاحظة: نفس اسم المستخدم لازم يدخل بكلمة المرور المسجلة أول مرة.
+          ملاحظة: لو الاسم موجود سابقًا يجب إدخال نفس كلمة المرور، وإلا سيُرفض.
         </div>
       </div>
     </div>
@@ -276,31 +213,31 @@
     <!-- Levels -->
     <div id="levels" class="card"></div>
 
-    <!-- Question -->
+    <!-- Question box -->
     <div id="question-box" class="card">
       <div class="question" id="question-text"></div>
       <div id="answers" class="answers"></div>
-      <div class="bar" style="justify-content: flex-end">
+      <div style="display: flex; justify-content: flex-end; margin-top: 10px">
         <button id="back-levels-btn" class="danger">عودة للمستويات</button>
       </div>
     </div>
 
     <!-- Review -->
     <div id="review-box" class="card">
-      <h3 id="review-title" style="margin: 0 0 10px"></h3>
+      <h3 id="review-title" style="margin: 0 0 8px"></h3>
       <pre id="review-content"></pre>
-      <div class="bar" style="justify-content: flex-end">
+      <div style="display: flex; justify-content: flex-end; margin-top: 10px">
         <button id="back-review-btn" class="danger">عودة للمستويات</button>
       </div>
     </div>
 
     <!-- Leaderboard -->
     <div id="leaderboard" class="card">
-      <h3 style="margin: 0 0 6px">لوحة المتصدرين</h3>
+      <h3 style="margin: 0 0 10px">لوحة المتصدرين</h3>
       <div id="leaderboard-list"></div>
     </div>
 
-    <!-- Sounds -->
+    <!-- sounds -->
     <audio
       id="correct-sound"
       src="https://www.soundjay.com/button/sounds/button-4.mp3"
@@ -310,10 +247,10 @@
       src="https://www.soundjay.com/button/sounds/button-10.mp3"
     ></audio>
 
-    <!-- Toast -->
+    <!-- toast -->
     <div id="toast" class="toast">
-      <div class="title" id="toast-title"></div>
-      <div id="toast-msg"></div>
+      <strong id="toast-title"></strong>
+      <div id="toast-msg" style="margin-left: 8px"></div>
     </div>
 
     <script type="module">
@@ -321,12 +258,12 @@
       import {
         getDatabase,
         ref,
-        set,
         get,
+        set,
         update,
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-      // ---- Firebase (بتاعتك) ----
+      // ======= اضبطي هنا بيانات Firebase لو عندك مشروع خاص =======
       const firebaseConfig = {
         apiKey: "AIzaSyDrPR-5-IaSD7-ij1oj3Y4M9ARQBMK66eo",
         authDomain: "levels-409ba.firebaseapp.com",
@@ -339,13 +276,12 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      // ---- State ----
+      // ======= الحالة والبيانات =========
       let currentUser = null,
         currentLevel = 1,
         currentQuestionIndex = 0,
         currentQuestions = [];
 
-      // ---- Data ----
       const levelsData = {
         1: { questions: 5, passRate: 0.7 },
         2: { questions: 5, passRate: 0.8 },
@@ -357,49 +293,63 @@
             q: "ما هو لون السماء؟",
             options: ["أزرق", "أخضر", "أحمر", "أسود"],
             answer: 0,
+            tip: "تذكر لون السماء في النهار",
           },
           {
             q: "كم عدد أيام الأسبوع؟",
             options: ["5", "6", "7", "8"],
             answer: 2,
+            tip: "أيام الأسبوع 7",
           },
           {
             q: "ما هو الكوكب الأقرب للشمس؟",
             options: ["الزهرة", "الأرض", "عطارد", "المريخ"],
             answer: 2,
+            tip: "عطارد هو الأقرب",
           },
           {
             q: "أين توجد الأهرامات؟",
             options: ["مصر", "اليونان", "اليابان", "أمريكا"],
             answer: 0,
+            tip: "بلد الأهرامات هي مصر",
           },
-          { q: "كم عدد أصابع اليد؟", options: ["4", "5", "6", "7"], answer: 1 },
+          {
+            q: "كم عدد أصابع اليد؟",
+            options: ["4", "5", "6", "7"],
+            answer: 1,
+            tip: "الإنسان عادة 5 أصابع باليد",
+          },
         ],
         2: [
           {
             q: "ما هو أكبر محيط؟",
             options: ["الهادي", "الأطلسي", "الهندي", "المتجمد"],
             answer: 0,
+            tip: "المحيط الهادي أكبر المحيطات",
           },
           {
             q: "أين تقع باريس؟",
             options: ["ألمانيا", "فرنسا", "إيطاليا", "إسبانيا"],
             answer: 1,
+            tip: "باريس هي عاصمة فرنسا",
           },
           {
             q: "ما هو رمز الماء الكيميائي؟",
             options: ["H2O", "CO2", "O2", "NaCl"],
             answer: 0,
+            tip: "H2O هو رمز الماء",
           },
           {
             q: "من هو مؤسس فيسبوك؟",
             options: ["إيلون ماسك", "مارك زوكربيرغ", "بيل غيتس", "ستيف جوبز"],
             answer: 1,
+            tip: "مارك هو مؤسس فيسبوك",
           },
           {
             q: "ما هو الحيوان الأسرع؟",
             options: ["السلحفاة", "الفهد", "الأسد", "الحصان"],
             answer: 1,
+            tip: "الفهد أسرع حيوان بري",
           },
         ],
         3: [
@@ -407,21 +357,25 @@
             q: "ما هو أطول نهر في العالم؟",
             options: ["النيل", "الأمازون", "الدانوب", "الغانج"],
             answer: 0,
+            tip: "النيل يعتبر الأطول تقليديًا",
           },
           {
             q: "ما هي عاصمة اليابان؟",
             options: ["أوساكا", "طوكيو", "كيوتو", "ناغويا"],
             answer: 1,
+            tip: "طوكيو عاصمة اليابان",
           },
           {
             q: "كم عدد الكواكب في المجموعة الشمسية؟",
             options: ["7", "8", "9", "10"],
             answer: 1,
+            tip: "يوجد 8 كواكب بعد إزالة بلوتو من القائمة الرسمية",
           },
           {
             q: "ما هو أسرع حيوان بري؟",
             options: ["الأسد", "الفهد", "الظباء", "الذئب"],
             answer: 1,
+            tip: "الفهد الأسرع",
           },
           {
             q: "ما هو الغاز الرئيسي في الهواء؟",
@@ -432,96 +386,98 @@
               "ثاني أكسيد الكربون",
             ],
             answer: 1,
+            tip: "النيتروجين يشكل ~78% من الهواء",
           },
         ],
       };
 
-      // ---- UI refs ----
+      // ======= مراجع الـ DOM =======
       const loginSection = document.getElementById("login-section");
       const levelsDiv = document.getElementById("levels");
       const questionBox = document.getElementById("question-box");
       const answersDiv = document.getElementById("answers");
-      const leaderboard = document.getElementById("leaderboard");
+      const leaderboardCard = document.getElementById("leaderboard");
       const lbList = document.getElementById("leaderboard-list");
       const reviewBox = document.getElementById("review-box");
       const reviewTitle = document.getElementById("review-title");
       const reviewContent = document.getElementById("review-content");
-      const backLevelsBtn = document.getElementById("back-levels-btn");
       const leaderboardBtn = document.getElementById("leaderboard-btn");
       const backToLevelsBtn = document.getElementById("back-to-levels-btn");
+      const backLevelsBtn = document.getElementById("back-levels-btn");
       const toastEl = document.getElementById("toast"),
         toastTitle = document.getElementById("toast-title"),
         toastMsg = document.getElementById("toast-msg");
 
-      // ---- Toast ----
-      function toast(type, title, msg, ms = 2200) {
+      // ======= toast =======
+      function showToast(type, title, msg, t = 2200) {
         toastEl.className = "toast show " + (type === "ok" ? "ok" : "warn");
         toastTitle.textContent = title || "";
         toastMsg.textContent = msg || "";
         clearTimeout(toastEl._t);
-        toastEl._t = setTimeout(() => (toastEl.className = "toast"), ms);
+        toastEl._t = setTimeout(() => (toastEl.className = "toast"), t);
       }
 
-      // ---- Login / Register (safe same-username) ----
+      // ======= التسجيل / الدخول =======
       document
         .getElementById("login-btn")
         .addEventListener("click", async () => {
           let name = document.getElementById("username").value.trim();
           let pass = document.getElementById("password").value.trim();
           if (!name || !pass) {
-            toast("warn", "بيانات ناقصة", "ادخل اسم المستخدم وكلمة المرور");
+            showToast("warn", "بيانات ناقصة", "اكتب اسم المستخدم وكلمة المرور");
             return;
           }
-
-          // توحيد الاسم لمنع تكرار بحروف كبيرة/صغيرة أو مسافات
-          name = name.toLowerCase();
-
-          const userRef = ref(db, `users/${name}`);
-          const snap = await get(userRef);
-
-          if (snap.exists()) {
-            const data = snap.val();
-            if (data.password !== pass) {
-              toast(
-                "warn",
-                "خطأ",
-                "اسم المستخدم موجود ولكن كلمة المرور غير صحيحة"
-              );
-              return;
-            }
-            currentUser = name;
-            // تأمين وجود المفاتيح
-            if (!data.progress)
-              await update(userRef, {
+          // normalize
+          name = name.toLowerCase().replace(/\s+/g, "-");
+          try {
+            const userRef = ref(db, `users/${name}`);
+            const snap = await get(userRef);
+            if (snap.exists()) {
+              const data = snap.val();
+              if (data.password !== pass) {
+                showToast("warn", "خطأ", "كلمة المرور خاطئة");
+                return;
+              }
+              currentUser = name;
+              if (!data.progress)
+                await update(userRef, {
+                  progress: { 1: false, 2: false, 3: false },
+                });
+              if (!data.answers) await update(userRef, { answers: {} });
+              showToast("ok", "تم الدخول", `أهلًا ${name}`);
+            } else {
+              await set(userRef, {
+                password: pass,
+                createdAt: Date.now(),
                 progress: { 1: false, 2: false, 3: false },
+                answers: {},
               });
-            if (!data.answers) await update(userRef, { answers: {} });
-            toast("ok", "تم الدخول", `أهلًا ${name}`);
-          } else {
-            // إنشاء مستخدم جديد
-            await set(userRef, {
-              password: pass,
-              createdAt: Date.now(),
-              progress: { 1: false, 2: false, 3: false },
-              answers: {},
-            });
-            currentUser = name;
-            toast("ok", "تم الإنشاء", "تم إنشاء الحساب وتسجيل الدخول");
+              currentUser = name;
+              showToast("ok", "تم التسجيل", "تم إنشاء الحساب وتسجيل الدخول");
+            }
+            // show levels
+            await renderLevels();
+          } catch (err) {
+            console.error(err);
+            showToast(
+              "warn",
+              "خطأ",
+              "حصل خطأ، تأكدي من اتصال الإنترنت وبيانات Firebase"
+            );
           }
-
-          // إظهار المستويات
-          loginSection.classList.remove("show");
-          loginSection.style.display = "none";
-          await renderLevels();
         });
 
-      // ---- Levels ----
+      // ======= عرض المستويات =======
       function createLevelCard(i, status) {
         const div = document.createElement("div");
-        div.className = `level-card ${status}`;
-        const icon =
+        div.className = "level-card " + status;
+        const left = document.createElement("div");
+        left.textContent = `المستوى ${i}`;
+        const right = document.createElement("div");
+        right.textContent =
           status === "passed" ? "✅" : status === "open" ? "🔓" : "🔒";
-        div.innerHTML = `<span>المستوى ${i}</span><span>${icon}</span>`;
+        div.appendChild(left);
+        div.appendChild(right);
         if (status !== "locked")
           div.addEventListener("click", () => startLevel(i));
         return div;
@@ -529,29 +485,33 @@
 
       async function renderLevels() {
         levelsDiv.innerHTML = "";
-        const snap = await get(ref(db, `users/${currentUser}`));
-        const progress = (snap.exists() && snap.val().progress) || {
-          1: false,
-          2: false,
-          3: false,
-        };
-        for (let i = 1; i <= 3; i++) {
-          const status = progress[i]
-            ? "passed"
-            : i === 1 || progress[i - 1]
-            ? "open"
-            : "locked";
-          levelsDiv.appendChild(createLevelCard(i, status));
+        try {
+          const snap = await get(ref(db, `users/${currentUser}`));
+          const progress = (snap.exists() && snap.val().progress) || {
+            1: false,
+            2: false,
+            3: false,
+          };
+          for (let i = 1; i <= 3; i++) {
+            const status = progress[i]
+              ? "passed"
+              : i === 1 || progress[i - 1]
+              ? "open"
+              : "locked";
+            levelsDiv.appendChild(createLevelCard(i, status));
+          }
+          showOnly(levelsDiv);
+        } catch (e) {
+          console.error(e);
+          showToast("warn", "خطأ", "فشل جلب حالات المستويات");
         }
-        showOnly(levelsDiv);
       }
 
+      // ======= بدء وعرض السؤال =======
       function startLevel(level) {
         currentLevel = level;
         currentQuestionIndex = 0;
         currentQuestions = questionsData[level];
-        document.getElementById("question-text").textContent = "";
-        answersDiv.innerHTML = "";
         showOnly(questionBox);
         showQuestion();
       }
@@ -560,14 +520,15 @@
         const q = currentQuestions[currentQuestionIndex];
         document.getElementById("question-text").textContent = q.q;
         answersDiv.innerHTML = "";
-        q.options.forEach((opt, i) => {
+        q.options.forEach((opt, idx) => {
           const b = document.createElement("button");
           b.textContent = opt;
-          b.addEventListener("click", () => answerQuestion(i));
+          b.addEventListener("click", () => answerQuestion(idx));
           answersDiv.appendChild(b);
         });
       }
 
+      // ======= الإجابة وتخزينها =======
       async function answerQuestion(selected) {
         const q = currentQuestions[currentQuestionIndex];
         const isCorrect = selected === q.answer;
@@ -575,17 +536,20 @@
           ? document.getElementById("correct-sound")
           : document.getElementById("wrong-sound")
         ).play();
-
-        await set(
-          ref(
-            db,
-            `users/${currentUser}/answers/${currentLevel}/${
-              currentQuestionIndex + 1
-            }`
-          ),
-          isCorrect
-        );
-
+        try {
+          await set(
+            ref(
+              db,
+              `users/${currentUser}/answers/${currentLevel}/${
+                currentQuestionIndex + 1
+              }`
+            ),
+            isCorrect
+          );
+        } catch (e) {
+          console.error(e);
+          showToast("warn", "خطأ", "فشل حفظ الإجابة");
+        }
         currentQuestionIndex++;
         if (currentQuestionIndex >= currentQuestions.length) {
           await checkLevelCompletion();
@@ -596,127 +560,150 @@
 
       backLevelsBtn.addEventListener("click", () => renderLevels());
 
+      // ======= تحقق اجتياز المستوى =======
       async function checkLevelCompletion() {
-        const snap = await get(
-          ref(db, `users/${currentUser}/answers/${currentLevel}`)
-        );
-        const answers = snap.val() || {};
-        const total = Object.keys(answers).length;
-        const correct = Object.values(answers).filter(Boolean).length;
-        const required = Math.ceil(levelsData[currentLevel].passRate * total);
-
-        if (correct >= required) {
-          await update(ref(db, `users/${currentUser}/progress`), {
-            [currentLevel]: true,
-          });
-          toast("ok", "تهانينا", "تم اجتياز المستوى!");
-        } else {
-          toast(
-            "warn",
-            "لم يتم الاجتياز",
-            `صح: ${correct} من ${total} — مطلوب: ${required}`
+        try {
+          const snap = await get(
+            ref(db, `users/${currentUser}/answers/${currentLevel}`)
           );
+          const answers = snap.val() || {};
+          const total = Object.keys(answers).length;
+          const correct = Object.values(answers).filter(Boolean).length;
+          const required = Math.ceil(levelsData[currentLevel].passRate * total);
+          if (correct >= required) {
+            await update(ref(db, `users/${currentUser}/progress`), {
+              [currentLevel]: true,
+            });
+            showToast(
+              "ok",
+              "تم الاجتياز",
+              `لقد أجبت صح ${correct} من ${total}`
+            );
+          } else {
+            showToast(
+              "warn",
+              "لم تُجتز",
+              `صح ${correct}/${total} — مطلوب ${required}`
+            );
+          }
+          await renderLevels();
+        } catch (e) {
+          console.error(e);
+          showToast("warn", "خطأ", "فشل التحقق من النتيجة");
         }
-        await renderLevels();
       }
 
-      // ---- Leaderboard ----
+      // ======= لوحة المتصدرين =======
       leaderboardBtn.addEventListener("click", () => displayLeaderboard());
       backToLevelsBtn.addEventListener("click", () => {
         backToLevelsBtn.style.display = "none";
-        if (currentUser) {
-          renderLevels();
-        } else {
-          showOnly(loginSection);
-        }
+        if (currentUser) renderLevels();
+        else showOnly(loginSection);
       });
 
       async function displayLeaderboard() {
         lbList.innerHTML = "";
-        const snap = await get(ref(db, "users"));
-        if (!snap.exists()) {
-          lbList.textContent = "لا يوجد بيانات بعد.";
-          showOnly(leaderboard);
-          backToLevelsBtn.style.display = "inline-flex";
-          return;
-        }
-        const users = snap.val();
-
-        Object.keys(users).forEach((name) => {
-          const user = users[name];
-          const progress = user.progress || {};
-          const row = document.createElement("div");
-          row.className = "leader-user";
-          const left = document.createElement("div");
-          left.innerHTML = `<strong>${name}</strong>`;
-          const right = document.createElement("div");
-          // أزرار تفاصيل تظهر فقط للمستويات المجتازة
-          Object.keys(progress).forEach((level) => {
-            if (progress[level]) {
-              const chip = document.createElement("span");
-              chip.className = "badge";
-              chip.textContent = `المستوى ${level}`;
-              const btn = document.createElement("button");
-              btn.className = "ghost";
-              btn.textContent = "تفاصيل";
-              btn.addEventListener("click", () => reviewAnswers(name, level));
-              right.appendChild(chip);
-              right.appendChild(btn);
-            }
-          });
-          row.appendChild(left);
-          row.appendChild(right);
-          lbList.appendChild(row);
-        });
-
-        showOnly(leaderboard);
-        backToLevelsBtn.style.display = "inline-flex";
-      }
-
-      async function reviewAnswers(name, level) {
-        const snap = await get(ref(db, `users/${name}/answers/${level}`));
-        if (!snap.exists()) {
-          toast("warn", "لا يوجد بيانات", "لا يوجد إجابات لهذا المستوى");
-          return;
-        }
-        const answers = snap.val();
-        const qs = questionsData[level];
-
-        let msg = "";
-        let wrongList = [];
-        Object.keys(answers).forEach((qidStr) => {
-          const idx = Number(qidStr) - 1;
-          const q = qs[idx];
-          const ok = !!answers[qidStr];
-          msg += `• ${q.q}\n   ${ok ? "✅ إجابة صحيحة" : "❌ إجابة خاطئة"}\n\n`;
-          if (!ok) wrongList.push(q.q);
-        });
-        if (wrongList.length) {
-          msg += "نصيحة: ركّز على هذه الأسئلة:\n- " + wrongList.join("\n- ");
-        } else {
-          msg += "ممتاز! كل الإجابات صحيحة ✅";
-        }
-        reviewTitle.textContent = `${name} — المستوى ${level}`;
-        reviewContent.textContent = msg;
-        showOnly(reviewBox);
-      }
-
-      // ---- Helpers ----
-      function showOnly(el) {
-        [loginSection, levelsDiv, questionBox, leaderboard, reviewBox].forEach(
-          (c) => {
-            if (c === el) {
-              c.classList.add("show");
-              c.style.display = "block";
-            } else {
-              c.classList.remove("show");
-              c.style.display = "none";
-            }
+        try {
+          const snap = await get(ref(db, "users"));
+          if (!snap.exists()) {
+            lbList.textContent = "لا يوجد بيانات بعد";
+            showOnly(leaderboardCard);
+            backToLevelsBtn.style.display = "inline-flex";
+            return;
           }
-        );
+          const users = snap.val();
+          Object.keys(users).forEach((name) => {
+            const user = users[name];
+            const progress = user.progress || {};
+            const row = document.createElement("div");
+            row.className = "leader-user";
+            const left = document.createElement("div");
+            left.innerHTML = `<strong>${name}</strong>`;
+            const right = document.createElement("div");
+            Object.keys(progress).forEach((level) => {
+              if (progress[level]) {
+                const chip = document.createElement("span");
+                chip.className = "subtle";
+                chip.style.marginInline = "6px";
+                chip.textContent = `المستوى ${level}`;
+                const btn = document.createElement("button");
+                btn.className = "ghost";
+                btn.style.marginInline = "6px";
+                btn.textContent = "تفاصيل";
+                btn.addEventListener("click", () => reviewAnswers(name, level));
+                right.appendChild(chip);
+                right.appendChild(btn);
+              }
+            });
+            row.appendChild(left);
+            row.appendChild(right);
+            lbList.appendChild(row);
+          });
+          showOnly(leaderboardCard);
+          backToLevelsBtn.style.display = "inline-flex";
+        } catch (e) {
+          console.error(e);
+          showToast("warn", "خطأ", "فشل تحميل المتصدرين");
+        }
       }
 
-      // أول ما الصفحة تفتح: لو لسه مفيش لوجين، نعرض تسجيل الدخول
+      // ======= مراجعة الإجابات =======
+      async function reviewAnswers(name, level) {
+        try {
+          const snap = await get(ref(db, `users/${name}/answers/${level}`));
+          if (!snap.exists()) {
+            showToast(
+              "warn",
+              "لا يوجد",
+              "لا توجد إجابات لهذا المستخدم/المستوى"
+            );
+            return;
+          }
+          const answers = snap.val();
+          const qs = questionsData[level];
+          let out = "";
+          const wrongs = [];
+          Object.keys(answers).forEach((qid) => {
+            const idx = Number(qid) - 1;
+            const q = qs[idx];
+            const ok = !!answers[qid];
+            out += `• ${q.q}\n   ${
+              ok ? "✅ إجابة صحيحة" : "❌ إجابة خاطئة"
+            }\n\n`;
+            if (!ok) wrongs.push(q.q);
+          });
+          if (wrongs.length) {
+            out += "نصيحة:\n- " + wrongs.join("\n- ");
+          } else out += "ممتاز! كل الإجابات صحيحة ✅";
+          reviewTitle.textContent = `${name} — المستوى ${level}`;
+          reviewContent.textContent = out;
+          showOnly(reviewBox);
+        } catch (e) {
+          console.error(e);
+          showToast("warn", "خطأ", "فشل جلب الإجابات");
+        }
+      }
+
+      // ======= مساعدة لعرض عنصر واحد =======
+      function showOnly(el) {
+        [
+          loginSection,
+          levelsDiv,
+          questionBox,
+          leaderboardCard,
+          reviewBox,
+        ].forEach((c) => {
+          if (c === el) {
+            c.classList.add("show");
+            c.style.display = "block";
+          } else {
+            c.classList.remove("show");
+            c.style.display = "none";
+          }
+        });
+      }
+
+      // ======= بدء الصفحة =======
       showOnly(loginSection);
     </script>
   </body>
