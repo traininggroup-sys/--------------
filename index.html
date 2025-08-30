@@ -62,14 +62,12 @@
         background: linear-gradient(45deg, #2e7d32, #66bb6a);
       }
       .card {
-        width: min(880px, 96vw);
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 14px;
-        padding: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-        margin-bottom: 12px;
-        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
+
       .card.show {
         display: block;
       }
