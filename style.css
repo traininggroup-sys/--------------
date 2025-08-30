@@ -1,0 +1,129 @@
+body {
+  font-family: "Cairo", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f0f2f5;
+  text-align: center;
+}
+
+.page {
+  display: none;
+  padding: 20px;
+}
+.page.active {
+  display: block;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  margin: 5px 0;
+  width: 80%;
+  max-width: 300px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+button:hover {
+  background-color: #45a049;
+}
+
+.levels-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.level-box {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+  flex-direction: column;
+}
+
+.level-box.unlocked {
+  background-color: #4caf50;
+  color: white;
+}
+.level-box.locked {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+#quiz label {
+  display: block;
+  margin: 10px 0;
+  text-align: right;
+}
+#questionContainer {
+  margin-top: 20px;
+}
+
+table {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+table,
+th,
+td {
+  border: 1px solid #ccc;
+}
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+#messageBox {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff9800;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: none;
+  z-index: 1000;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .level-box {
+    width: 90px;
+    height: 90px;
+    font-size: 16px;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 90%;
+  }
+  button {
+    width: 80%;
+  }
+  table {
+    font-size: 14px;
+  }
+}

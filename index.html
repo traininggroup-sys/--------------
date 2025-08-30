@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مسابقة المستويات - جيم</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ====== إعدادات عامة ====== */
+      body {
+        font-family: "Cairo", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #1e1e2f, #3e3b5e, #5c3c91);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 20px;
+        overflow-x: hidden;
+        animation: bgMove 20s linear infinite;
+      }
+
+      @keyframes bgMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+        animation: titleBounce 1s ease-out;
+      }
+
+      @keyframes titleBounce {
+        0% {
+          transform: translateY(-30px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+      }
+
+      /* ====== مراكز الإدخال ====== */
+      .centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 15px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 30px 20px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      input {
+        padding: 12px 15px;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        width: 250px;
+        transition: 0.3s;
+        outline: none;
+      }
+
+      input:focus {
+        box-shadow: 0 0 15px #ffeb3b;
+      }
+
+      button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        background: linear-gradient(45deg, #ff5722, #ff9800);
+        color: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      }
+
+      button:hover {
+        transform: scale(1.08) translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      }
+
+      /* ====== أقسام اللعبة ====== */
+      #login-section,
+      #levels,
+      #question-box,
+      #leaderboard,
+      #review-box {
+        max-width: 650px;
+        margin: 20px auto;
+        display: none;
+      }
+
+      .level-card {
+        padding: 18px 25px;
+        margin: 12px 0;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.4s;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        font-size: 1.2rem;
+        transform: translateX(-50px);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+      }
+
+      .level-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .level-card:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      .level-card:nth-child(3) {
+        animation-delay: 0.5s;
+      }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .level-card:hover {
+        transform: scale(1.03) translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      .level-card.open {
+        background: linear-gradient(90deg, #4caf50, #81c784);
+        color: #fff;
+      }
+
+      .level-card.passed {
+        background: linear-gradient(90deg, #ffeb3b, #fbc02d);
+        color: #000;
+      }
+
+      .level-card.locked {
+        background: #555;
+        cursor: not-allowed;
+        color: #bbb;
+      }
+
+      /* ====== إجابات الأسئلة ====== */
+      .answers button {
+        display: block;
+        margin: 12px 0;
+        width: 100%;
+        font-size: 1.1rem;
+        background: linear-gradient(135deg, #2196f3, #21cbf3);
+        color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s;
+      }
+
+      .answers button:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      .answers button.correct {
+        animation: correctGlow 0.6s;
+      }
+
+      .answers button.wrong {
+        animation: wrongShake 0.6s;
+      }
+
+      @keyframes correctGlow {
+        0% {
+          box-shadow: 0 0 10px #00ff00;
+        }
+        50% {
+          box-shadow: 0 0 25px #00ff00;
+        }
+        100% {
+          box-shadow: 0 0 10px #00ff00;
+        }
+      }
+
+      @keyframes wrongShake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+      }
+
+      /* ====== لوحة المتصدرين ====== */
+      #leaderboard .leader-user {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 15px 20px;
+        margin: 12px 0;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .details-btn {
+        margin-left: 10px;
+        background: linear-gradient(135deg, #1976d2, #64b5f6);
+        color: #fff;
+      }
+
+      .details-btn:hover {
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
+      }
+
+      .back-btn {
+        background: linear-gradient(135deg, #d32f2f, #f44336);
+        color: #fff;
+        margin-top: 10px;
+      }
+
+      /* ====== مراجعة الإجابات ====== */
+      #review-content {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 12px;
+        white-space: pre-wrap;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      /* ====== استجابة الموبايل ====== */
+      @media (max-width: 600px) {
+        #levels,
+        #question-box,
+        #leaderboard,
+        #review-box {
+          width: 95%;
+        }
+
+        input,
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>مسابقة المستويات</h1>
+
+    <div id="login-section" class="centered">
+      <input type="text" id="username" placeholder="اسم المستخدم" />
+      <input type="password" id="password" placeholder="كلمة المرور" />
+      <button id="login-btn">دخول / تسجيل</button>
+    </div>
+
+    <button id="leaderboard-btn" style="display: none">لوحة المتصدرين</button>
+
+    <div id="levels"></div>
+
+    <div id="question-box">
+      <h2 id="question-text"></h2>
+      <div class="answers" id="answers"></div>
+      <button id="next-btn">التالي</button>
+      <button id="back-levels-btn" class="back-btn">عودة للمستويات</button>
+    </div>
+
+    <div id="review-box">
+      <h2 id="review-title"></h2>
+      <pre
+        id="review-content"
+        style="background: #222; padding: 10px; border-radius: 8px"
+      ></pre>
+      <button id="back-review-btn" class="back-btn">عودة للمستويات</button>
+    </div>
+
+    <div id="leaderboard"></div>
+
+    <audio
+      id="correct-sound"
+      src="https://www.soundjay.com/button/sounds/button-4.mp3"
+    ></audio>
+    <audio
+      id="wrong-sound"
+      src="https://www.soundjay.com/button/sounds/button-10.mp3"
+    ></audio>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        update,
+      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDrPR-5-IaSD7-ij1oj3Y4M9ARQBMK66eo",
+        authDomain: "levels-409ba.firebaseapp.com",
+        databaseURL: "https://levels-409ba-default-rtdb.firebaseio.com/",
+        projectId: "levels-409ba",
+        storageBucket: "levels-409ba.appspot.com",
+        messagingSenderId: "54945336454",
+        appId: "1:54945336454:web:51e6f513c1d2a91e23d507",
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      let currentUser = null,
+        currentLevel = 1,
+        currentQuestionIndex = 0,
+        currentQuestions = [];
+
+      const levelsData = {
+        1: { questions: 5, passRate: 0.7 },
+        2: { questions: 5, passRate: 0.8 },
+        3: { questions: 5, passRate: 0.9 },
+      };
+      const questionsData = {
+        1: [
+          {
+            q: "ما هو لون السماء؟",
+            options: ["أزرق", "أخضر", "أحمر", "أسود"],
+            answer: 0,
+          },
+          {
+            q: "كم عدد أيام الأسبوع؟",
+            options: ["5", "6", "7", "8"],
+            answer: 2,
+          },
+          {
+            q: "ما هو الكوكب الأقرب للشمس؟",
+            options: ["الزهرة", "الأرض", "عطارد", "المريخ"],
+            answer: 2,
+          },
+          {
+            q: "أين توجد الأهرامات؟",
+            options: ["مصر", "اليونان", "اليابان", "أمريكا"],
+            answer: 0,
+          },
+          { q: "كم عدد أصابع اليد؟", options: ["4", "5", "6", "7"], answer: 1 },
+        ],
+        2: [
+          {
+            q: "ما هو أكبر محيط؟",
+            options: ["الهادي", "الأطلسي", "الهندي", "المتجمد"],
+            answer: 0,
+          },
+          {
+            q: "أين تقع باريس؟",
+            options: ["ألمانيا", "فرنسا", "إيطاليا", "إسبانيا"],
+            answer: 1,
+          },
+          {
+            q: "ما هو رمز الماء الكيميائي؟",
+            options: ["H2O", "CO2", "O2", "NaCl"],
+            answer: 0,
+          },
+          {
+            q: "من هو مؤسس فيسبوك؟",
+            options: ["إيلون ماسك", "مارك زوكربيرغ", "بيل غيتس", "ستيف جوبز"],
+            answer: 1,
+          },
+          {
+            q: "ما هو الحيوان الأسرع؟",
+            options: ["السلحفاة", "الفهد", "الأسد", "الحصان"],
+            answer: 1,
+          },
+        ],
+        3: [
+          {
+            q: "ما هو أطول نهر في العالم؟",
+            options: ["النيل", "الأمازون", "الدانوب", "الغانج"],
+            answer: 0,
+          },
+          {
+            q: "ما هي عاصمة اليابان؟",
+            options: ["أوساكا", "طوكيو", "كيوتو", "ناغويا"],
+            answer: 1,
+          },
+          {
+            q: "كم عدد الكواكب في المجموعة الشمسية؟",
+            options: ["7", "8", "9", "10"],
+            answer: 1,
+          },
+          {
+            q: "ما هو أسرع حيوان بري؟",
+            options: ["الأسد", "الفهد", "الظباء", "الذئب"],
+            answer: 1,
+          },
+          {
+            q: "ما هو الغاز الرئيسي في الهواء؟",
+            options: [
+              "الأكسجين",
+              "النيتروجين",
+              "الهيدروجين",
+              "ثاني أكسيد الكربون",
+            ],
+            answer: 1,
+          },
+        ],
+      };
+
+      // -------- تسجيل الدخول --------
+      const loginSection = document.getElementById("login-section");
+      const loginBtn = document.getElementById("login-btn");
+      loginBtn.addEventListener("click", async function () {
+        const name = document.getElementById("username").value.trim();
+        const pass = document.getElementById("password").value.trim();
+        if (!name || !pass) {
+          alert("ادخل اسم وكلمة مرور");
+          return;
+        }
+        const userRef = ref(db, `users/${name}`);
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          if (data.password !== pass) {
+            alert("كلمة المرور خاطئة");
+            return;
+          }
+          currentUser = name;
+          if (!data.progress)
+            await update(userRef, {
+              progress: { 1: false, 2: false, 3: false },
+            });
+          if (!data.answers) await update(userRef, { answers: {} });
+        } else {
+          await set(userRef, {
+            password: pass,
+            progress: { 1: false, 2: false, 3: false },
+            answers: {},
+          });
+          currentUser = name;
+        }
+        loginSection.style.display = "none";
+        document.getElementById("leaderboard-btn").style.display = "block";
+        renderLevels();
+      });
+
+      // -------- عرض المستويات --------
+      const levelsDiv = document.getElementById("levels");
+      function createLevelCard(i, status) {
+        const div = document.createElement("div");
+        div.className = `level-card ${status}`;
+        div.innerHTML = `المستوى ${i} <span>${
+          status === "passed" ? "✅" : status === "open" ? "🔓" : "🔒"
+        }</span>`;
+        if (status !== "locked")
+          div.addEventListener("click", () => startLevel(i));
+        return div;
+      }
+      async function renderLevels() {
+        levelsDiv.innerHTML = "";
+        const snapshot = await get(ref(db, `users/${currentUser}`));
+        const progress = snapshot.val().progress || {
+          1: false,
+          2: false,
+          3: false,
+        };
+        for (let i = 1; i <= 3; i++) {
+          let status = progress[i]
+            ? "passed"
+            : i === 1 || progress[i - 1]
+            ? "open"
+            : "locked";
+          levelsDiv.appendChild(createLevelCard(i, status));
+        }
+        levelsDiv.style.display = "block";
+      }
+
+      // -------- بدء المستوى --------
+      const questionBox = document.getElementById("question-box");
+      const answersDiv = document.getElementById("answers");
+      const nextBtn = document.getElementById("next-btn");
+      const backLevelsBtn = document.getElementById("back-levels-btn");
+
+      function startLevel(level) {
+        currentLevel = level;
+        currentQuestionIndex = 0;
+        currentQuestions = questionsData[level];
+        levelsDiv.style.display = "none";
+        questionBox.style.display = "block";
+        showQuestion();
+      }
+      function showQuestion() {
+        const q = currentQuestions[currentQuestionIndex];
+        document.getElementById("question-text").innerText = q.q;
+        answersDiv.innerHTML = "";
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.innerText = opt;
+          btn.addEventListener("click", () => answerQuestion(i));
+          answersDiv.appendChild(btn);
+        });
+      }
+      async function answerQuestion(selected) {
+        const q = currentQuestions[currentQuestionIndex];
+        const isCorrect = selected === q.answer;
+        const sound = isCorrect
+          ? document.getElementById("correct-sound")
+          : document.getElementById("wrong-sound");
+        sound.play();
+        await set(
+          ref(
+            db,
+            `users/${currentUser}/answers/${currentLevel}/${
+              currentQuestionIndex + 1
+            }`
+          ),
+          isCorrect
+        );
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= currentQuestions.length) {
+          await checkLevelCompletion();
+        } else showQuestion();
+      }
+      backLevelsBtn.addEventListener("click", () => {
+        questionBox.style.display = "none";
+        renderLevels();
+      });
+
+      // -------- التحقق من اجتياز المستوى --------
+      async function checkLevelCompletion() {
+        const snapshot = await get(
+          ref(db, `users/${currentUser}/answers/${currentLevel}`)
+        );
+        const answers = snapshot.val();
+        const total = Object.keys(answers).length;
+        const correct = Object.values(answers).filter((v) => v).length;
+
+        // التقريب إلى أقرب عدد صحيح
+        const required = Math.ceil(levelsData[currentLevel].passRate * total);
+
+        if (correct >= required) {
+          await update(ref(db, `users/${currentUser}/progress`), {
+            [currentLevel]: true,
+          });
+          alert("تم اجتياز المستوى!");
+        } else {
+          alert("لم تحقق النسبة المطلوبة، حاول مرة أخرى.");
+        }
+        questionBox.style.display = "none";
+        renderLevels();
+      }
+
+      // -------- لوحة المتصدرين --------
+      const leaderboardBtn = document.getElementById("leaderboard-btn");
+      const leaderboardDiv = document.getElementById("leaderboard");
+      const reviewBox = document.getElementById("review-box");
+      const reviewTitle = document.getElementById("review-title");
+      const reviewContent = document.getElementById("review-content");
+      const backReviewBtn = document.getElementById("back-review-btn");
+
+      leaderboardBtn.addEventListener("click", displayLeaderboard);
+      async function displayLeaderboard() {
+        const snapshot = await get(ref(db, "users"));
+        if (!snapshot.exists()) return;
+        leaderboardDiv.innerHTML = "";
+        const users = snapshot.val();
+        Object.keys(users).forEach((name) => {
+          const user = users[name];
+          const progress = user.progress || {};
+          const div = document.createElement("div");
+          div.className = "leader-user";
+          div.innerHTML = `<strong>${name}</strong>`;
+          Object.keys(progress).forEach((level) => {
+            if (progress[level]) {
+              const levelSpan = document.createElement("span");
+              levelSpan.innerText = `المستوى ${level}`;
+              levelSpan.style.marginLeft = "5px";
+              const detailsBtn = document.createElement("button");
+              detailsBtn.innerText = "تفاصيل";
+              detailsBtn.className = "details-btn";
+              detailsBtn.addEventListener("click", () =>
+                reviewAnswers(name, level)
+              );
+              div.appendChild(levelSpan);
+              div.appendChild(detailsBtn);
+            }
+          });
+          leaderboardDiv.appendChild(div);
+        });
+        leaderboardDiv.style.display = "block";
+        levelsDiv.style.display = "none";
+      }
+      async function reviewAnswers(name, level) {
+        const snapshot = await get(ref(db, `users/${name}/answers/${level}`));
+        if (!snapshot.exists()) {
+          alert("لا يوجد إجابات لهذا المستوى");
+          return;
+        }
+        const answers = snapshot.val();
+        let msg = `مراجعة إجابات المستوى ${level}:\n`;
+        Object.keys(answers).forEach((qid) => {
+          msg += `سؤال ${qid}: ${answers[qid] ? "✅ صح" : "❌ غلط"}\n`;
+        });
+        const wrong = Object.keys(answers).filter((qid) => !answers[qid]);
+        if (wrong.length > 0)
+          msg += "نصيحة: ركز على هذه الأسئلة: " + wrong.join(", ");
+        else msg += "ممتاز! كل الإجابات صحيحة ✅";
+        reviewTitle.innerText = `${name} - المستوى ${level}`;
+        reviewContent.innerText = msg;
+        leaderboardDiv.style.display = "none";
+        reviewBox.style.display = "block";
+      }
+      backReviewBtn.addEventListener("click", () => {
+        reviewBox.style.display = "none";
+        renderLevels();
+      });
+    </script>
+    <script>
+      document.getElementById("login-section").style.display = "flex";
+    </script>
+  </body>
+</html>
