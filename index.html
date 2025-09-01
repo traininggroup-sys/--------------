@@ -51,6 +51,11 @@
         background: linear-gradient(45deg, var(--accent1), #ff7043);
         color: #fff;
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+        transition: background 0.3s ease;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
       }
       button.ghost {
         background: linear-gradient(45deg, #455a64, #607d8b);
@@ -62,12 +67,21 @@
         background: linear-gradient(45deg, #2e7d32, #66bb6a);
       }
       .card {
+        display: none; /* اخفاء افتراضي */
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        max-width: 400px;
+        width: 90%;
+        background: rgba(15, 23, 36, 0.85);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        max-height: 90vh;
+        overflow-y: auto;
       }
-
       .card.show {
         display: block;
       }
@@ -85,6 +99,9 @@
         outline: none;
         font-weight: 700;
       }
+      input::placeholder {
+        color: #ccc;
+      }
       input:focus {
         box-shadow: 0 0 0 3px rgba(255, 202, 40, 0.12);
       }
@@ -99,6 +116,11 @@
         cursor: pointer;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
         font-weight: 800;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      .level-card.open:hover {
+        background: linear-gradient(90deg, #64b5f6, #42a5f5);
+        color: #fff;
       }
       .level-card.open {
         background: linear-gradient(90deg, #4caf50, #81c784);
@@ -124,21 +146,50 @@
         padding: 12px;
         border-radius: 10px;
         background: linear-gradient(135deg, #29b6f6, #0288d1);
+        font-weight: 700;
+        transition: background 0.3s ease;
+      }
+      .answers button:hover:not(:disabled) {
+        background: linear-gradient(135deg, #03a9f4, #0277bd);
       }
       .leader-user {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
+        padding: 12px 15px;
         border-radius: 10px;
         background: rgba(0, 0, 0, 0.25);
         margin: 8px 0;
+        font-weight: 700;
+        font-size: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        transition: background 0.3s ease;
+      }
+      .leader-user:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      .leader-user .levels {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .leader-user .level-chip {
+        background: #ffca28;
+        color: #111;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        user-select: none;
       }
       pre {
         white-space: pre-wrap;
         background: rgba(0, 0, 0, 0.35);
         padding: 10px;
         border-radius: 10px;
+        max-height: 300px;
+        overflow-y: auto;
       }
       .subtle {
         opacity: 0.85;
@@ -176,9 +227,18 @@
         }
         .card {
           padding: 12px;
+          max-width: 95%;
         }
         .topbar {
           gap: 8px;
+        }
+        .leader-user {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+        .leader-user .levels {
+          justify-content: flex-start;
         }
       }
     </style>
@@ -191,6 +251,7 @@
       <button id="back-to-levels-btn" class="danger" style="display: none">
         عودة للمستويات
       </button>
+      <button id="logout-btn" class="danger" style="display: none">خروج</button>
     </div>
 
     <!-- Login -->
@@ -199,8 +260,14 @@
         <input
           id="username"
           placeholder="اسم المستخدم (لا أحرف خاصة - ننصح بحروف صغيرة)"
+          autocomplete="username"
         />
-        <input id="password" type="password" placeholder="كلمة المرور" />
+        <input
+          id="password"
+          type="password"
+          placeholder="كلمة المرور"
+          autocomplete="current-password"
+        />
         <button id="login-btn" class="ok">دخول / تسجيل</button>
         <div class="subtle">
           ملاحظة: لو الاسم موجود سابقًا يجب إدخال نفس كلمة المرور، وإلا سيُرفض.
@@ -239,14 +306,16 @@
     <audio
       id="correct-sound"
       src="https://www.soundjay.com/button/sounds/button-4.mp3"
+      preload="auto"
     ></audio>
     <audio
       id="wrong-sound"
       src="https://www.soundjay.com/button/sounds/button-10.mp3"
+      preload="auto"
     ></audio>
 
     <!-- toast -->
-    <div id="toast" class="toast">
+    <div id="toast" class="toast" aria-live="polite" aria-atomic="true">
       <strong id="toast-title"></strong>
       <div id="toast-msg" style="margin-left: 8px"></div>
     </div>
@@ -261,7 +330,6 @@
         update,
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-      // ======= اضبطي هنا بيانات Firebase لو عندك مشروع خاص =======
       const firebaseConfig = {
         apiKey: "AIzaSyDrPR-5-IaSD7-ij1oj3Y4M9ARQBMK66eo",
         authDomain: "levels-409ba.firebaseapp.com",
@@ -274,11 +342,11 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      // ======= الحالة والبيانات =========
       let currentUser = null,
         currentLevel = 1,
         currentQuestionIndex = 0,
-        currentQuestions = [];
+        currentQuestions = [],
+        answering = false;
 
       const levelsData = {
         1: { questions: 5, passRate: 0.7 },
@@ -389,7 +457,6 @@
         ],
       };
 
-      // ======= مراجع الـ DOM =======
       const loginSection = document.getElementById("login-section");
       const levelsDiv = document.getElementById("levels");
       const questionBox = document.getElementById("question-box");
@@ -402,10 +469,11 @@
       const leaderboardBtn = document.getElementById("leaderboard-btn");
       const backToLevelsBtn = document.getElementById("back-to-levels-btn");
       const backLevelsBtn = document.getElementById("back-levels-btn");
+      const logoutBtn = document.getElementById("logout-btn");
       const toastEl = document.getElementById("toast"),
         toastTitle = document.getElementById("toast-title"),
         toastMsg = document.getElementById("toast-msg");
-
+      const correctSound = document.getElementById("correct-sound");
       // ======= toast =======
       function showToast(type, title, msg, t = 2200) {
         toastEl.className = "toast show " + (type === "ok" ? "ok" : "warn");
@@ -453,17 +521,28 @@
               currentUser = name;
               showToast("ok", "تم التسجيل", "تم إنشاء الحساب وتسجيل الدخول");
             }
-            // show levels
+            logoutBtn.style.display = "inline-flex";
+            backToLevelsBtn.style.display = "none";
+            leaderboardBtn.style.display = "inline-flex";
             await renderLevels();
           } catch (err) {
             console.error(err);
             showToast(
               "warn",
               "خطأ",
-              "حصل خطأ، تأكدي من اتصال الإنترنت وبيانات Firebase"
+              "حصل خطأ، تأكد من اتصال الإنترنت وبيانات Firebase"
             );
           }
         });
+
+      // زر الخروج
+      logoutBtn.addEventListener("click", () => {
+        currentUser = null;
+        logoutBtn.style.display = "none";
+        backToLevelsBtn.style.display = "none";
+        leaderboardBtn.style.display = "inline-flex";
+        showOnly(loginSection);
+      });
 
       // ======= عرض المستويات =======
       function createLevelCard(i, status) {
@@ -482,6 +561,10 @@
       }
 
       async function renderLevels() {
+        if (!currentUser) {
+          showOnly(loginSection);
+          return;
+        }
         levelsDiv.innerHTML = "";
         try {
           const snap = await get(ref(db, `users/${currentUser}`));
@@ -509,7 +592,11 @@
       function startLevel(level) {
         currentLevel = level;
         currentQuestionIndex = 0;
-        currentQuestions = questionsData[level];
+        currentQuestions = questionsData[level] || [];
+        if (currentQuestions.length === 0) {
+          showToast("warn", "خطأ", "لا توجد أسئلة لهذا المستوى");
+          return;
+        }
         showOnly(questionBox);
         showQuestion();
       }
@@ -518,22 +605,36 @@
         const q = currentQuestions[currentQuestionIndex];
         document.getElementById("question-text").textContent = q.q;
         answersDiv.innerHTML = "";
+        answering = false;
         q.options.forEach((opt, idx) => {
           const b = document.createElement("button");
           b.textContent = opt;
-          b.addEventListener("click", () => answerQuestion(idx));
+          b.disabled = false;
+          b.addEventListener("click", () => answerQuestion(idx, b));
           answersDiv.appendChild(b);
         });
       }
 
       // ======= الإجابة وتخزينها =======
-      async function answerQuestion(selected) {
+      async function answerQuestion(selected, btn) {
+        if (answering) return; // منع تكرار الضغط
+        answering = true;
+        // تعطيل كل الأزرار
+        Array.from(answersDiv.children).forEach((b) => (b.disabled = true));
+
         const q = currentQuestions[currentQuestionIndex];
         const isCorrect = selected === q.answer;
-        (isCorrect
-          ? document.getElementById("correct-sound")
-          : document.getElementById("wrong-sound")
-        ).play();
+
+        try {
+          if (isCorrect) {
+            await correctSound.play();
+          } else {
+            await wrongSound.play();
+          }
+        } catch (e) {
+          // قد لا يعمل الصوت بدون تفاعل مسبق
+        }
+
         try {
           await set(
             ref(
@@ -616,21 +717,15 @@
             const row = document.createElement("div");
             row.className = "leader-user";
             const left = document.createElement("div");
-            left.innerHTML = `<strong>${name}</strong>`;
+            left.textContent = name; // استخدم textContent لتجنب XSS
             const right = document.createElement("div");
+            right.className = "levels";
             Object.keys(progress).forEach((level) => {
               if (progress[level]) {
                 const chip = document.createElement("span");
-                chip.className = "subtle";
-                chip.style.marginInline = "6px";
+                chip.className = "level-chip";
                 chip.textContent = `المستوى ${level}`;
-                const btn = document.createElement("button");
-                btn.className = "ghost";
-                btn.style.marginInline = "6px";
-                btn.textContent = "تفاصيل";
-                btn.addEventListener("click", () => reviewAnswers(name, level));
                 right.appendChild(chip);
-                right.appendChild(btn);
               }
             });
             row.appendChild(left);
@@ -646,41 +741,7 @@
       }
 
       // ======= مراجعة الإجابات =======
-      async function reviewAnswers(name, level) {
-        try {
-          const snap = await get(ref(db, `users/${name}/answers/${level}`));
-          if (!snap.exists()) {
-            showToast(
-              "warn",
-              "لا يوجد",
-              "لا توجد إجابات لهذا المستخدم/المستوى"
-            );
-            return;
-          }
-          const answers = snap.val();
-          const qs = questionsData[level];
-          let out = "";
-          const wrongs = [];
-          Object.keys(answers).forEach((qid) => {
-            const idx = Number(qid) - 1;
-            const q = qs[idx];
-            const ok = !!answers[qid];
-            out += `• ${q.q}\n   ${
-              ok ? "✅ إجابة صحيحة" : "❌ إجابة خاطئة"
-            }\n\n`;
-            if (!ok) wrongs.push(q.q);
-          });
-          if (wrongs.length) {
-            out += "نصيحة:\n- " + wrongs.join("\n- ");
-          } else out += "ممتاز! كل الإجابات صحيحة ✅";
-          reviewTitle.textContent = `${name} — المستوى ${level}`;
-          reviewContent.textContent = out;
-          showOnly(reviewBox);
-        } catch (e) {
-          console.error(e);
-          showToast("warn", "خطأ", "فشل جلب الإجابات");
-        }
-      }
+      // (تم حذف زر التفاصيل، لذا هذه الدالة غير مرتبطة حالياً)
 
       // ======= مساعدة لعرض عنصر واحد =======
       function showOnly(el) {
@@ -703,6 +764,9 @@
 
       // ======= بدء الصفحة =======
       showOnly(loginSection);
+      logoutBtn.style.display = "none";
+      backToLevelsBtn.style.display = "none";
+      leaderboardBtn.style.display = "inline-flex";
     </script>
   </body>
 </html>
