@@ -10,235 +10,486 @@
     />
     <style>
       :root {
-        --bg1: #0f1724;
-        --bg2: #1e293b;
-        --accent1: #ff8a65;
-        --accent2: #ffca28;
+        --bg1: #a7d129;
+        --bg2: #78b159;
+        --accent1: #4caf50;
+        --accent2: #81c784;
+        --text-light: #ffffff;
+        --text-dark: #2e2e2e;
+        --btn-bg: #4caf50;
+        --btn-hover: #388e3c;
+        --card-bg: #ffffff;
+        --card-shadow: rgba(0, 0, 0, 0.15);
+        --font-family: "Cairo", sans-serif;
       }
+
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
-        font-family: "Cairo", sans-serif;
+        font-family: var(--font-family);
         min-height: 100vh;
         background: linear-gradient(135deg, var(--bg1), var(--bg2));
-        color: #fff;
+        color: var(--text-dark);
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 20px;
       }
+
       h1 {
-        margin: 8px 0 14px;
-        font-size: 24px;
+        margin: 12px 0 20px;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-light);
         text-align: center;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
+
       .topbar {
         display: flex;
-        gap: 10px;
+        gap: 12px;
         align-items: center;
         justify-content: center;
-        margin-bottom: 12px;
+        margin-bottom: 20px;
         flex-wrap: wrap;
       }
+
       button {
         cursor: pointer;
-        border: 0;
-        padding: 10px 14px;
-        border-radius: 12px;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 30px;
         font-weight: 700;
-        background: linear-gradient(45deg, var(--accent1), #ff7043);
-        color: #fff;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-        transition: background 0.3s ease;
+        background-color: var(--btn-bg);
+        color: var(--text-light);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease,
+          transform 0.1s ease;
+        font-size: 16px;
+        user-select: none;
       }
+
+      button:hover:not(:disabled) {
+        background-color: var(--btn-hover);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
       button:disabled {
         cursor: not-allowed;
-        opacity: 0.6;
+        opacity: 0.5;
+        box-shadow: none;
       }
+
+      button:active:not(:disabled) {
+        transform: scale(0.95);
+      }
+
       button.ghost {
-        background: linear-gradient(45deg, #455a64, #607d8b);
+        background-color: transparent;
+        color: var(--text-light);
+        border: 2px solid var(--text-light);
+        box-shadow: none;
       }
+
+      button.ghost:hover:not(:disabled) {
+        background-color: var(--text-light);
+        color: var(--btn-bg);
+      }
+
       button.danger {
-        background: linear-gradient(45deg, #d32f2f, #f44336);
+        background-color: #e53935;
+        box-shadow: 0 6px 12px rgba(229, 57, 53, 0.5);
       }
+
+      button.danger:hover:not(:disabled) {
+        background-color: #b71c1c;
+        box-shadow: 0 8px 20px rgba(183, 28, 28, 0.7);
+      }
+
       button.ok {
-        background: linear-gradient(45deg, #2e7d32, #66bb6a);
+        background-color: #43a047;
+        box-shadow: 0 6px 12px rgba(67, 160, 71, 0.5);
       }
+
+      button.ok:hover:not(:disabled) {
+        background-color: #2e7d32;
+        box-shadow: 0 8px 20px rgba(46, 125, 50, 0.7);
+      }
+
       .card {
-        display: none; /* اخفاء افتراضي */
+        display: none;
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        max-width: 400px;
+        max-width: 420px;
         width: 90%;
-        background: rgba(15, 23, 36, 0.85);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        background: var(--card-bg);
+        padding: 30px 25px;
+        border-radius: 20px;
+        box-shadow: 0 12px 30px var(--card-shadow);
         z-index: 1000;
         max-height: 90vh;
         overflow-y: auto;
+        color: var(--text-dark);
+        animation-fill-mode: forwards;
       }
+
       .card.show {
         display: block;
+        animation: fadeInUp 0.4s ease forwards;
       }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -40%);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
+      }
+
       .centered {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 16px;
       }
+
       input {
-        padding: 12px;
-        border-radius: 10px;
-        border: 0;
-        background: rgba(255, 255, 255, 0.03);
-        color: #fff;
+        padding: 14px 18px;
+        border-radius: 15px;
+        border: 1.5px solid #ddd;
+        background: #f9f9f9;
+        color: var(--text-dark);
         outline: none;
-        font-weight: 700;
+        font-weight: 600;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
       }
+
       input::placeholder {
-        color: #ccc;
+        color: #aaa;
       }
+
       input:focus {
-        box-shadow: 0 0 0 3px rgba(255, 202, 40, 0.12);
+        border-color: var(--btn-bg);
+        box-shadow: 0 0 8px var(--btn-bg);
       }
+
       .level-card {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 14px;
-        border-radius: 12px;
-        margin: 10px 0;
-        background: rgba(255, 255, 255, 0.02);
+        padding: 18px 22px;
+        border-radius: 20px;
+        margin: 14px 0;
+        background: #e8f5e9;
         cursor: pointer;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-        font-weight: 800;
-        transition: background 0.3s ease, color 0.3s ease;
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--text-dark);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, color 0.3s ease;
+        user-select: none;
       }
+
       .level-card.open:hover {
-        background: linear-gradient(90deg, #64b5f6, #42a5f5);
-        color: #fff;
+        background: linear-gradient(90deg, #a5d6a7, #81c784);
+        color: var(--text-dark);
       }
+
       .level-card.open {
-        background: linear-gradient(90deg, #4caf50, #81c784);
-        color: #fff;
+        background: linear-gradient(90deg, #66bb6a, #4caf50);
+        color: var(--text-light);
       }
+
       .level-card.passed {
         background: linear-gradient(90deg, #ffeb3b, #fdd835);
-        color: #111;
+        color: var(--text-dark);
+        box-shadow: 0 6px 15px rgba(255, 235, 59, 0.4);
       }
+
       .level-card.locked {
-        background: #444;
-        color: #bbb;
+        background: #cfd8dc;
+        color: #78909c;
         cursor: not-allowed;
+        box-shadow: none;
       }
+
       .question {
-        font-size: 18px;
-        margin: 6px 0 10px;
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 20px;
+        color: var(--text-dark);
       }
+
       .answers button {
         display: block;
         width: 100%;
-        margin: 8px 0;
-        padding: 12px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #29b6f6, #0288d1);
+        margin: 10px 0;
+        padding: 14px 0;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #4caf50, #388e3c);
         font-weight: 700;
-        transition: background 0.3s ease;
+        font-size: 18px;
+        color: var(--text-light);
+        box-shadow: 0 6px 12px rgba(56, 142, 60, 0.5);
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
       }
+
       .answers button:hover:not(:disabled) {
-        background: linear-gradient(135deg, #03a9f4, #0277bd);
+        background: linear-gradient(135deg, #66bb6a, #43a047);
+        box-shadow: 0 8px 20px rgba(67, 160, 71, 0.7);
       }
+
+      .answers button:disabled {
+        background: #a5d6a7;
+        color: #555;
+        box-shadow: none;
+        cursor: not-allowed;
+      }
+
       .leader-user {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 15px;
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.25);
-        margin: 8px 0;
-        font-weight: 700;
-        font-size: 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        transition: background 0.3s ease;
-      }
-      .leader-user:hover {
-        background: rgba(0, 0, 0, 0.4);
-      }
-      .leader-user .levels {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .leader-user .level-chip {
-        background: #ffca28;
-        color: #111;
-        padding: 4px 10px;
+        padding: 14px 20px;
         border-radius: 20px;
-        font-size: 14px;
+        background: #e8f5e9;
+        margin: 12px 0;
         font-weight: 700;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        font-size: 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
         user-select: none;
       }
+
+      .leader-user:hover {
+        background: #c8e6c9;
+      }
+
+      .leader-user .levels {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .leader-user .level-chip {
+        background: #a5d6a7;
+        color: var(--text-dark);
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        user-select: none;
+      }
+
       pre {
         white-space: pre-wrap;
-        background: rgba(0, 0, 0, 0.35);
-        padding: 10px;
-        border-radius: 10px;
-        max-height: 300px;
+        background: #f1f8e9;
+        padding: 16px;
+        border-radius: 15px;
+        max-height: 320px;
         overflow-y: auto;
+        color: var(--text-dark);
+        font-size: 16px;
+        font-weight: 600;
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
       }
+
       .subtle {
-        opacity: 0.85;
-        font-size: 13px;
+        opacity: 0.7;
+        font-size: 14px;
+        color: var(--text-light);
+        text-align: center;
+        margin-top: 8px;
       }
+
       .toast {
         position: fixed;
         left: 50%;
-        transform: translateX(-50%);
-        bottom: 16px;
-        background: rgba(0, 0, 0, 0.7);
-        padding: 12px 16px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        transform: translateX(-50%) translateY(20px);
+        bottom: 24px;
+        background: #4caf50;
+        padding: 14px 22px;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(76, 175, 80, 0.7);
         display: flex;
-        gap: 12px;
+        gap: 14px;
         align-items: center;
         z-index: 9999;
         opacity: 0;
-        transition: opacity 0.18s, transform 0.18s;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        color: var(--text-light);
+        font-weight: 700;
+        font-size: 16px;
+        user-select: none;
       }
+
       .toast.show {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
       }
+
       .toast.ok {
-        background: linear-gradient(90deg, #2e7d32, #388e3c);
+        background: linear-gradient(90deg, #43a047, #66bb6a);
+        box-shadow: 0 10px 30px rgba(67, 160, 71, 0.8);
       }
+
       .toast.warn {
-        background: linear-gradient(90deg, #c62828, #ef5350);
+        background: linear-gradient(90deg, #e53935, #ef5350);
+        box-shadow: 0 10px 30px rgba(229, 57, 53, 0.8);
       }
+
+      /* Coins Display */
+      #coin-display {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 20px;
+        z-index: 1000;
+        user-select: none;
+      }
+
+      /* Duo Mascot container */
+      #duo-mascot {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 120px;
+        user-select: none;
+        pointer-events: none;
+        z-index: 1100;
+        text-align: center;
+        font-family: var(--font-family);
+      }
+
+      #duo-mascot img {
+        width: 100%;
+        filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+      }
+
+      #duo-message {
+        margin-top: 8px;
+        background: var(--btn-bg);
+        color: var(--text-light);
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        user-select: none;
+        transform-origin: bottom center;
+      }
+
+      #duo-message.show {
+        opacity: 1 !important;
+        transform: translateY(-10px);
+      }
+
+      /* زر إغلاق لوحة المتصدرين */
+      #leaderboard .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      #close-leaderboard-btn {
+        background: transparent;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--btn-bg);
+        font-weight: 700;
+        line-height: 1;
+        padding: 0 8px;
+        user-select: none;
+      }
+
+      #close-leaderboard-btn:hover {
+        color: var(--btn-hover);
+      }
+
       @media (max-width: 600px) {
         h1 {
-          font-size: 18px;
+          font-size: 22px;
         }
         .card {
-          padding: 12px;
+          padding: 20px 15px;
           max-width: 95%;
         }
         .topbar {
-          gap: 8px;
+          gap: 10px;
         }
         .leader-user {
           flex-direction: column;
           align-items: flex-start;
-          gap: 6px;
+          gap: 8px;
         }
         .leader-user .levels {
           justify-content: flex-start;
+        }
+        button {
+          font-size: 14px;
+          padding: 10px 16px;
+        }
+        .answers button {
+          font-size: 16px;
+          padding: 12px 0;
+        }
+        #duo-mascot {
+          width: 90px;
+          bottom: 12px;
+          left: 12px;
+        }
+        .coin-fly {
+          position: fixed;
+          font-size: 30px;
+          color: gold;
+          z-index: 2000;
+          animation: flyUp 1s ease-out forwards;
+        }
+
+        @keyframes flyUp {
+          from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+          to {
+            opacity: 0;
+            transform: translateY(-120px) scale(1.5);
+          }
+        }
+        .coin-fly {
+          font-size: 30px;
+          color: gold;
+          z-index: 2000;
+          animation: flyUp 1s ease-out forwards;
+        }
+
+        @keyframes flyUp {
+          from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+          to {
+            opacity: 0;
+            transform: translateY(-120px) scale(1.5);
+          }
         }
       }
     </style>
@@ -248,6 +499,10 @@
 
     <div class="topbar">
       <button id="leaderboard-btn" class="ghost">لوحة المتصدرين 🏆</button>
+      <button id="sound-toggle-btn" class="ghost">🔊 صوت</button>
+      <button id="music-toggle-btn" class="ghost" style="display: none">
+        🎵 موسيقى
+      </button>
       <button id="back-to-levels-btn" class="danger" style="display: none">
         عودة للمستويات
       </button>
@@ -298,7 +553,10 @@
 
     <!-- Leaderboard -->
     <div id="leaderboard" class="card">
-      <h3 style="margin: 0 0 10px">لوحة المتصدرين</h3>
+      <div class="header">
+        <h3 style="margin: 0">لوحة المتصدرين</h3>
+        <button id="close-leaderboard-btn" title="إغلاق">×</button>
+      </div>
       <div id="leaderboard-list"></div>
     </div>
 
@@ -318,6 +576,18 @@
     <div id="toast" class="toast" aria-live="polite" aria-atomic="true">
       <strong id="toast-title"></strong>
       <div id="toast-msg" style="margin-left: 8px"></div>
+    </div>
+
+    <!-- Coins -->
+    <div id="coin-display">ج.م <span id="coin-count">0</span></div>
+
+    <!-- Duo Mascot container -->
+    <div id="duo-mascot">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Duolingo_owl.svg"
+        alt="Duo Mascot"
+      />
+      <div id="duo-message"></div>
     </div>
 
     <script type="module">
@@ -347,7 +617,10 @@
         currentQuestionIndex = 0,
         currentQuestions = [],
         answering = false;
-
+      // --- عدد العملات للمستخدم حالياً ---
+      let userCoins = 0;
+      let soundEnabled = false;
+      let musicEnabled = false;
       const levelsData = {
         1: { questions: 5, passRate: 0.7 },
         2: { questions: 5, passRate: 0.8 },
@@ -474,6 +747,12 @@
         toastTitle = document.getElementById("toast-title"),
         toastMsg = document.getElementById("toast-msg");
       const correctSound = document.getElementById("correct-sound");
+      const wrongSound = document.getElementById("wrong-sound");
+      const duoMessageEl = document.getElementById("duo-message");
+      const closeLeaderboardBtn = document.getElementById(
+        "close-leaderboard-btn"
+      );
+
       // ======= toast =======
       function showToast(type, title, msg, t = 2200) {
         toastEl.className = "toast show " + (type === "ok" ? "ok" : "warn");
@@ -481,6 +760,16 @@
         toastMsg.textContent = msg || "";
         clearTimeout(toastEl._t);
         toastEl._t = setTimeout(() => (toastEl.className = "toast"), t);
+      }
+
+      // ======= رسائل شخصية Duo =======
+      function showDuoMessage(text, duration = 2000) {
+        duoMessageEl.textContent = text;
+        duoMessageEl.classList.add("show");
+        clearTimeout(duoMessageEl._timeout);
+        duoMessageEl._timeout = setTimeout(() => {
+          duoMessageEl.classList.remove("show");
+        }, duration);
       }
 
       // ======= التسجيل / الدخول =======
@@ -504,12 +793,20 @@
                 showToast("warn", "خطأ", "كلمة المرور خاطئة");
                 return;
               }
+
               currentUser = name;
               if (!data.progress)
                 await update(userRef, {
                   progress: { 1: false, 2: false, 3: false },
                 });
               if (!data.answers) await update(userRef, { answers: {} });
+
+              // **هنا نقرَأ العملات** (لو موجودة ناخذها وإلا 0)
+              userCoins = data.coins || 0;
+              // حدث العرض في الواجهة
+              const coinCountEl = document.getElementById("coin-count");
+              if (coinCountEl) coinCountEl.textContent = userCoins;
+
               showToast("ok", "تم الدخول", `أهلًا ${name}`);
             } else {
               await set(userRef, {
@@ -517,8 +814,14 @@
                 createdAt: Date.now(),
                 progress: { 1: false, 2: false, 3: false },
                 answers: {},
+                coins: 0,
               });
               currentUser = name;
+              // حط قيمة العملة محليًا وعرضها
+              userCoins = 0;
+              const coinCountEl = document.getElementById("coin-count");
+              if (coinCountEl) coinCountEl.textContent = userCoins;
+
               showToast("ok", "تم التسجيل", "تم إنشاء الحساب وتسجيل الدخول");
             }
             logoutBtn.style.display = "inline-flex";
@@ -543,6 +846,24 @@
         leaderboardBtn.style.display = "inline-flex";
         showOnly(loginSection);
       });
+
+      // زر التحكم في الصوت
+      document
+        .getElementById("sound-toggle-btn")
+        .addEventListener("click", () => {
+          soundEnabled = !soundEnabled;
+          const btn = document.getElementById("sound-toggle-btn");
+          btn.textContent = soundEnabled ? "🔊 صوت" : "🔇 صوت";
+        });
+
+      // زر التحكم في الموسيقى (مخفي حاليًا)
+      document
+        .getElementById("music-toggle-btn")
+        .addEventListener("click", () => {
+          musicEnabled = !musicEnabled;
+          const btn = document.getElementById("music-toggle-btn");
+          btn.textContent = musicEnabled ? "🎵 موسيقى" : "🔇 موسيقى";
+        });
 
       // ======= عرض المستويات =======
       function createLevelCard(i, status) {
@@ -617,9 +938,8 @@
 
       // ======= الإجابة وتخزينها =======
       async function answerQuestion(selected, btn) {
-        if (answering) return; // منع تكرار الضغط
+        if (answering) return;
         answering = true;
-        // تعطيل كل الأزرار
         Array.from(answersDiv.children).forEach((b) => (b.disabled = true));
 
         const q = currentQuestions[currentQuestionIndex];
@@ -627,13 +947,23 @@
 
         try {
           if (isCorrect) {
-            await correctSound.play();
+            if (soundEnabled) await correctSound.play();
+            showDuoMessage("رائع! 🎉");
+            // إضافة أنيميشن عند الإجابة الصحيحة
+            const confetti = document.createElement("div");
+            confetti.className = "confetti";
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 1500);
           } else {
-            await wrongSound.play();
+            if (soundEnabled) await wrongSound.play();
+            showDuoMessage("حاول مرة أخرى، أنت قادر! 🤔");
+            // إضافة أنيميشن عند الإجابة الخاطئة
+            const shake = document.createElement("div");
+            shake.className = "shake";
+            questionBox.appendChild(shake);
+            setTimeout(() => shake.remove(), 600);
           }
-        } catch (e) {
-          // قد لا يعمل الصوت بدون تفاعل مسبق
-        }
+        } catch (e) {}
 
         try {
           await set(
@@ -649,12 +979,17 @@
           console.error(e);
           showToast("warn", "خطأ", "فشل حفظ الإجابة");
         }
+
         currentQuestionIndex++;
-        if (currentQuestionIndex >= currentQuestions.length) {
-          await checkLevelCompletion();
-        } else {
-          showQuestion();
-        }
+
+        setTimeout(async () => {
+          if (currentQuestionIndex >= currentQuestions.length) {
+            await checkLevelCompletion();
+          } else {
+            showQuestion();
+          }
+          answering = false;
+        }, 500);
       }
 
       backLevelsBtn.addEventListener("click", () => renderLevels());
@@ -662,6 +997,14 @@
       // ======= تحقق اجتياز المستوى =======
       async function checkLevelCompletion() {
         try {
+          const progressSnap = await get(
+            ref(db, `users/${currentUser}/progress`)
+          );
+          const progress = progressSnap.val() || {
+            1: false,
+            2: false,
+            3: false,
+          };
           const snap = await get(
             ref(db, `users/${currentUser}/answers/${currentLevel}`)
           );
@@ -670,6 +1013,9 @@
           const correct = Object.values(answers).filter(Boolean).length;
           const required = Math.ceil(levelsData[currentLevel].passRate * total);
           if (correct >= required) {
+            if (!progress[currentLevel]) {
+              addCoins(5);
+            }
             await update(ref(db, `users/${currentUser}/progress`), {
               [currentLevel]: true,
             });
@@ -678,12 +1024,14 @@
               "تم الاجتياز",
               `لقد أجبت صح ${correct} من ${total}`
             );
+            showDuoMessage("ممتاز! أنت تتقدم بسرعة! 🚀", 3000);
           } else {
             showToast(
               "warn",
               "لم تُجتز",
               `صح ${correct}/${total} — مطلوب ${required}`
             );
+            showDuoMessage("لا تيأس، حاول مرة أخرى! 💪", 3000);
           }
           await renderLevels();
         } catch (e) {
@@ -695,6 +1043,12 @@
       // ======= لوحة المتصدرين =======
       leaderboardBtn.addEventListener("click", () => displayLeaderboard());
       backToLevelsBtn.addEventListener("click", () => {
+        backToLevelsBtn.style.display = "none";
+        if (currentUser) renderLevels();
+        else showOnly(loginSection);
+      });
+
+      closeLeaderboardBtn.addEventListener("click", () => {
         backToLevelsBtn.style.display = "none";
         if (currentUser) renderLevels();
         else showOnly(loginSection);
@@ -717,7 +1071,7 @@
             const row = document.createElement("div");
             row.className = "leader-user";
             const left = document.createElement("div");
-            left.textContent = name; // استخدم textContent لتجنب XSS
+            left.textContent = name;
             const right = document.createElement("div");
             right.className = "levels";
             Object.keys(progress).forEach((level) => {
@@ -739,9 +1093,6 @@
           showToast("warn", "خطأ", "فشل تحميل المتصدرين");
         }
       }
-
-      // ======= مراجعة الإجابات =======
-      // (تم حذف زر التفاصيل، لذا هذه الدالة غير مرتبطة حالياً)
 
       // ======= مساعدة لعرض عنصر واحد =======
       function showOnly(el) {
@@ -767,6 +1118,96 @@
       logoutBtn.style.display = "none";
       backToLevelsBtn.style.display = "none";
       leaderboardBtn.style.display = "inline-flex";
+
+      // ========== دالة إضافة العملات ==========
+      function addCoins(amount) {
+        // نحدث العدد المحلي أولاً
+        userCoins += amount;
+
+        // نعرض الرقم الجديد في الصفحة
+        const coinCountEl = document.getElementById("coin-count");
+        if (coinCountEl) coinCountEl.textContent = userCoins;
+
+        // نحدث Firebase لو المستخدم مسجل دخول
+        if (currentUser) {
+          const userRef = ref(db, `users/${currentUser}`);
+          update(userRef, { coins: userCoins });
+        }
+
+        // نعمل أنيميشن لعملة تطير
+        const coinEl = document.createElement("div");
+        coinEl.textContent = "ج.م";
+        coinEl.className = "coin-fly";
+        coinEl.style.left = "50%";
+        coinEl.style.bottom = "50px";
+        coinEl.style.position = "fixed";
+        document.body.appendChild(coinEl);
+
+        setTimeout(() => coinEl.remove(), 1000);
+
+        if (soundEnabled) {
+          // (اختياري) صوت عند جمع العملة
+          const audio = new Audio(
+            "https://assets.mixkit.co/sfx/preview/mixkit-quick-win-video-game-notification-269.wav"
+          );
+          audio.volume = 0.3; // صوت خفيف
+          audio.play();
+        }
+      }
     </script>
+    <style>
+      /* أنيميشن الكونفيتي */
+      .confetti {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background: gold;
+        box-shadow: 0 0 10px gold;
+        animation: confetti-fall 1.5s ease forwards;
+        pointer-events: none;
+        z-index: 2000;
+      }
+      @keyframes confetti-fall {
+        0% {
+          transform: translateX(0) translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(calc(-50vw + 50%)) translateY(100vh)
+            rotate(720deg);
+          opacity: 0;
+        }
+      }
+      /* أنيميشن الهزة */
+      .shake {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        animation: shake 0.6s ease;
+        border: 3px solid red;
+        border-radius: 20px;
+        box-sizing: border-box;
+        z-index: 1500;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20%,
+        60% {
+          transform: translateX(-10px);
+        }
+        40%,
+        80% {
+          transform: translateX(10px);
+        }
+      }
+    </style>
   </body>
 </html>
