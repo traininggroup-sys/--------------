@@ -221,6 +221,22 @@
         box-shadow: none;
       }
 
+      .level-card.clicked {
+        animation: click-bounce 0.3s ease;
+      }
+
+      @keyframes click-bounce {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
       .question {
         font-size: 22px;
         font-weight: 700;
@@ -495,8 +511,6 @@
     </style>
   </head>
   <body>
-    <h1>اختبار المستوى لأعضاء جروب المشتركين</h1>
-
     <div class="topbar">
       <button id="leaderboard-btn" class="ghost">لوحة المتصدرين 🏆</button>
       <button id="sound-toggle-btn" class="ghost">🔊 صوت</button>
@@ -511,6 +525,9 @@
 
     <!-- Login -->
     <div id="login-section" class="card show">
+      <h1 style="margin: 0 0 20px; font-size: 24px; text-align: center">
+        اختبار المستوى لأعضاء جروب المشتركين
+      </h1>
       <div class="centered">
         <input
           id="username"
@@ -571,6 +588,16 @@
       src="https://www.soundjay.com/button/sounds/button-10.mp3"
       preload="auto"
     ></audio>
+    <audio
+      id="level-start-sound"
+      src="https://www.soundjay.com/button/sounds/button-3.mp3"
+      preload="auto"
+    ></audio>
+    <audio
+      id="level-pass-sound"
+      src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.wav"
+      preload="auto"
+    ></audio>
 
     <!-- toast -->
     <div id="toast" class="toast" aria-live="polite" aria-atomic="true">
@@ -619,7 +646,7 @@
         answering = false;
       // --- عدد العملات للمستخدم حالياً ---
       let userCoins = 0;
-      let soundEnabled = false;
+      let soundEnabled = true;
       let musicEnabled = false;
       const levelsData = {
         1: { questions: 5, passRate: 0.7 },
@@ -876,8 +903,13 @@
           status === "passed" ? "✅" : status === "open" ? "🔓" : "🔒";
         div.appendChild(left);
         div.appendChild(right);
-        if (status !== "locked")
-          div.addEventListener("click", () => startLevel(i));
+        if (status !== "locked") {
+          div.addEventListener("click", () => {
+            div.classList.add("clicked");
+            setTimeout(() => div.classList.remove("clicked"), 300);
+            startLevel(i);
+          });
+        }
         return div;
       }
 
@@ -917,6 +949,10 @@
         if (currentQuestions.length === 0) {
           showToast("warn", "خطأ", "لا توجد أسئلة لهذا المستوى");
           return;
+        }
+        if (soundEnabled) {
+          const levelStartSound = document.getElementById("level-start-sound");
+          levelStartSound.play().catch(() => {});
         }
         showOnly(questionBox);
         showQuestion();
@@ -1025,6 +1061,22 @@
               `لقد أجبت صح ${correct} من ${total}`
             );
             showDuoMessage("ممتاز! أنت تتقدم بسرعة! 🚀", 3000);
+            if (soundEnabled) {
+              const levelPassSound =
+                document.getElementById("level-pass-sound");
+              levelPassSound.play().catch(() => {});
+            }
+            // Add more confetti
+            for (let i = 0; i < 10; i++) {
+              const confetti = document.createElement("div");
+              confetti.className = "confetti";
+              confetti.style.left = 50 + (Math.random() - 0.5) * 100 + "%";
+              confetti.style.background = `hsl(${
+                Math.random() * 360
+              }, 100%, 50%)`;
+              document.body.appendChild(confetti);
+              setTimeout(() => confetti.remove(), 1500);
+            }
           } else {
             showToast(
               "warn",

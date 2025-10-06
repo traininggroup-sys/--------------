@@ -596,7 +596,7 @@
       });
 
       function updateHUD() {
-        coinsDisplay.textContent = `🪙 ${userCoins}`;
+        coinsDisplay.textContent = `ج.م ${userCoins}`;
         levelIndicator.textContent = `المستوى: ${currentLevel}`;
       }
 
@@ -750,7 +750,7 @@
         for (let i = 0; i < amount; i++) {
           setTimeout(() => {
             const coinEl = document.createElement("div");
-            coinEl.textContent = "🪙";
+            coinEl.textContent = "ج.م";
             coinEl.style.position = "fixed";
             coinEl.style.left = 50 + Math.random() * 20 - 10 + "%";
             coinEl.style.bottom = "50px";
