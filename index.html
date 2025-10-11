@@ -46,6 +46,33 @@
         gap: 8px;
         align-items: center;
       }
+      .coin-container {
+        position: relative;
+      }
+      .coin-float {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        display: none;
+      }
+      .coin-float.show {
+        display: block;
+        animation: floatUp 1s ease-out forwards;
+      }
+      @keyframes floatUp {
+        0% {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(-50%) translateY(-30px);
+        }
+      }
       button {
         cursor: pointer;
       }
@@ -288,7 +315,10 @@
       <header>
         <h1>اختبار المستوى - جروب المشتركين</h1>
         <div class="top-controls">
-          <div>🪙 العملات: <span id="coin-count">0</span></div>
+          <div class="coin-container">
+            💰 جنيه مصري: <span id="coin-count">0</span>
+            <div id="coin-float"></div>
+          </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
             🏆 المتصدرين
           </button>
@@ -308,7 +338,6 @@
             <button id="login-btn">دخول / إنشاء حساب</button>
           </div>
         </div>
-        <p class="footer-note">سيتم حفظ مستوياتك والعملات في Firebase.</p>
       </section>
 
       <section id="levels"></section>
@@ -716,6 +745,13 @@
           } catch (e) {}
           userCoins += 5;
           coinCountEl.textContent = userCoins;
+          // Floating coin animation
+          const coinFloat = document.getElementById("coin-float");
+          coinFloat.textContent = "+5";
+          coinFloat.classList.add("show");
+          setTimeout(() => {
+            coinFloat.classList.remove("show");
+          }, 1000);
           correctAnswers++;
           showToast("✅", "إجابة صحيحة", "ok");
         } else {
@@ -802,6 +838,8 @@
         coinCountEl.textContent = 0;
         loginSection.style.display = "block";
         levelsDiv.style.display = "none";
+        questionBox.style.display = "none";
+        levelsMapWrap.style.display = "none";
         logoutBtn.style.display = "none";
         leaderboardBtn.style.display = "none";
         showToast("✅", "تم تسجيل الخروج", "ok");
@@ -850,7 +888,12 @@
 
       closeLeaderboardBtn.addEventListener("click", () => {
         leaderboardCard.style.display = "none";
-        levelsDiv.style.display = "flex";
+        if (questionBox.style.display === "block") {
+          levelsDiv.style.display = "none";
+          levelsMapWrap.style.display = "flex";
+        } else {
+          levelsDiv.style.display = "flex";
+        }
       });
 
       backLevelsBtn.addEventListener("click", () => {
