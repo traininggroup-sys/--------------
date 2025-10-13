@@ -46,10 +46,17 @@
       .top-controls {
         display: flex;
         gap: 8px;
-        align-items: center;
+        align-items: stretch;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: center;
       }
       .coin-container {
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
       }
       .coin-float {
         position: absolute;
@@ -313,8 +320,15 @@
         header {
           flex-direction: column;
           gap: 10px;
-          align-items: flex-start;
+          align-items: center;
         }
+      }
+      img#egypounds {
+        width: 57px;
+        /* margin-top: 6px; */
+      }
+      strong {
+        font-size: 27px;
       }
     </style>
   </head>
@@ -325,8 +339,9 @@
         <h1>مستوياتي - جروب المشتركين</h1>
         <div class="top-controls">
           <div class="coin-container">
-            <span id="coin-count">رصيدي:</span>
-            <span id="coin-count">0</span> جنيه مصري
+            <span id="coin-count">محفظتك فيها:</span>
+            <span id="coin-count">جنيه مصري</span>
+            <img src="العملة-المصرية-test-1jpg.jpg" id="egypounds" />
             <div id="coin-float"></div>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
@@ -653,7 +668,6 @@
             : "مقفول";
           card.innerHTML = `
             <div>المستوى ${lvl}</div>
-            <div style="font-size: 12px; margin-top: 4px;">£${price}</div>
             <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status}</div>
           `;
           card.addEventListener("click", async () => {
@@ -684,7 +698,7 @@
                   currentUser.passedLevels.pop();
                 }
               } else {
-                showToast("❌", "عملات غير كافية لشراء المستوى", "err");
+                showToast("❌", "لسه منجحتش في المستوي السابق", "err");
               }
             }
           });
@@ -790,18 +804,6 @@
         buttons.forEach((b) => (b.disabled = true));
 
         if (i === q.answer) {
-          try {
-            correctSound.play();
-          } catch (e) {}
-          userCoins += 5;
-          coinCountEl.textContent = userCoins;
-          // Floating coin animation
-          const coinFloat = document.getElementById("coin-float");
-          coinFloat.textContent = "+5";
-          coinFloat.classList.add("show");
-          setTimeout(() => {
-            coinFloat.classList.remove("show");
-          }, 1000);
           correctAnswers++;
           showToast("✅", "إجابة صحيحة", "ok");
         } else {
@@ -835,8 +837,21 @@
 
         const passRate = correctAnswers / (currentQuestions.length || 1);
         if (passRate >= levelsData[currentLevel].passRate) {
-          if (!currentUser.passedLevels.includes(currentLevel))
+          if (!currentUser.passedLevels.includes(currentLevel)) {
             currentUser.passedLevels.push(currentLevel);
+            userCoins += currentLevel;
+            coinCountEl.textContent = userCoins;
+            // Floating coin animation
+            const coinFloat = document.getElementById("coin-float");
+            coinFloat.textContent = "+" + currentLevel;
+            coinFloat.classList.add("show");
+            setTimeout(() => {
+              coinFloat.classList.remove("show");
+            }, 1000);
+            try {
+              correctSound.play();
+            } catch (e) {}
+          }
           currentUser.coins = userCoins;
           try {
             await update(ref(db, "users/" + currentUser.username), {
@@ -920,7 +935,7 @@
               if (idx === 0) div.classList.add("first-place");
               div.innerHTML = `<div>${idx + 1}. <strong>${escapeHtml(
                 user.name
-              )}</strong><div style="font-size:12px;color:var(--muted)">المستويات: ${
+              )}</strong><div style="font-size:16px;color:#f5f5f5">المستويات: ${
                 user.levels.length
               } • العملات: ${
                 user.coins
