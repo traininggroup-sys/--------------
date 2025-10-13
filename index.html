@@ -15,7 +15,7 @@
         --accent: #7dd3fc;
         --accent-secondary: #a7f3d0;
         --accent-tertiary: #f9a8d4;
-        --muted: #94a3b8;
+        --muted: #0509f0;
         --glass: rgba(255, 255, 255, 0.05);
       }
       * {
@@ -143,14 +143,14 @@
         color: #022;
       }
       .level-card.locked {
-        background: #223344;
-        color: rgba(255, 255, 255, 0.5);
+        background: #486d88;
+        color: rgb(255 255 255);
         cursor: not-allowed;
       }
 
       #question-box {
         display: none;
-        background: var(--card);
+        background: #b2caf9;
         padding: 18px;
         border-radius: 12px;
         margin-top: 16px;
@@ -198,7 +198,7 @@
         display: none;
         position: fixed;
         inset: 10% 10%;
-        background: var(--card);
+        background: #72a1fd;
         padding: 18px;
         border-radius: 12px;
         z-index: 60;
@@ -325,6 +325,7 @@
         <h1>مستوياتي - جروب المشتركين</h1>
         <div class="top-controls">
           <div class="coin-container">
+            <span id="coin-count">رصيدي:</span>
             <span id="coin-count">0</span> جنيه مصري
             <div id="coin-float"></div>
           </div>
@@ -649,11 +650,11 @@
             ? "تم الإنجاز"
             : lvl === highest + 1
             ? "متاح"
-            : "مقفل";
+            : "مقفول";
           card.innerHTML = `
             <div>المستوى ${lvl}</div>
             <div style="font-size: 12px; margin-top: 4px;">£${price}</div>
-            <div style="font-size: 10px; margin-top: 2px; color: var(--muted);">${status}</div>
+            <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status}</div>
           `;
           card.addEventListener("click", async () => {
             if (passed.includes(lvl)) {
