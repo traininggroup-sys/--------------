@@ -205,14 +205,16 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebas
 
       if (currentUser.passedLevels.includes(+lvl)) {
         card.classList.add("passed");
+        card.textContent = "المستوى " + lvl + " - تم الإنجاز";
       } else if (+lvl === Math.max(...currentUser.passedLevels, 0) + 1) {
         card.classList.add("open");
         card.addEventListener("click", () => startLevel(+lvl));
+        card.textContent = "المستوى " + lvl + " (+ " + lvl + " جنيه)";
       } else {
         card.classList.add("locked");
+        card.textContent = "المستوى " + lvl + " (+ " + lvl + " جنيه)";
       }
 
-      card.textContent = "المستوى " + lvl;
       levelsDiv.appendChild(card);
     });
   }
@@ -276,8 +278,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebas
 
     if (i === q.answer) {
       correctSound.play();
-      userCoins += 5;
-      coinCountEl.textContent = userCoins;
       correctAnswers++;
     } else {
       wrongSound.play();
@@ -306,6 +306,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebas
     if (passRate >= levelsData[currentLevel].passRate) {
       if (!currentUser.passedLevels.includes(currentLevel)) {
         currentUser.passedLevels.push(currentLevel);
+        userCoins += currentLevel;
+        coinCountEl.textContent = userCoins;
+        // Floating coin animation
+        const coinFloat = document.getElementById("coin-float");
+        coinFloat.textContent = "+" + currentLevel;
+        coinFloat.classList.add("show");
+        setTimeout(() => {
+          coinFloat.classList.remove("show");
+        }, 1000);
       }
       await update(ref(db, "users/" + currentUser.username), {
         passedLevels: currentUser.passedLevels,

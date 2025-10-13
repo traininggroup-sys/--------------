@@ -286,9 +286,11 @@ header div {
 }
 
 #levels {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
+  justify-content: center;
 }
 
 .level-card {
@@ -430,7 +432,9 @@ header div {
     padding: 15px;
   }
   #levels {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 8px;
   }
   .level-card {

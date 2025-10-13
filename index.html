@@ -111,8 +111,10 @@
         display: none;
         margin-top: 16px;
         gap: 10px;
-        flex-wrap: wrap;
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
       .level-card {
         min-width: 120px;
@@ -316,7 +318,7 @@
         <h1>اختبار المستوى - جروب المشتركين</h1>
         <div class="top-controls">
           <div class="coin-container">
-            💰 جنيه مصري: <span id="coin-count">0</span>
+            £ جنيه مصري: <span id="coin-count">0</span>
             <div id="coin-float"></div>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
@@ -635,16 +637,56 @@
           const lvl = +lvlStr;
           const card = document.createElement("div");
           card.className = "level-card";
+          const price = lvl * 10; // سعر المستوى
+          const status = passed.includes(lvl)
+            ? "تم الإنجاز"
+            : lvl === highest + 1
+            ? "متاح"
+            : "مقفل";
+          card.innerHTML = `
+            <div>المستوى ${lvl}</div>
+            <div style="font-size: 12px; margin-top: 4px;">£${price}</div>
+            <div style="font-size: 10px; margin-top: 2px; color: var(--muted);">${status}</div>
+          `;
+          card.addEventListener("click", async () => {
+            if (passed.includes(lvl)) {
+              startLevel(lvl);
+            } else if (lvl === highest + 1) {
+              startLevel(lvl);
+            } else {
+              // محاولة الشراء
+              if (userCoins >= price) {
+                userCoins -= price;
+                coinCountEl.textContent = userCoins;
+                currentUser.passedLevels.push(lvl);
+                currentUser.coins = userCoins;
+                try {
+                  await update(ref(db, "users/" + currentUser.username), {
+                    passedLevels: currentUser.passedLevels,
+                    coins: userCoins,
+                  });
+                  showToast("✅", `تم شراء المستوى ${lvl}`, "ok");
+                  showLevels();
+                } catch (e) {
+                  console.error(e);
+                  showToast("خطأ", "حدث خطأ أثناء الشراء", "err");
+                  // استرجاع العملات لو فشل
+                  userCoins += price;
+                  coinCountEl.textContent = userCoins;
+                  currentUser.passedLevels.pop();
+                }
+              } else {
+                showToast("❌", "عملات غير كافية لشراء المستوى", "err");
+              }
+            }
+          });
           if (passed.includes(lvl)) {
             card.classList.add("passed");
-            card.addEventListener("click", () => startLevel(lvl));
           } else if (lvl === highest + 1) {
             card.classList.add("open");
-            card.addEventListener("click", () => startLevel(lvl));
           } else {
             card.classList.add("locked");
           }
-          card.textContent = "المستوى " + lvl;
           levelsDiv.appendChild(card);
         });
       }

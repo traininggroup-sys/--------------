@@ -1,11 +1,8 @@
-- Update levelsData to 11 levels with passRate 0.9
-- Add questionsData for levels 4-11
-- Modify renderLevels to handle 11 levels, with 11 locked until password
-- Add password prompt after passing level 10
-- Change CSS colors to purple/blue theme
-- Add more animations and interactions
-- Test the site
-- Improve colors for better contrast and visibility (thicker borders, better colors)
-- Fix card positioning to not overlap topbar buttons
-- Enhance animations (add transitions, ensure visibility)
-- Fix sound playback issues
+- [x] Remove coin addition from checkAnswer function (per correct answer)
+- [x] Add coin addition to endLevel function only on success (level number coins)
+- [x] Update showLevels to display coins per level in card text
+- [x] Adjust CSS for levels to display in single row on mobile
+- [ ] Test the changes
+- [x] Change coin icon to metallic Egyptian pound (🪙)
+- [x] Add "تم الإنجاز" for passed levels
+- [x] Make levels single column centered on mobile
