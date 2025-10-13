@@ -10,11 +10,13 @@
     />
     <style>
       :root {
-        --bg: #0f1724;
-        --card: #0b1220;
-        --accent: #06b6d4;
-        --muted: #9aa6b2;
-        --glass: rgba(255, 255, 255, 0.03);
+        --bg: #0f1419;
+        --card: #1a1d23;
+        --accent: #7dd3fc;
+        --accent-secondary: #a7f3d0;
+        --accent-tertiary: #f9a8d4;
+        --muted: #94a3b8;
+        --glass: rgba(255, 255, 255, 0.05);
       }
       * {
         box-sizing: border-box;
@@ -23,8 +25,8 @@
       body {
         margin: 0;
         padding: 20px;
-        background: linear-gradient(180deg, #0761ff 0%, #0c4ed7 100%);
-        color: #e6eef6;
+        background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
+        color: #1e1b4b;
         min-height: 100vh;
       }
       .container {
@@ -133,12 +135,12 @@
         font-size: 20px;
       }
       .level-card.open {
-        background: linear-gradient(90deg, #0ea5a9, #06b6d4);
+        background: linear-gradient(90deg, #7dd3fc, #a7f3d0);
         color: #022;
       }
       .level-card.passed {
-        background: linear-gradient(90deg, #2563eb, #60a5fa);
-        color: white;
+        background: linear-gradient(90deg, #7dd3fc, #f9a8d4);
+        color: #022;
       }
       .level-card.locked {
         background: #223344;
