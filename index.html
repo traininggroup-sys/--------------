@@ -342,7 +342,6 @@
             <span id="coin-count">محفظتك فيها:</span>
             <span id="coin-count">جنيه مصري</span>
             <img src="العملة-المصرية-test-1jpg.jpg" id="egypounds" />
-            <div id="coin-float"></div>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
             🏆 المتصدرين
@@ -660,7 +659,7 @@
           const lvl = +lvlStr;
           const card = document.createElement("div");
           card.className = "level-card";
-          const price = lvl * 10; // سعر المستوى
+          const price = lvl; // سعر المستوى
           const status = passed.includes(lvl)
             ? "تم الإنجاز"
             : lvl === highest + 1
@@ -668,7 +667,7 @@
             : "مقفول";
           card.innerHTML = `
             <div>المستوى ${lvl}</div>
-            <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status}</div>
+            <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status} - ${lvl} جنيه</div>
           `;
           card.addEventListener("click", async () => {
             if (passed.includes(lvl)) {
