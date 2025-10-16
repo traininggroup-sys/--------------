@@ -28,6 +28,11 @@
         background: linear-gradient(180deg, #e0e7ff 0%, #c7d2fe 100%);
         color: #1e1b4b;
         min-height: 100vh;
+        font-weight: 900;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
       .container {
         max-width: 1000px;
@@ -120,7 +125,6 @@
         display: none;
         margin-top: 16px;
         gap: 10px;
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -142,11 +146,11 @@
         font-size: 20px;
       }
       .level-card.open {
-        background: linear-gradient(90deg, #7dd3fc, #a7f3d0);
+        background: #45ff8c;
         color: #022;
       }
       .level-card.passed {
-        background: linear-gradient(90deg, #7dd3fc, #f9a8d4);
+        background: #aae06c;
         color: #022;
       }
       .level-card.locked {
@@ -162,6 +166,11 @@
         border-radius: 12px;
         margin-top: 16px;
       }
+      #question-info {
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: #1e1b4b;
+      }
       #question-text {
         font-size: 18px;
         margin-bottom: 12px;
@@ -171,34 +180,59 @@
         flex-direction: column;
         gap: 8px;
       }
-      #answers button {
+      #tip {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #1e1b4b;
+      }
+      #answers label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         padding: 10px;
         border-radius: 8px;
-        border: none;
         background: rgba(255, 255, 255, 0.04);
-        color: inherit;
-        text-align: right;
+        cursor: pointer;
       }
-      #progress-wrap {
-        height: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 999px;
-        overflow: hidden;
-        margin: 12px 0;
+      #answers input[type="radio"] {
+        margin: 0;
       }
-      #progress {
-        height: 100%;
-        width: 0;
-        background: linear-gradient(90deg, #34d399, #06b6d4);
+      #next-button {
+        margin-top: 16px;
+        padding: 10px 14px;
+        background: #897a93;
+        border: none;
+        color: #ffffff;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
       }
 
-      #tip {
-        background: rgba(255, 255, 255, 0.03);
+      #result {
+        display: none;
+        background: #b2caf9;
+        padding: 18px;
+        border-radius: 12px;
+        margin-top: 16px;
+      }
+      #score {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      #review {
+        margin-bottom: 16px;
+      }
+      .review-item {
+        margin-bottom: 8px;
         padding: 8px;
         border-radius: 8px;
-        margin-top: 8px;
-        display: none;
-        color: var(--muted);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .review-item.correct {
+        background: #d4edda;
+      }
+      .review-item.incorrect {
+        background: #f8d7da;
       }
 
       #leaderboard {
@@ -235,6 +269,7 @@
         border: none;
         padding: 8px 12px;
         border-radius: 8px;
+        margin-top: 10px;
       }
 
       .toast {
@@ -272,50 +307,6 @@
         font-size: 13px;
       }
 
-      /* فكرة 3 - خريطة التقدم (progress map) */
-      #levels-map-wrap {
-        margin-top: 24px;
-        display: flex;
-        justify-content: center;
-      }
-      #progress-map {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-      .progress-step {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #333;
-        color: #cfcfcf;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.25s;
-        border: 2px solid rgba(255, 255, 255, 0.03);
-      }
-      .progress-step.completed {
-        background: linear-gradient(90deg, #2563eb, #06b6d4);
-        color: white;
-        box-shadow: 0 6px 18px rgba(6, 182, 212, 0.12);
-      }
-      .progress-step.active {
-        background: linear-gradient(90deg, #06b6d4, #4dd0e1);
-        color: #022;
-        transform: scale(1.08);
-        box-shadow: 0 8px 22px rgba(6, 182, 212, 0.12);
-      }
-      .progress-connector {
-        width: 40px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.06);
-        border-radius: 4px;
-      }
-
       @media (max-width: 640px) {
         header {
           flex-direction: column;
@@ -339,15 +330,13 @@
         <h1>مستوياتي - جروب المشتركين</h1>
         <div class="top-controls">
           <div class="coin-container">
-            <span id="coin-count">محفظتك فيها:</span>
-            <span id="coin-count">جنيه مصري</span>
             <img src="العملة-المصرية-test-1jpg.jpg" id="egypounds" />
+
+            <span>حوشت كام:</span>
+            <span id="coin-count">جنيه </span>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
             🏆 المتصدرين
-          </button>
-          <button id="logout-btn" style="display: none" class="back-btn">
-            تسجيل خروج
           </button>
         </div>
       </header>
@@ -366,18 +355,24 @@
 
       <section id="levels"></section>
 
-      <!-- خريطة التقدم (فكرة 3) -->
-      <div id="levels-map-wrap" style="display: none">
-        <div id="progress-map"></div>
-      </div>
-
       <section id="question-box">
+        <div id="question-info"></div>
         <div id="question-text">سؤال هنا</div>
         <div id="answers"></div>
-        <div id="progress-wrap"><div id="progress"></div></div>
         <div id="tip"></div>
+        <button id="next-button" style="display: none">التالي</button>
         <div style="margin-top: 10px">
           <button id="back-levels-btn" class="back-btn">
+            ⬅️ رجوع للمستويات
+          </button>
+        </div>
+      </section>
+
+      <section id="result" style="display: none">
+        <div id="score"></div>
+        <div id="review"></div>
+        <div style="margin-top: 10px">
+          <button id="back-levels-btn2" class="back-btn">
             ⬅️ رجوع للمستويات
           </button>
         </div>
@@ -402,6 +397,12 @@
         <strong id="toast-title"></strong
         ><span id="toast-msg" style="margin-inline-start: 8px"></span>
       </div>
+
+      <footer style="margin-top: 20px; text-align: center">
+        <button id="logout-btn" style="display: none" class="back-btn">
+          🚪 خروج
+        </button>
+      </footer>
 
       <audio id="correct-sound">
         <source
@@ -448,10 +449,13 @@
       const levelsDiv = document.getElementById("levels");
       const questionBox = document.getElementById("question-box");
       const answersDiv = document.getElementById("answers");
+      const resultSection = document.getElementById("result");
       const leaderboardCard = document.getElementById("leaderboard");
       const lbList = document.getElementById("leaderboard-list");
       const leaderboardBtn = document.getElementById("leaderboard-btn");
       const backLevelsBtn = document.getElementById("back-levels-btn");
+      const backLevelsBtn2 = document.getElementById("back-levels-btn2");
+      const nextButton = document.getElementById("next-button");
       const logoutBtn = document.getElementById("logout-btn");
       const closeLeaderboardBtn = document.getElementById(
         "close-leaderboard-btn"
@@ -466,10 +470,9 @@
       const coinCountEl = document.getElementById("coin-count");
       const tipEl = document.getElementById("tip");
       const progressEl = document.getElementById("progress");
-
-      // فكرة 3 elements
-      const levelsMapWrap = document.getElementById("levels-map-wrap");
-      const progressMap = document.getElementById("progress-map");
+      const questionInfoEl = document.getElementById("question-info");
+      const scoreEl = document.getElementById("score");
+      const reviewEl = document.getElementById("review");
 
       // حالة التطبيق (تعريف وحيد، لا تكرار)
       let currentUser = null;
@@ -479,6 +482,7 @@
       let answering = false;
       let correctAnswers = 0;
       let userCoins = 0;
+      let userAnswers = []; // Track user answers for review
 
       const levelsData = {
         1: { questions: 5, passRate: 0.9 },
@@ -486,12 +490,12 @@
         3: { questions: 5, passRate: 0.9 },
         4: { questions: 5, passRate: 0.9 },
         5: { questions: 5, passRate: 0.9 },
-        6: { questions: 5, passRate: 0.9 },
-        7: { questions: 5, passRate: 0.9 },
-        8: { questions: 5, passRate: 0.9 },
-        9: { questions: 5, passRate: 0.9 },
-        10: { questions: 5, passRate: 0.9 },
-        11: { questions: 5, passRate: 1.0 }, // مستوى خاص
+        6: { questions: 5, passRate: 0.9, password: "admin" },
+        7: { questions: 5, passRate: 0.9, password: "admin" },
+        8: { questions: 5, passRate: 0.9, password: "admin" },
+        9: { questions: 5, passRate: 0.9, password: "admin" },
+        10: { questions: 5, passRate: 0.9, password: "admin" },
+        11: { questions: 5, passRate: 1.0, password: "admin" }, // مستوى خاص
       };
 
       // أسئلتك كما هي (قصّرت هنا بالاحتفاظ بنفس البيانات)
@@ -598,7 +602,272 @@
             tip: "النيتروجين",
           },
         ],
-        // ... (يمكنك استكمال المستويات المتبقية أو تركها كما في الملف الأصلي)
+        4: [
+          {
+            q: "ما هو أكبر قارة؟",
+            options: ["أفريقيا", "آسيا", "أوروبا", "أمريكا الشمالية"],
+            answer: 1,
+            tip: "آسيا",
+          },
+          {
+            q: "عاصمة فرنسا؟",
+            options: ["لندن", "برلين", "باريس", "مدريد"],
+            answer: 2,
+            tip: "باريس",
+          },
+          {
+            q: "كم عدد الساعات في اليوم؟",
+            options: ["12", "24", "48", "36"],
+            answer: 1,
+            tip: "24 ساعة",
+          },
+          {
+            q: "أكبر بحيرة؟",
+            options: ["فيكتوريا", "ميشيغان", "البحر الميت", "قزوين"],
+            answer: 3,
+            tip: "بحيرة قزوين",
+          },
+          {
+            q: "رمز الكهرباء؟",
+            options: ["E", "V", "I", "R"],
+            answer: 0,
+            tip: "E للطاقة الكهربائية",
+          },
+        ],
+        5: [
+          {
+            q: "ما هو أصغر كوكب؟",
+            options: ["عطارد", "الزهرة", "الأرض", "المريخ"],
+            answer: 0,
+            tip: "عطارد",
+          },
+          {
+            q: "عاصمة ألمانيا؟",
+            options: ["فيينا", "برلين", "أمستردام", "زيورخ"],
+            answer: 1,
+            tip: "برلين",
+          },
+          {
+            q: "كم عدد الألوان في قوس قزح؟",
+            options: ["5", "6", "7", "8"],
+            answer: 2,
+            tip: "7 ألوان",
+          },
+          {
+            q: "أعلى جبل؟",
+            options: ["إيفرست", "كليمنجارو", "أرارات", "فيجي"],
+            answer: 0,
+            tip: "إيفرست",
+          },
+          {
+            q: "رمز الذهب؟",
+            options: ["Au", "Ag", "Fe", "Cu"],
+            answer: 0,
+            tip: "Au",
+          },
+        ],
+        6: [
+          {
+            q: "ما هو أكبر حيوان؟",
+            options: ["الفيل", "الحوت الأزرق", "الديناصور", "الزرافة"],
+            answer: 1,
+            tip: "الحوت الأزرق",
+          },
+          {
+            q: "عاصمة إيطاليا؟",
+            options: ["روما", "ميلانو", "فينيسيا", "فلورنسا"],
+            answer: 0,
+            tip: "روما",
+          },
+          {
+            q: "كم عدد الدقائق في الساعة؟",
+            options: ["30", "60", "90", "120"],
+            answer: 1,
+            tip: "60 دقيقة",
+          },
+          {
+            q: "أسرع طائر؟",
+            options: ["النسر", "الصقر", "الطائر الطنان", "البجعة"],
+            answer: 1,
+            tip: "الصقر",
+          },
+          {
+            q: "رمز الفضة؟",
+            options: ["Au", "Ag", "Fe", "Cu"],
+            answer: 1,
+            tip: "Ag",
+          },
+        ],
+        7: [
+          {
+            q: "ما هو أقدم حضارة؟",
+            options: ["الرومانية", "اليونانية", "المصرية", "الصينية"],
+            answer: 2,
+            tip: "المصرية",
+          },
+          {
+            q: "عاصمة الصين؟",
+            options: ["شنغهاي", "بكين", "هونغ كونغ", "تايبيه"],
+            answer: 1,
+            tip: "بكين",
+          },
+          {
+            q: "كم عدد الأشهر في السنة؟",
+            options: ["10", "11", "12", "13"],
+            answer: 2,
+            tip: "12 شهر",
+          },
+          {
+            q: "أكبر صحراء؟",
+            options: ["الصحراء الكبرى", "غوبي", "كالاهاري", "أتاكاما"],
+            answer: 0,
+            tip: "الصحراء الكبرى",
+          },
+          {
+            q: "رمز الحديد؟",
+            options: ["Au", "Ag", "Fe", "Cu"],
+            answer: 2,
+            tip: "Fe",
+          },
+        ],
+        8: [
+          {
+            q: "ما هو أبعد كوكب عن الشمس؟",
+            options: ["نبتون", "أورانوس", "زحل", "مشترى"],
+            answer: 0,
+            tip: "نبتون",
+          },
+          {
+            q: "عاصمة البرازيل؟",
+            options: ["ريو دي جانيرو", "ساو باولو", "برازيليا", "بوينس آيرس"],
+            answer: 2,
+            tip: "برازيليا",
+          },
+          {
+            q: "كم عدد الثواني في الدقيقة؟",
+            options: ["30", "60", "90", "120"],
+            answer: 1,
+            tip: "60 ثانية",
+          },
+          {
+            q: "أكبر جزيرة؟",
+            options: ["غرينلاند", "أستراليا", "بورنيو", "مدغشقر"],
+            answer: 1,
+            tip: "أستراليا",
+          },
+          {
+            q: "رمز النحاس؟",
+            options: ["Au", "Ag", "Fe", "Cu"],
+            answer: 3,
+            tip: "Cu",
+          },
+        ],
+        9: [
+          {
+            q: "ما هو أسرع سيارة؟",
+            options: ["لامبورغيني", "بوغاتي شيرون", "فيراري", "ماكلارين"],
+            answer: 1,
+            tip: "بوغاتي شيرون",
+          },
+          {
+            q: "عاصمة روسيا؟",
+            options: ["موسكو", "سانت بطرسبرغ", "كييف", "وارسو"],
+            answer: 0,
+            tip: "موسكو",
+          },
+          {
+            q: "كم عدد الدول في العالم؟",
+            options: ["150", "195", "200", "250"],
+            answer: 1,
+            tip: "حوالي 195 دولة",
+          },
+          {
+            q: "أعمق نقطة في الأرض؟",
+            options: [
+              "خندق ماريانا",
+              "خندق بورتوريكو",
+              "خندق جاوا",
+              "خندق فيلبينو",
+            ],
+            answer: 0,
+            tip: "خندق ماريانا",
+          },
+          {
+            q: "رمز الزئبق؟",
+            options: ["Hg", "He", "H", "Ho"],
+            answer: 0,
+            tip: "Hg",
+          },
+        ],
+        10: [
+          {
+            q: "ما هو أكبر محرك بحث؟",
+            options: ["ياهو", "بينغ", "غوغل", "دوق دوغو"],
+            answer: 2,
+            tip: "غوغل",
+          },
+          {
+            q: "عاصمة الهند؟",
+            options: ["مومباي", "دلهي", "كلكتا", "تشيناي"],
+            answer: 1,
+            tip: "دلهي",
+          },
+          {
+            q: "كم عدد العناصر في الجدول الدوري؟",
+            options: ["100", "118", "120", "150"],
+            answer: 1,
+            tip: "118 عنصر",
+          },
+          {
+            q: "أطول سور في العالم؟",
+            options: [
+              "سور الصين العظيم",
+              "سور برلين",
+              "سور هادريان",
+              "سور تراجان",
+            ],
+            answer: 0,
+            tip: "سور الصين العظيم",
+          },
+          {
+            q: "رمز الهيليوم؟",
+            options: ["He", "H", "Hi", "Ho"],
+            answer: 0,
+            tip: "He",
+          },
+        ],
+        11: [
+          {
+            q: "ما هو أقدم لغة برمجة؟",
+            options: ["جافا", "بايثون", "فورتران", "سي"],
+            answer: 2,
+            tip: "فورتران",
+          },
+          {
+            q: "عاصمة كندا؟",
+            options: ["تورونتو", "فانكوفر", "أوتاوا", "مونتريال"],
+            answer: 2,
+            tip: "أوتاوا",
+          },
+          {
+            q: "كم عدد اللغات الرسمية في الأمم المتحدة؟",
+            options: ["4", "5", "6", "7"],
+            answer: 2,
+            tip: "6 لغات",
+          },
+          {
+            q: "أكبر مدينة في العالم؟",
+            options: ["نيويورك", "طوكيو", "شانغهاي", "مومباي"],
+            answer: 1,
+            tip: "طوكيو",
+          },
+          {
+            q: "رمز الكربون؟",
+            options: ["C", "Ca", "Co", "Cr"],
+            answer: 0,
+            tip: "C",
+          },
+        ],
       };
 
       // ----------------- UI و إجراءات المستخدم -----------------
@@ -667,7 +936,7 @@
             : "مقفول";
           card.innerHTML = `
             <div>المستوى ${lvl}</div>
-            <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status} - ${lvl} جنيه</div>
+            <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status}</div>
           `;
           card.addEventListener("click", async () => {
             if (passed.includes(lvl)) {
@@ -717,62 +986,21 @@
         currentQuestions = structuredClone(questionsData[level] || []);
         currentQuestionIndex = 0;
         correctAnswers = 0;
+        userAnswers = []; // Reset user answers
         tipEl.style.display = "none";
-        // تحقق كلمة مرور للمستوى 11 لو رغبت
-        if (level === 11) {
-          const password = prompt("أدخل كلمة المرور للمستوى 11:");
-          if (password !== "admin") {
+        // تحقق كلمة مرور للمستويات المحمية
+        if (levelsData[level] && levelsData[level].password) {
+          const password = prompt(`أدخل كلمة المرور للمستوى ${level}:`);
+          if (password !== levelsData[level].password) {
             showToast("خطأ", "كلمة المرور غير صحيحة", "warn");
             showLevels();
             return;
           }
         }
-        // أظهر واجهة الأسئلة وخريطة التقدم (فكرة 3)
+        // أظهر واجهة الأسئلة
         levelsDiv.style.display = "none";
         questionBox.style.display = "block";
-        levelsMapWrap.style.display = "flex";
-        buildProgressMap(); // فكرة 3: بناء الخريطة حسب عدد الأسئلة
         renderQuestion();
-      }
-
-      // --- فكرة 3: بناء خريطة التقدم ديناميكياً ---
-      function buildProgressMap() {
-        progressMap.innerHTML = "";
-        const total = currentQuestions.length;
-        if (!total) {
-          levelsMapWrap.style.display = "none";
-          return;
-        }
-        for (let i = 0; i < total; i++) {
-          const step = document.createElement("div");
-          step.className = "progress-step";
-          step.dataset.index = i;
-          step.textContent = i + 1;
-          step.addEventListener("click", () => {
-            // اختيار للتنقل لسؤال محدد (اختياري) — فقط لو لم تريدي هذا السلوك احذفي الحدث
-            currentQuestionIndex = i;
-            renderQuestion();
-            updateProgressMap(i);
-          });
-          progressMap.appendChild(step);
-          if (i < total - 1) {
-            const conn = document.createElement("div");
-            conn.className = "progress-connector";
-            progressMap.appendChild(conn);
-          }
-        }
-        updateProgressMap(currentQuestionIndex);
-      }
-
-      function updateProgressMap(activeIndex) {
-        const steps = progressMap.querySelectorAll(".progress-step");
-        steps.forEach((el, idx) => {
-          el.classList.toggle("completed", idx < activeIndex);
-          el.classList.toggle("active", idx === activeIndex);
-        });
-        // تحديث البارك العادي أيضاً
-        const percent = (activeIndex / (currentQuestions.length || 1)) * 100;
-        progressEl.style.width = percent + "%";
       }
 
       // --- عرض سؤال ---
@@ -792,7 +1020,6 @@
           btn.addEventListener("click", () => checkAnswer(i));
           answersDiv.appendChild(btn);
         });
-        updateProgressMap(currentQuestionIndex);
       }
 
       function checkAnswer(i) {
@@ -801,6 +1028,13 @@
         const q = currentQuestions[currentQuestionIndex];
         const buttons = answersDiv.querySelectorAll("button");
         buttons.forEach((b) => (b.disabled = true));
+
+        // Track user answer
+        userAnswers.push({
+          questionIndex: currentQuestionIndex,
+          userChoice: i,
+          correct: i === q.answer,
+        });
 
         if (i === q.answer) {
           correctAnswers++;
@@ -831,7 +1065,6 @@
 
       async function endLevel() {
         questionBox.style.display = "none";
-        levelsMapWrap.style.display = "none";
         levelsDiv.style.display = "flex";
 
         const passRate = correctAnswers / (currentQuestions.length || 1);
@@ -903,7 +1136,6 @@
         loginSection.style.display = "block";
         levelsDiv.style.display = "none";
         questionBox.style.display = "none";
-        levelsMapWrap.style.display = "none";
         logoutBtn.style.display = "none";
         leaderboardBtn.style.display = "none";
         showToast("✅", "تم تسجيل الخروج", "ok");
@@ -952,18 +1184,12 @@
 
       closeLeaderboardBtn.addEventListener("click", () => {
         leaderboardCard.style.display = "none";
-        if (questionBox.style.display === "block") {
-          levelsDiv.style.display = "none";
-          levelsMapWrap.style.display = "flex";
-        } else {
-          levelsDiv.style.display = "flex";
-        }
+        levelsDiv.style.display = "flex";
       });
 
       backLevelsBtn.addEventListener("click", () => {
         questionBox.style.display = "none";
         levelsDiv.style.display = "flex";
-        levelsMapWrap.style.display = "none";
       });
 
       // أمان بسيط لمنع XSS في اسم المستخدم عند العرض
