@@ -239,28 +239,84 @@
         display: none;
         position: fixed;
         inset: 10% 10%;
-        background: #72a1fd;
-        padding: 18px;
-        border-radius: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        border-radius: 16px;
         z-index: 60;
-        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.8);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         max-height: 70vh;
         overflow: auto;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+      }
+      #leaderboard h2 {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        margin: 0;
+        font-size: 24px;
       }
       .leader-user {
-        padding: 8px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        background: rgba(255, 255, 255, 0.02);
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .leader-user:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+      .leader-user.first-place {
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        color: #333;
+        border: 2px solid #ffd700;
+      }
+      .leader-user.second-place {
+        background: linear-gradient(135deg, #c0c0c0, #e5e5e5);
+        color: #333;
+        border: 2px solid #c0c0c0;
+      }
+      .leader-user.third-place {
+        background: linear-gradient(135deg, #cd7f32, #d4a574);
+        color: #333;
+        border: 2px solid #cd7f32;
+      }
+      .leader-user .rank {
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 10px;
+        min-width: 30px;
+        text-align: center;
+      }
+      .leader-user .user-info {
+        flex: 1;
+      }
+      .leader-user .user-name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+      .leader-user .user-stats {
+        font-size: 14px;
+        opacity: 0.9;
       }
       .level-chip {
-        background: rgba(255, 255, 255, 0.03);
-        padding: 4px 6px;
-        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 8px;
+        border-radius: 8px;
         font-size: 12px;
+        margin: 2px;
+        display: inline-block;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .levels {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
       }
 
       .back-btn {
@@ -310,7 +366,6 @@
       @media (max-width: 640px) {
         header {
           flex-direction: column;
-          gap: 10px;
           align-items: center;
         }
       }
@@ -328,6 +383,8 @@
     <div class="container">
       <header>
         <h1>مستوياتي - جروب المشتركين</h1>
+        <h3>معانا هتذاكر وتكسب كمان🔥✨</h3>
+
         <div class="top-controls">
           <div class="coin-container">
             <img src="العملة-المصرية-test-1jpg.jpg" id="egypounds" />
@@ -473,6 +530,7 @@
       const questionInfoEl = document.getElementById("question-info");
       const scoreEl = document.getElementById("score");
       const reviewEl = document.getElementById("review");
+      const loginBtn = document.getElementById("login-btn");
 
       // حالة التطبيق (تعريف وحيد، لا تكرار)
       let currentUser = null;
@@ -498,7 +556,7 @@
         11: { questions: 5, passRate: 1.0, password: "admin" }, // مستوى خاص
       };
 
-      // أسئلتك كما هي (قصّرت هنا بالاحتفاظ بنفس البيانات)
+      // اسئلتنا
       const questionsData = {
         1: [
           {
@@ -883,6 +941,9 @@
             showToast("تنبيه", "يرجى إدخال اسم المستخدم وكلمة المرور", "warn");
             return;
           }
+          // تعطيل الزر وتغيير النص إلى "جاري التحميل..."
+          loginBtn.disabled = true;
+          loginBtn.textContent = "جاري التحميل...";
           try {
             const userRef = ref(db, "users/" + username);
             const snapshot = await get(userRef);
@@ -912,6 +973,10 @@
           } catch (e) {
             console.error(e);
             showToast("خطأ", "حدث خطأ أثناء الاتصال بقاعدة البيانات", "err");
+          } finally {
+            // إعادة تفعيل الزر واستعادة النص الأصلي
+            loginBtn.disabled = false;
+            loginBtn.textContent = "دخول / إنشاء حساب";
           }
         });
 
@@ -1121,6 +1186,7 @@
 
       // زر تسجيل خروج
       logoutBtn.addEventListener("click", async () => {
+        console.log("logout clicked");
         if (currentUser) {
           try {
             await update(ref(db, "users/" + currentUser.username), {
@@ -1136,6 +1202,9 @@
         loginSection.style.display = "block";
         levelsDiv.style.display = "none";
         questionBox.style.display = "none";
+        resultSection.style.display = "none";
+        leaderboardCard.style.display = "none";
+        leaderboardCard.setAttribute("aria-hidden", "true");
         logoutBtn.style.display = "none";
         leaderboardBtn.style.display = "none";
         showToast("✅", "تم تسجيل الخروج", "ok");
@@ -1144,6 +1213,7 @@
       // لوحة المتصدرين
       leaderboardBtn.addEventListener("click", async () => {
         leaderboardCard.style.display = "block";
+        leaderboardCard.setAttribute("aria-hidden", "false");
         levelsDiv.style.display = "none";
         lbList.innerHTML = "جارٍ التحميل...";
         try {
@@ -1164,15 +1234,20 @@
               const div = document.createElement("div");
               div.className = "leader-user";
               if (idx === 0) div.classList.add("first-place");
-              div.innerHTML = `<div>${idx + 1}. <strong>${escapeHtml(
-                user.name
-              )}</strong><div style="font-size:16px;color:#f5f5f5">المستويات: ${
-                user.levels.length
-              } • العملات: ${
-                user.coins
-              }</div></div><div class="levels">${user.levels
-                .map((l) => `<span class="level-chip">${l}</span>`)
-                .join("")}</div>`;
+              else if (idx === 1) div.classList.add("second-place");
+              else if (idx === 2) div.classList.add("third-place");
+              div.innerHTML = `
+                <div class="rank">${idx + 1}</div>
+                <div class="user-info">
+                  <div class="user-name">${escapeHtml(user.name)}</div>
+                  <div class="user-stats">المستويات: ${
+                    user.levels.length
+                  } • العملات: ${user.coins}</div>
+                </div>
+                <div class="levels">${user.levels
+                  .map((l) => `<span class="level-chip">${l}</span>`)
+                  .join("")}</div>
+              `;
               lbList.appendChild(div);
             });
           } else lbList.innerHTML = "لا يوجد متصدرين بعد.";
@@ -1184,6 +1259,7 @@
 
       closeLeaderboardBtn.addEventListener("click", () => {
         leaderboardCard.style.display = "none";
+        leaderboardCard.setAttribute("aria-hidden", "true");
         levelsDiv.style.display = "flex";
       });
 
