@@ -1186,7 +1186,6 @@
 
       // زر تسجيل خروج
       logoutBtn.addEventListener("click", async () => {
-        console.log("logout clicked");
         if (currentUser) {
           try {
             await update(ref(db, "users/" + currentUser.username), {
@@ -1202,9 +1201,6 @@
         loginSection.style.display = "block";
         levelsDiv.style.display = "none";
         questionBox.style.display = "none";
-        resultSection.style.display = "none";
-        leaderboardCard.style.display = "none";
-        leaderboardCard.setAttribute("aria-hidden", "true");
         logoutBtn.style.display = "none";
         leaderboardBtn.style.display = "none";
         showToast("✅", "تم تسجيل الخروج", "ok");
@@ -1213,7 +1209,6 @@
       // لوحة المتصدرين
       leaderboardBtn.addEventListener("click", async () => {
         leaderboardCard.style.display = "block";
-        leaderboardCard.setAttribute("aria-hidden", "false");
         levelsDiv.style.display = "none";
         lbList.innerHTML = "جارٍ التحميل...";
         try {
@@ -1259,7 +1254,6 @@
 
       closeLeaderboardBtn.addEventListener("click", () => {
         leaderboardCard.style.display = "none";
-        leaderboardCard.setAttribute("aria-hidden", "true");
         levelsDiv.style.display = "flex";
       });
 
