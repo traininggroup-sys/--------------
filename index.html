@@ -171,6 +171,19 @@
         margin-bottom: 12px;
         color: #1e1b4b;
       }
+      .progress-bar {
+        width: 100%;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+      .progress-fill {
+        height: 100%;
+        background: #45ff8c;
+        transition: width 0.3s;
+      }
       #question-text {
         font-size: 18px;
         margin-bottom: 12px;
@@ -330,6 +343,47 @@
         margin-top: 10px;
       }
 
+      .level-modal {
+        display: none;
+        position: fixed;
+        inset: 20% 20%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        border-radius: 16px;
+        z-index: 70;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        max-height: 60vh;
+        overflow: auto;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+      }
+      .level-modal h3 {
+        color: white;
+        margin: 0 0 10px 0;
+        font-size: 24px;
+      }
+      .level-modal p {
+        color: white;
+        margin: 10px 0;
+        font-size: 16px;
+      }
+      .level-modal .modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .level-modal .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
       .toast {
         position: fixed;
         left: 50%;
@@ -458,6 +512,18 @@
           <button id="close-leaderboard-btn" class="back-btn">⬅️ رجوع</button>
         </div>
         <div id="leaderboard-list">جارٍ التحميل...</div>
+      </div>
+
+      <div id="level-modal" class="level-modal">
+        <button id="close-modal" class="close-modal">×</button>
+        <h3>المستوى <span id="modal-level-number"></span></h3>
+        <p id="modal-pass-rate"></p>
+        <p id="modal-encouragement">معانا هتذاكر وتكسب كمان! 🔥✨</p>
+        <p id="modal-price" style="display: none"></p>
+        <div class="modal-buttons">
+          <button id="modal-start-btn">ابدأ</button>
+          <button id="modal-buy-btn" style="display: none">شراء</button>
+        </div>
       </div>
 
       <div id="toast" class="toast">
@@ -936,6 +1002,61 @@
       };
 
       // ----------------- UI و إجراءات المستخدم -----------------
+      const levelModal = document.getElementById("level-modal");
+      const modalLevelNumber = document.getElementById("modal-level-number");
+      const modalPassRate = document.getElementById("modal-pass-rate");
+      const modalEncouragement = document.getElementById("modal-encouragement");
+      const modalPrice = document.getElementById("modal-price");
+      const modalStartBtn = document.getElementById("modal-start-btn");
+      const modalBuyBtn = document.getElementById("modal-buy-btn");
+      const closeModalBtn = document.getElementById("close-modal");
+
+      let selectedLevel = null;
+
+      // Modal event listeners
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener("click", () => {
+          levelModal.style.display = "none";
+        });
+      }
+
+      modalStartBtn.addEventListener("click", () => {
+        if (selectedLevel) {
+          levelModal.style.display = "none";
+          startLevel(selectedLevel);
+        }
+      });
+
+      modalBuyBtn.addEventListener("click", async () => {
+        if (selectedLevel) {
+          const price = selectedLevel;
+          if (userCoins >= price) {
+            userCoins -= price;
+            coinCountEl.textContent = userCoins;
+            currentUser.passedLevels.push(selectedLevel);
+            currentUser.coins = userCoins;
+            try {
+              await update(ref(db, "users/" + currentUser.username), {
+                passedLevels: currentUser.passedLevels,
+                coins: userCoins,
+              });
+              showToast("✅", `تم شراء المستوى ${selectedLevel}`, "ok");
+              levelModal.style.display = "none";
+              showLevels();
+            } catch (e) {
+              console.error(e);
+              showToast("خطأ", "حدث خطأ أثناء الشراء", "err");
+              // استرجاع العملات لو فشل
+              userCoins += price;
+              coinCountEl.textContent = userCoins;
+              currentUser.passedLevels.pop();
+            }
+          } else {
+            showToast("❌", "لسه منجحتش في المستوي السابق", "err");
+          }
+        }
+      });
+
       document
         .getElementById("login-btn")
         .addEventListener("click", async () => {
@@ -996,6 +1117,13 @@
         levelsDiv.innerHTML = "";
         const passed = currentUser.passedLevels || [];
         const highest = passed.length ? Math.max(...passed) : 0;
+        const encouragements = [
+          "💪 يلا ورينا شطارتك!",
+          "🚀 مستنيينك تكتاز المستوى ده",
+          "🔥 معانا هتذاكر وتكسب كمان!",
+          "🌟 أنت قادر على النجاح!",
+          "⚡ استعد للتحدي!",
+        ];
         Object.keys(levelsData).forEach((lvlStr) => {
           const lvl = +lvlStr;
           const card = document.createElement("div");
@@ -1006,41 +1134,29 @@
             : lvl === highest + 1
             ? "متاح"
             : "مقفول";
+          const passPercent = Math.round(levelsData[lvl].passRate * 100);
           card.innerHTML = `
             <div>المستوى ${lvl}</div>
             <div style="font-size: 16px; margin-top: 2px; color: var(--muted);">${status}</div>
           `;
-          card.addEventListener("click", async () => {
-            if (passed.includes(lvl)) {
-              startLevel(lvl);
-            } else if (lvl === highest + 1) {
-              startLevel(lvl);
+          // Show modal on card click
+          card.addEventListener("click", () => {
+            selectedLevel = lvl;
+            modalLevelNumber.textContent = lvl;
+            modalPassRate.textContent = `نسبة النجاح المطلوبة: ${passPercent}%`;
+            modalEncouragement.textContent =
+              encouragements[Math.floor(Math.random() * encouragements.length)];
+            if (lvl > highest + 1) {
+              modalPrice.textContent = `السعر: ${price} جنيه`;
+              modalPrice.style.display = "block";
+              modalBuyBtn.style.display = "inline-block";
+              modalStartBtn.style.display = "none";
             } else {
-              // محاولة الشراء
-              if (userCoins >= price) {
-                userCoins -= price;
-                coinCountEl.textContent = userCoins;
-                currentUser.passedLevels.push(lvl);
-                currentUser.coins = userCoins;
-                try {
-                  await update(ref(db, "users/" + currentUser.username), {
-                    passedLevels: currentUser.passedLevels,
-                    coins: userCoins,
-                  });
-                  showToast("✅", `تم شراء المستوى ${lvl}`, "ok");
-                  showLevels();
-                } catch (e) {
-                  console.error(e);
-                  showToast("خطأ", "حدث خطأ أثناء الشراء", "err");
-                  // استرجاع العملات لو فشل
-                  userCoins += price;
-                  coinCountEl.textContent = userCoins;
-                  currentUser.passedLevels.pop();
-                }
-              } else {
-                showToast("❌", "لسه منجحتش في المستوي السابق", "err");
-              }
+              modalPrice.style.display = "none";
+              modalBuyBtn.style.display = "none";
+              modalStartBtn.style.display = "inline-block";
             }
+            levelModal.style.display = "block";
           });
           if (passed.includes(lvl)) {
             card.classList.add("passed");
@@ -1238,9 +1354,9 @@
                 levels: data.passedLevels || [],
               }));
               users.sort((a, b) => {
-                const aMax = a.levels.length > 0 ? Math.max(...a.levels) : 0;
-                const bMax = b.levels.length > 0 ? Math.max(...b.levels) : 0;
-                if (aMax !== bMax) return bMax - aMax;
+                const aCount = a.levels.length;
+                const bCount = b.levels.length;
+                if (aCount !== bCount) return bCount - aCount;
                 return b.coins - a.coins;
               });
               lbList.innerHTML = "";
@@ -1250,15 +1366,13 @@
                 if (idx === 0) div.classList.add("first-place");
                 else if (idx === 1) div.classList.add("second-place");
                 else if (idx === 2) div.classList.add("third-place");
-                const highestLevel =
-                  user.levels.length > 0 ? Math.max(...user.levels) : 0;
                 div.innerHTML = `
-                  <div class="rank">🏆 مستواك${highestLevel}</div>
+                  <div class="rank">${idx + 1}</div>
                   <div class="user-info">
                     <div class="user-name">${escapeHtml(user.name)}</div>
-                    <div class="user-stats">💰 حوشت كام: ${
-                      user.coins
-                    } جنيه</div>
+                    <div class="user-stats">مستويات: ${
+                      user.levels.length
+                    } | 💰 ${user.coins} جنيه</div>
                   </div>
                 `;
                 lbList.appendChild(div);
