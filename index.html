@@ -15,7 +15,7 @@
         --accent: #7dd3fc;
         --accent-secondary: #a7f3d0;
         --accent-tertiary: #f9a8d4;
-        --muted: #0509f0;
+        --muted: #ffffff;
         --glass: rgba(255, 255, 255, 0.05);
       }
       * {
@@ -265,6 +265,7 @@
         align-items: center;
         transition: transform 0.2s, box-shadow 0.2s;
         border: 1px solid rgba(255, 255, 255, 0.2);
+        overflow: hidden;
       }
       .leader-user:hover {
         transform: translateY(-2px);
@@ -294,6 +295,7 @@
       }
       .leader-user .user-info {
         flex: 1;
+        margin-left: 10px;
       }
       .leader-user .user-name {
         font-size: 18px;
@@ -391,6 +393,7 @@
 
             <span>حوشت كام:</span>
             <span id="coin-count">جنيه </span>
+            <div id="coin-float" class="coin-float"></div>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
             🏆 المتصدرين
@@ -424,7 +427,14 @@
           </button>
         </div>
       </section>
-
+      <button
+        id="logout-btn"
+        style="display: none"
+        class="back-btn"
+        type="button"
+      >
+        🚪 خروج
+      </button>
       <section id="result" style="display: none">
         <div id="score"></div>
         <div id="review"></div>
@@ -455,12 +465,6 @@
         ><span id="toast-msg" style="margin-inline-start: 8px"></span>
       </div>
 
-      <footer style="margin-top: 20px; text-align: center">
-        <button id="logout-btn" style="display: none" class="back-btn">
-          🚪 خروج
-        </button>
-      </footer>
-
       <audio id="correct-sound">
         <source
           src="data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."
@@ -484,6 +488,7 @@
         get,
         set,
         update,
+        onValue,
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
       // إعدادات Firebase (كما عندك)
@@ -531,6 +536,8 @@
       const scoreEl = document.getElementById("score");
       const reviewEl = document.getElementById("review");
       const loginBtn = document.getElementById("login-btn");
+
+      let leaderboardUnsubscribe = null;
 
       // حالة التطبيق (تعريف وحيد، لا تكرار)
       let currentUser = null;
@@ -1136,15 +1143,17 @@
         if (passRate >= levelsData[currentLevel].passRate) {
           if (!currentUser.passedLevels.includes(currentLevel)) {
             currentUser.passedLevels.push(currentLevel);
-            userCoins += currentLevel;
+            userCoins += 1;
             coinCountEl.textContent = userCoins;
             // Floating coin animation
             const coinFloat = document.getElementById("coin-float");
-            coinFloat.textContent = "+" + currentLevel;
-            coinFloat.classList.add("show");
-            setTimeout(() => {
-              coinFloat.classList.remove("show");
-            }, 1000);
+            if (coinFloat) {
+              coinFloat.textContent = "+1";
+              coinFloat.classList.add("show");
+              setTimeout(() => {
+                coinFloat.classList.remove("show");
+              }, 1000);
+            }
             try {
               correctSound.play();
             } catch (e) {}
@@ -1185,75 +1194,87 @@
       }
 
       // زر تسجيل خروج
-      logoutBtn.addEventListener("click", async () => {
+      document.getElementById("logout-btn").addEventListener("click", () => {
+        console.log("logout button clicked");
         if (currentUser) {
-          try {
-            await update(ref(db, "users/" + currentUser.username), {
-              coins: userCoins,
-            });
-          } catch (e) {
-            console.error(e);
-          }
+          update(ref(db, "users/" + currentUser.username), {
+            coins: userCoins,
+          }).catch((e) => console.error(e));
         }
         currentUser = null;
         userCoins = 0;
         coinCountEl.textContent = 0;
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
         loginSection.style.display = "block";
         levelsDiv.style.display = "none";
         questionBox.style.display = "none";
-        logoutBtn.style.display = "none";
+        resultSection.style.display = "none";
+        leaderboardCard.style.display = "none";
+        leaderboardCard.setAttribute("aria-hidden", "true");
+        document.getElementById("logout-btn").style.display = "none";
         leaderboardBtn.style.display = "none";
+        window.scrollTo(0, 0);
         showToast("✅", "تم تسجيل الخروج", "ok");
       });
 
       // لوحة المتصدرين
-      leaderboardBtn.addEventListener("click", async () => {
+      leaderboardBtn.addEventListener("click", () => {
         leaderboardCard.style.display = "block";
+        leaderboardCard.setAttribute("aria-hidden", "false");
         levelsDiv.style.display = "none";
         lbList.innerHTML = "جارٍ التحميل...";
-        try {
-          const snapshot = await get(ref(db, "users"));
-          if (snapshot.exists()) {
-            const users = Object.entries(snapshot.val()).map(([u, data]) => ({
-              name: u,
-              coins: data.coins || 0,
-              levels: data.passedLevels || [],
-            }));
-            users.sort((a, b) =>
-              b.levels.length !== a.levels.length
-                ? b.levels.length - a.levels.length
-                : b.coins - a.coins
-            );
-            lbList.innerHTML = "";
-            users.forEach((user, idx) => {
-              const div = document.createElement("div");
-              div.className = "leader-user";
-              if (idx === 0) div.classList.add("first-place");
-              else if (idx === 1) div.classList.add("second-place");
-              else if (idx === 2) div.classList.add("third-place");
-              div.innerHTML = `
-                <div class="rank">${idx + 1}</div>
-                <div class="user-info">
-                  <div class="user-name">${escapeHtml(user.name)}</div>
-                  <div class="user-stats">المستويات: ${
-                    user.levels.length
-                  } • العملات: ${user.coins}</div>
-                </div>
-                <div class="levels">${user.levels
-                  .map((l) => `<span class="level-chip">${l}</span>`)
-                  .join("")}</div>
-              `;
-              lbList.appendChild(div);
-            });
-          } else lbList.innerHTML = "لا يوجد متصدرين بعد.";
-        } catch (e) {
-          console.error(e);
-          lbList.innerHTML = "حدث خطأ أثناء جلب المتصدرين.";
+        // Unsubscribe if already listening
+        if (leaderboardUnsubscribe) {
+          leaderboardUnsubscribe();
         }
+        // Listen for real-time updates
+        leaderboardUnsubscribe = onValue(ref(db, "users"), (snapshot) => {
+          try {
+            if (snapshot.exists()) {
+              const users = Object.entries(snapshot.val()).map(([u, data]) => ({
+                name: u,
+                coins: data.coins || 0,
+                levels: data.passedLevels || [],
+              }));
+              users.sort((a, b) => {
+                const aMax = a.levels.length > 0 ? Math.max(...a.levels) : 0;
+                const bMax = b.levels.length > 0 ? Math.max(...b.levels) : 0;
+                if (aMax !== bMax) return bMax - aMax;
+                return b.coins - a.coins;
+              });
+              lbList.innerHTML = "";
+              users.forEach((user, idx) => {
+                const div = document.createElement("div");
+                div.className = "leader-user";
+                if (idx === 0) div.classList.add("first-place");
+                else if (idx === 1) div.classList.add("second-place");
+                else if (idx === 2) div.classList.add("third-place");
+                const highestLevel =
+                  user.levels.length > 0 ? Math.max(...user.levels) : 0;
+                div.innerHTML = `
+                  <div class="rank">🏆 مستواك${highestLevel}</div>
+                  <div class="user-info">
+                    <div class="user-name">${escapeHtml(user.name)}</div>
+                    <div class="user-stats">💰 حوشت كام: ${
+                      user.coins
+                    } جنيه</div>
+                  </div>
+                `;
+                lbList.appendChild(div);
+              });
+            } else lbList.innerHTML = "لا يوجد متصدرين بعد.";
+          } catch (e) {
+            console.error(e);
+            lbList.innerHTML = "حدث خطأ أثناء جلب المتصدرين.";
+          }
+        });
       });
 
       closeLeaderboardBtn.addEventListener("click", () => {
+        closeLeaderboardBtn.blur();
         leaderboardCard.style.display = "none";
+        leaderboardCard.setAttribute("aria-hidden", "true");
         levelsDiv.style.display = "flex";
       });
 
