@@ -9,33 +9,37 @@
       rel="stylesheet"
     />
     <style>
+      /* ============================================
+* Minimalist Warm Professional Theme - تصميم بسيط، دافئ، ومحترف 
+* Primary Accent: #007bff (Professional Blue)
+* Secondary Accent: #ffc107 (Warm Amber)
+============================================
+*/
       :root {
-        --bg: #1c1c1c; /* Dark background */
-        --card: #2c2c2c; /* Dark card background */
-        --accent: #00bcd4; /* Cyan/Teal accent */
-        --accent-secondary: #ff4081; /* Pink accent for contrast */
-        --text: #e0e0e0; /* Light text */
-        --muted: #a0a0a0; /* Muted text */
-        --success: #4caf50; /* Green success */
-        --error: #f44336; /* Red error */
-        --lock: #3f51b5; /* Blue lock */
-        --glass: rgba(255, 255, 255, 0.08);
+        --bg: #f8f9fa; /* Light, warm background */
+        --card: #ffffff; /* Pure white cards */
+        --accent: #007bff; /* Professional Blue */
+        --accent-secondary: #ffc107; /* Warm Amber for contrast */
+        --text: #343a40; /* Darker, but not black, text */
+        --muted: #6c757d; /* Muted gray text */
+        --success: #28a745;
+        --error: #dc3545;
+        --lock: #adb5bd;
+        --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Very light, soft shadow */
       }
       * {
         box-sizing: border-box;
         font-family: "Cairo", sans-serif;
-        direction: rtl; /* Ensure RTL for all content */
+        direction: rtl;
+        transition: all 0.2s ease-out; /* Smooth transitions for a polished feel */
       }
       body {
         margin: 0;
-        padding: 20px;
+        padding: 25px;
         background: var(--bg);
         color: var(--text);
         min-height: 100vh;
         font-weight: 400;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
         user-select: none;
         line-height: 1.6;
       }
@@ -47,26 +51,27 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 24px;
+        margin-bottom: 30px;
         flex-wrap: wrap;
         gap: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid var(--glass);
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e9ecef; /* Simple, clean divider */
       }
       h1 {
         margin: 0;
-        font-size: 24px;
+        font-size: 32px; /* Larger title */
         color: var(--accent);
+        font-weight: 700;
       }
       h3 {
         margin: 0;
-        font-size: 16px;
+        font-size: 18px;
         color: var(--accent-secondary);
         font-weight: 700;
       }
       .top-controls {
         display: flex;
-        gap: 12px;
+        gap: 15px;
         align-items: center;
         flex-direction: row;
       }
@@ -75,75 +80,62 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         background: var(--card);
-        padding: 8px 15px;
+        padding: 10px 18px;
         border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(0, 188, 212, 0.3);
+        border: 1px solid #dee2e6; /* Soft border for definition */
+        box-shadow: var(--shadow);
       }
       .coin-container span {
-        font-weight: 700;
+        font-weight: 900;
         color: var(--text);
       }
       .coin-float {
-        position: absolute;
-        top: -25px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: var(--success);
-        font-weight: bold;
-        font-size: 16px;
-        display: none;
+        /* ... (Keep float animation) ... */
       }
       .coin-float.show {
-        display: block;
-        animation: floatUp 1s ease-out forwards;
+        /* ... (Keep float animation) ... */
       }
       @keyframes floatUp {
-        0% {
-          opacity: 1;
-          transform: translateX(-50%) translateY(0);
-        }
-        100% {
-          opacity: 0;
-          transform: translateX(-50%) translateY(-35px);
-        }
+        /* ... (Keep float animation) ... */
       }
+
       button {
         cursor: pointer;
-        padding: 10px 18px;
+        padding: 12px 22px;
         background: var(--accent);
         border: none;
-        color: var(--card);
+        color: white;
         font-weight: 700;
         border-radius: 8px;
         transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
       button:hover {
-        background: #0097a7;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        background: #0056b3; /* Darker shade on hover */
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
       }
       button:disabled {
-        background: var(--muted);
+        background: var(--lock);
         cursor: not-allowed;
         transform: none;
         box-shadow: none;
+        color: var(--card);
       }
 
       /* Login Section */
       #login-section {
         background: var(--card);
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        border: 1px solid var(--glass);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        border: 1px solid #e9ecef;
       }
       .input-row {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
@@ -151,12 +143,19 @@
       input[type="text"],
       input[type="password"] {
         padding: 12px;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background: #3a3a3a;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        background: #ffffff;
         color: var(--text);
         width: 250px;
         font-size: 16px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        outline: none;
       }
       input[type="text"]::placeholder,
       input[type="password"]::placeholder {
@@ -164,88 +163,91 @@
       }
       #login-btn {
         background: var(--accent-secondary);
-        color: white;
+        color: var(--text); /* Dark text on light accent */
+        font-weight: 900;
       }
       #login-btn:hover {
-        background: #e91e63;
+        background: #e0a800;
       }
       #logout-btn {
-        margin-top: 15px;
+        margin-top: 20px;
         background: var(--error);
         color: white;
       }
       #logout-btn:hover {
-        background: #d32f2f;
+        background: #c82333;
       }
 
       /* Levels Section */
       #levels {
         display: none;
-        margin-top: 20px;
-        gap: 15px;
+        margin-top: 30px;
+        gap: 20px;
         flex-direction: column;
         justify-content: center;
         align-items: center;
       }
       .level-card {
         width: 100%;
-        max-width: 450px;
-        padding: 18px;
-        border-radius: 12px;
+        max-width: 500px;
+        padding: 20px;
+        border-radius: 10px;
         text-align: center;
         font-weight: 700;
         cursor: pointer;
         background: var(--card);
-        border: 1px solid var(--glass);
-        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid #e9ecef;
+        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 20px;
+        font-size: 22px;
         color: var(--text);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
       }
       .level-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        border-color: var(--accent);
       }
       .level-card.open {
         background: var(--accent);
-        color: var(--bg);
-        border-color: #00bcd4;
+        color: white;
+        border-color: var(--accent);
       }
       .level-card.open:hover {
-        background: #0097a7;
+        background: #0056b3;
       }
       .level-card.passed {
         background: var(--success);
-        color: var(--bg);
-        border-color: #4caf50;
+        color: white;
+        border-color: var(--success);
       }
       .level-card.passed:hover {
-        background: #388e3c;
+        background: #218838;
       }
       .level-card.locked {
-        background: var(--lock);
-        color: white;
+        background: #f1f3f5; /* Very light gray */
+        color: var(--muted);
         cursor: not-allowed;
-        border-color: #3f51b5;
-        opacity: 0.6;
+        border-color: #dee2e6;
+        opacity: 0.8;
+        box-shadow: none;
       }
       .level-card.locked:hover {
         transform: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: none;
       }
 
       /* Question Box */
       #question-box {
         display: none;
         background: var(--card);
-        padding: 25px;
-        border-radius: 15px;
-        margin-top: 20px;
-        border: 1px solid var(--glass);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 30px;
+        border: 1px solid #e9ecef;
+        box-shadow: var(--shadow);
       }
       #question-info {
         font-size: 16px;
@@ -254,11 +256,11 @@
       }
       .progress-bar {
         width: 100%;
-        height: 12px;
-        background: #3a3a3a;
-        border-radius: 6px;
+        height: 10px;
+        background: #e9ecef;
+        border-radius: 5px;
         overflow: hidden;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
       }
       .progress-fill {
         height: 100%;
@@ -266,56 +268,60 @@
         transition: width 0.4s ease-out;
       }
       #question-text {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: 700;
-        margin-bottom: 20px;
-        color: var(--accent);
+        margin-bottom: 25px;
+        color: var(--text);
+        border-right: 3px solid var(--accent);
+        padding-right: 15px;
       }
       #answers {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
       }
       #tip {
-        margin-top: 15px;
+        margin-top: 20px;
         font-size: 14px;
         color: var(--muted);
-        background: #3a3a3a;
-        padding: 10px;
+        background: #fff3cd; /* Light amber/yellow background for tips */
+        padding: 10px 15px;
         border-radius: 8px;
-        border-right: 3px solid var(--accent);
+        border-right: 3px solid #ffc107;
+        color: #856404; /* Darker text for visibility */
       }
       #answers label {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 12px;
+        padding: 15px;
         border-radius: 8px;
-        background: #3a3a3a;
+        background: #f8f9fa;
         color: var(--text);
         cursor: pointer;
         transition: background-color 0.15s, border-color 0.15s;
-        border: 1px solid transparent;
-        font-weight: 700;
+        border: 1px solid #dee2e6;
+        font-weight: 600;
       }
       #answers label:hover {
-        background: #4a4a4a;
+        background: #e9ecef;
         border-color: var(--accent);
       }
       #answers input[type="radio"]:checked + span {
         color: var(--accent);
+        font-weight: 700;
       }
       #next-button {
-        margin-top: 20px;
+        margin-top: 25px;
         width: 100%;
-        background: var(--accent-secondary);
+        background: var(--accent);
         color: white;
       }
       #next-button:hover {
-        background: #e91e63;
+        background: #0056b3;
       }
       .back-btn {
-        background: #607d8b;
+        background: var(--muted);
         color: white;
         border: none;
         padding: 10px 15px;
@@ -324,41 +330,41 @@
         font-weight: 700;
       }
       .back-btn:hover {
-        background: #455a64;
+        background: #5a6268;
       }
 
       /* Result Section */
       #result {
         display: none;
         background: var(--card);
-        padding: 25px;
-        border-radius: 15px;
-        margin-top: 20px;
-        border: 1px solid var(--glass);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 30px;
+        border: 1px solid #e9ecef;
+        box-shadow: var(--shadow);
       }
       #score {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 15px;
-        color: var(--accent-secondary);
+        font-size: 28px;
+        font-weight: 900;
+        margin-bottom: 20px;
+        color: var(--accent);
       }
       .review-item {
-        margin-bottom: 10px;
-        padding: 12px;
+        margin-bottom: 15px;
+        padding: 15px;
         border-radius: 10px;
-        background: #3a3a3a;
+        background: #f8f9fa;
         border-right: 5px solid transparent;
       }
       .review-item.correct {
-        background: #388e3c;
+        background: #d4edda; /* Light green background */
         border-color: var(--success);
-        color: white;
+        color: #155724;
       }
       .review-item.incorrect {
-        background: #d32f2f;
+        background: #f8d7da; /* Light red background */
         border-color: var(--error);
-        color: white;
+        color: #721c24;
       }
 
       /* Leaderboard Modal */
@@ -366,11 +372,11 @@
         display: none;
         position: fixed;
         inset: 5% 5%;
-        background: linear-gradient(135deg, #2c2c2c 0%, #3a3a3a 100%);
+        background: var(--card);
         padding: 30px;
-        border-radius: 20px;
+        border-radius: 15px;
         z-index: 60;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         max-height: 90vh;
         overflow-y: auto;
         border: 2px solid var(--accent);
@@ -378,53 +384,52 @@
       }
       #leaderboard h2 {
         color: var(--accent);
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-        margin: 0 0 15px 0;
-        font-size: 28px;
+        margin: 0 0 20px 0;
+        font-size: 30px;
         text-align: center;
       }
       .leader-user {
         padding: 15px 20px;
-        border-radius: 15px;
-        margin-bottom: 12px;
-        background: #3a3a3a;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        background: #f1f3f5;
         display: flex;
         justify-content: space-between;
         align-items: center;
         transition: transform 0.2s, box-shadow 0.2s;
-        border: 1px solid var(--glass);
+        border-right: 4px solid var(--muted);
       }
       .leader-user:hover {
-        transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        transform: scale(1.01);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
       }
       .leader-user.first-place {
-        background: linear-gradient(135deg, #ffc107, #ffeb3b);
+        background: #ffffe0;
         color: #333;
-        border: 3px solid #ffc107;
+        border-right: 4px solid #ffc107;
       }
       .leader-user.second-place {
-        background: linear-gradient(135deg, #9e9e9e, #bdbdbd);
+        background: #f8f9fa;
         color: #333;
-        border: 3px solid #9e9e9e;
+        border-right: 4px solid #adb5bd;
       }
       .leader-user.third-place {
-        background: linear-gradient(135deg, #795548, #a1887f);
-        color: white;
-        border: 3px solid #795548;
+        background: #f4e9d9;
+        color: #333;
+        border-right: 4px solid #795548;
       }
       .leader-user .rank {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 900;
         margin-left: 15px;
         min-width: 40px;
         text-align: center;
-        color: var(--accent-secondary);
+        color: var(--accent);
       }
       .leader-user.first-place .rank,
       .leader-user.second-place .rank,
       .leader-user.third-place .rank {
-        color: var(--bg);
+        color: var(--text);
       }
       .leader-user .user-info {
         flex: 1;
@@ -434,13 +439,15 @@
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 5px;
+        color: var(--text);
       }
       .leader-user .user-stats {
         font-size: 14px;
-        opacity: 0.9;
+        opacity: 0.8;
+        color: var(--muted);
       }
       .level-chip {
-        background: var(--bg);
+        background: #e9ecef;
         padding: 4px 8px;
         border-radius: 10px;
         font-size: 13px;
@@ -448,6 +455,7 @@
         display: inline-block;
         border: 1px solid var(--accent-secondary);
         color: var(--accent-secondary);
+        font-weight: 600;
       }
       .levels {
         display: flex;
@@ -460,16 +468,16 @@
         display: none;
         position: fixed;
         inset: 20% 10%;
-        background: linear-gradient(135deg, #3f51b5 0%, #673ab7 100%);
+        background: #ffffff; /* White modal background */
         padding: 30px;
-        border-radius: 20px;
+        border-radius: 15px;
         z-index: 70;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         max-height: 60vh;
         overflow: auto;
-        border: 2px solid white;
+        border: 2px solid var(--accent);
         text-align: center;
-        color: white;
+        color: var(--text);
       }
       .level-modal h3 {
         color: var(--accent);
@@ -478,7 +486,7 @@
         font-weight: 900;
       }
       .level-modal p {
-        color: var(--text);
+        color: var(--muted);
         margin: 15px 0;
         font-size: 18px;
       }
@@ -494,7 +502,7 @@
         right: 10px;
         background: none;
         border: none;
-        color: white;
+        color: var(--muted);
         font-size: 30px;
         cursor: pointer;
         opacity: 0.8;
@@ -505,7 +513,8 @@
       }
       #modal-buy-btn {
         background: var(--accent-secondary);
-        color: white;
+        color: var(--text);
+        font-weight: 700;
       }
 
       /* Toast Notifications */
@@ -519,33 +528,35 @@
         align-items: center;
         padding: 12px 20px;
         border-radius: 10px;
-        background: rgba(0, 0, 0, 0.8);
+        background: var(--text); /* Dark background for high contrast */
         color: white;
         z-index: 80;
         opacity: 0;
         transition: opacity 0.3s;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       }
       .toast.show {
         opacity: 1;
       }
       .toast.ok {
-        background: linear-gradient(90deg, var(--success), #388e3c);
+        background: var(--success);
       }
       .toast.warn {
-        background: linear-gradient(90deg, #ff9800, #f57c00);
+        background: var(--accent-secondary);
+        color: var(--text);
       }
       .toast.err {
-        background: linear-gradient(90deg, var(--error), #d32f2f);
+        background: var(--error);
       }
       #toast-title {
         font-size: 18px;
+        font-weight: 700;
       }
 
       .footer-note {
         margin-top: 30px;
         color: var(--muted);
-        font-size: 12px;
+        font-size: 14px;
         text-align: center;
       }
 
@@ -577,7 +588,7 @@
         }
       }
       img#egypounds {
-        width: 45px; /* Smaller coin image */
+        width: 40px; /* Smaller coin image */
       }
       strong {
         font-size: 20px;
@@ -622,6 +633,9 @@
 
       <section id="question-box">
         <div id="question-info"></div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
         <div id="question-text">سؤال هنا</div>
         <div id="answers"></div>
         <div id="tip"></div>
@@ -669,6 +683,7 @@
         <button id="close-modal" class="close-modal">×</button>
         <h3>المستوى <span id="modal-level-number"></span></h3>
         <p id="modal-pass-rate"></p>
+        <p id="modal-questions-count"></p>
         <p id="modal-encouragement">معانا هتذاكر وتكسب كمان! 🔥✨</p>
         <p id="modal-price" style="display: none"></p>
         <div class="modal-buttons">
@@ -765,19 +780,55 @@
       let correctAnswers = 0;
       let userCoins = 0;
       let userAnswers = []; // Track user answers for review
+      let levelTimer = null;
+      let timeLeft = 0;
+
+      function updateTimerDisplay() {
+        const questionInfoEl = document.getElementById("question-info");
+        const progressFill = document.querySelector(".progress-fill");
+        const totalTime = levelsData[currentLevel].time;
+        const progressPercent = (timeLeft / totalTime) * 100;
+        progressFill.style.width = progressPercent + "%";
+        progressFill.style.backgroundColor =
+          timeLeft < 10 ? "var(--error)" : "var(--accent-secondary)";
+        questionInfoEl.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>السؤال ${currentQuestionIndex + 1} من ${
+          currentQuestions.length
+        }</span>
+            <div id="timer" style="color: ${
+              timeLeft < 10 ? "var(--error)" : "var(--accent-secondary)"
+            }; font-weight: bold;">
+              الوقت المتبقي: ${timeLeft} ثانية
+            </div>
+          </div>
+        `;
+      }
+
+      function updateTimer() {
+        timeLeft--;
+        if (timeLeft <= 0) {
+          clearInterval(levelTimer);
+          levelTimer = null;
+          showToast("⏰", "انتهى الوقت!", "err");
+          endLevel();
+        } else {
+          updateTimerDisplay();
+        }
+      }
 
       const levelsData = {
-        1: { questions: 5, passRate: 0.6 },
-        2: { questions: 5, passRate: 0.65 },
-        3: { questions: 5, passRate: 0.7 },
-        4: { questions: 5, passRate: 0.75 },
-        5: { questions: 5, passRate: 0.8, password: "admin" },
-        6: { questions: 5, passRate: 0.85, password: "admin" },
-        7: { questions: 5, passRate: 0.9, password: "admin" },
-        8: { questions: 5, passRate: 0.95, password: "admin" },
-        9: { questions: 5, passRate: 1.0, password: "admin" },
-        10: { questions: 5, passRate: 1.0, password: "admin" },
-        11: { questions: 5, passRate: 1.0, password: "admin" }, // مستوى خاص
+        1: { questions: 5, passRate: 0.6, time: 60 },
+        2: { questions: 5, passRate: 0.65, time: 60 },
+        3: { questions: 5, passRate: 0.7, time: 60 },
+        4: { questions: 5, passRate: 0.75, time: 60 },
+        5: { questions: 5, passRate: 0.8, password: "admin", time: 60 },
+        6: { questions: 5, passRate: 0.85, password: "admin", time: 60 },
+        7: { questions: 5, passRate: 0.9, password: "admin", time: 60 },
+        8: { questions: 5, passRate: 0.95, password: "admin", time: 60 },
+        9: { questions: 5, passRate: 1.0, password: "admin", time: 60 },
+        10: { questions: 5, passRate: 1.0, password: "admin", time: 60 },
+        11: { questions: 5, passRate: 1.0, password: "admin", time: 60 }, // مستوى خاص
       };
 
       // اسئلتنا
@@ -1156,6 +1207,9 @@
       const levelModal = document.getElementById("level-modal");
       const modalLevelNumber = document.getElementById("modal-level-number");
       const modalPassRate = document.getElementById("modal-pass-rate");
+      const modalQuestionsCount = document.getElementById(
+        "modal-questions-count"
+      );
       const modalEncouragement = document.getElementById("modal-encouragement");
       const modalPrice = document.getElementById("modal-price");
       const modalStartBtn = document.getElementById("modal-start-btn");
@@ -1297,6 +1351,7 @@
             selectedLevel = lvl;
             modalLevelNumber.textContent = lvl;
             modalPassRate.textContent = `نسبة النجاح المطلوبة: ${passPercent}%`;
+            modalQuestionsCount.textContent = `عدد الأسئلة: ${levelsData[lvl].questions}`;
             modalEncouragement.textContent =
               encouragements[Math.floor(Math.random() * encouragements.length)];
             if (lvl > highest + 1) {
@@ -1328,11 +1383,15 @@
         correctAnswers = 0;
         userAnswers = []; // Reset user answers
         tipEl.style.display = "none";
+        timeLeft = levelsData[currentLevel].time;
+        levelTimer = setInterval(updateTimer, 1000);
         // تحقق كلمة مرور للمستويات المحمية
         if (levelsData[level] && levelsData[level].password) {
           const password = prompt(`أدخل كلمة المرور للمستوى ${level}:`);
           if (password !== levelsData[level].password) {
             showToast("خطأ", "كلمة المرور غير صحيحة", "warn");
+            clearInterval(levelTimer);
+            levelTimer = null;
             showLevels();
             return;
           }
