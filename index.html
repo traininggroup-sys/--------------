@@ -5,33 +5,35 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>اختبار المستوى - جروب المشتركين</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
     <style>
       /* ============================================
-* Minimalist Warm Professional Theme - تصميم بسيط، دافئ، ومحترف 
-* Primary Accent: #007bff (Professional Blue)
-* Secondary Accent: #ffc107 (Warm Amber)
+* Clean & Professional Light Mode Theme - تصميم فاتح، احترافي، ونظيف
+* Primary Accent: #007bff (Professionسal Blue)
+* Secondary Accent: #28a745 (Success Green)
 ============================================
 */
       :root {
-        --bg: #f8f9fa; /* Light, warm background */
-        --card: #ffffff; /* Pure white cards */
-        --accent: #007bff; /* Professional Blue */
-        --accent-secondary: #ffc107; /* Warm Amber for contrast */
-        --text: #343a40; /* Darker, but not black, text */
-        --muted: #6c757d; /* Muted gray text */
-        --success: #28a745;
-        --error: #dc3545;
-        --lock: #adb5bd;
-        --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Very light, soft shadow */
+        --bg: #f0f2f5; /* Light gray background for a clean feel */
+        --card: #ffffff; /* Pure white for cards and main sections */
+        --accent: #007bff; /* Professional Blue as primary accent */
+        --accent-secondary: #28a745; /* Success Green as secondary accent */
+        --text: #343a40; /* Dark gray for main text, highly readable */
+        --muted: #6c757d; /* Muted gray for secondary text */
+        --success: #28a745; /* Standard success green */
+        --error: #dc3545; /* Standard error red */
+        --lock: #e9ecef; /* Very light gray for locked items/disabled states */
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Soft, subtle shadow */
       }
+
+      /* Global Reset & Typography */
       * {
         box-sizing: border-box;
-        font-family: "Cairo", sans-serif;
+        font-family: "Tajawal", sans-serif;
         direction: rtl;
-        transition: all 0.2s ease-out; /* Smooth transitions for a polished feel */
+        transition: all 0.2s ease-out; /* Smooth transitions */
       }
       body {
         margin: 0;
@@ -47,6 +49,8 @@
         max-width: 900px;
         margin: 0 auto;
       }
+
+      /* Header & Title Adjustments */
       header {
         display: flex;
         align-items: center;
@@ -55,20 +59,22 @@
         flex-wrap: wrap;
         gap: 15px;
         padding-bottom: 20px;
-        border-bottom: 1px solid #e9ecef; /* Simple, clean divider */
+        border-bottom: 1px solid #dee2e6; /* Light, subtle divider */
       }
       h1 {
         margin: 0;
-        font-size: 32px; /* Larger title */
-        color: var(--accent);
-        font-weight: 700;
+        font-size: 32px;
+        color: var(--accent); /* Professional Blue Title */
+        font-weight: 900;
       }
       h3 {
         margin: 0;
         font-size: 18px;
-        color: var(--accent-secondary);
+        color: var(--muted); /* Muted gray for subtitle */
         font-weight: 700;
       }
+
+      /* Coin Container & Float */
       .top-controls {
         display: flex;
         gap: 15px;
@@ -84,54 +90,69 @@
         background: var(--card);
         padding: 10px 18px;
         border-radius: 10px;
-        border: 1px solid #dee2e6; /* Soft border for definition */
+        border: 1px solid #ced4da;
         box-shadow: var(--shadow);
       }
       .coin-container span {
+        color: var(--accent);
         font-weight: 900;
-        color: var(--text);
       }
       .coin-float {
-        /* ... (Keep float animation) ... */
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        opacity: 0;
+        color: var(--success);
+        font-weight: 700;
+        pointer-events: none;
       }
       .coin-float.show {
-        /* ... (Keep float animation) ... */
+        animation: floatUp 1.5s ease-out forwards;
       }
       @keyframes floatUp {
-        /* ... (Keep float animation) ... */
+        0% {
+          transform: translate(-50%, 0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50px) scale(0.8);
+          opacity: 0;
+        }
       }
 
+      /* General Button Style */
       button {
         cursor: pointer;
         padding: 12px 22px;
-        background: var(--accent);
+        background: var(--accent); /* Professional Blue button */
         border: none;
         color: white;
         font-weight: 700;
         border-radius: 8px;
         transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2); /* Soft blue shadow */
       }
       button:hover {
-        background: #0056b3; /* Darker shade on hover */
+        background: #0069d9; /* Darker blue on hover */
         transform: translateY(-2px);
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
       }
       button:disabled {
         background: var(--lock);
         cursor: not-allowed;
         transform: none;
         box-shadow: none;
-        color: var(--card);
+        color: var(--muted);
       }
 
-      /* Login Section */
+      /* Login Section & Inputs */
       #login-section {
         background: var(--card);
         padding: 30px;
         border-radius: 10px;
         box-shadow: var(--shadow);
-        border: 1px solid #e9ecef;
+        border: 1px solid #ced4da;
       }
       .input-row {
         display: flex;
@@ -145,7 +166,7 @@
         padding: 12px;
         border-radius: 8px;
         border: 1px solid #ced4da;
-        background: #ffffff;
+        background: var(--bg); /* Light background for input field */
         color: var(--text);
         width: 250px;
         font-size: 16px;
@@ -154,7 +175,7 @@
       input[type="text"]:focus,
       input[type="password"]:focus {
         border-color: var(--accent);
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Blue focus glow */
         outline: none;
       }
       input[type="text"]::placeholder,
@@ -162,12 +183,16 @@
         color: var(--muted);
       }
       #login-btn {
-        background: var(--accent-secondary);
-        color: var(--text); /* Dark text on light accent */
+        background: var(
+          --accent-secondary
+        ); /* Success Green for login button */
+        color: white;
         font-weight: 900;
+        box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
       }
       #login-btn:hover {
-        background: #e0a800;
+        background: #218838;
+        box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
       }
       #logout-btn {
         margin-top: 20px;
@@ -196,38 +221,40 @@
         font-weight: 700;
         cursor: pointer;
         background: var(--card);
-        border: 1px solid #e9ecef;
+        border: 1px solid #ced4da;
         transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-size: 22px;
         color: var(--text);
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
       .level-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        border-color: var(--accent);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-color: var(--accent); /* Blue hover border */
       }
       .level-card.open {
-        background: var(--accent);
+        background: var(--accent); /* Blue background for open level */
         color: white;
         border-color: var(--accent);
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
       }
       .level-card.open:hover {
-        background: #0056b3;
+        background: #0069d9;
       }
       .level-card.passed {
         background: var(--success);
         color: white;
         border-color: var(--success);
+        box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
       }
       .level-card.passed:hover {
         background: #218838;
       }
       .level-card.locked {
-        background: #f1f3f5; /* Very light gray */
+        background: var(--lock);
         color: var(--muted);
         cursor: not-allowed;
         border-color: #dee2e6;
@@ -246,7 +273,7 @@
         padding: 30px;
         border-radius: 10px;
         margin-top: 30px;
-        border: 1px solid #e9ecef;
+        border: 1px solid #ced4da;
         box-shadow: var(--shadow);
       }
       #question-info {
@@ -257,7 +284,7 @@
       .progress-bar {
         width: 100%;
         height: 10px;
-        background: #e9ecef;
+        background: #e9ecef; /* Light gray progress background */
         border-radius: 5px;
         overflow: hidden;
         margin-bottom: 20px;
@@ -272,7 +299,7 @@
         font-weight: 700;
         margin-bottom: 25px;
         color: var(--text);
-        border-right: 3px solid var(--accent);
+        border-right: 3px solid var(--accent); /* Blue marker */
         padding-right: 15px;
       }
       #answers {
@@ -284,11 +311,11 @@
         margin-top: 20px;
         font-size: 14px;
         color: var(--muted);
-        background: #fff3cd; /* Light amber/yellow background for tips */
+        background: #e6f7ff; /* Light blue background for tip */
         padding: 10px 15px;
         border-radius: 8px;
-        border-right: 3px solid #ffc107;
-        color: #856404; /* Darker text for visibility */
+        border-right: 3px solid #6cbcdf;
+        font-weight: 600;
       }
       #answers label {
         display: flex;
@@ -296,7 +323,7 @@
         gap: 10px;
         padding: 15px;
         border-radius: 8px;
-        background: #f8f9fa;
+        background: var(--bg); /* Light background for answer */
         color: var(--text);
         cursor: pointer;
         transition: background-color 0.15s, border-color 0.15s;
@@ -304,11 +331,11 @@
         font-weight: 600;
       }
       #answers label:hover {
-        background: #e9ecef;
+        background: #e9ecef; /* Slight hover change */
         border-color: var(--accent);
       }
       #answers input[type="radio"]:checked + span {
-        color: var(--accent);
+        color: var(--accent); /* Blue checked text */
         font-weight: 700;
       }
       #next-button {
@@ -318,19 +345,21 @@
         color: white;
       }
       #next-button:hover {
-        background: #0056b3;
+        background: #0069d9;
       }
       .back-btn {
-        background: var(--muted);
+        background: #6c757d; /* Muted gray for back button */
         color: white;
         border: none;
         padding: 10px 15px;
         border-radius: 8px;
         margin-top: 15px;
         font-weight: 700;
+        box-shadow: none;
       }
       .back-btn:hover {
         background: #5a6268;
+        transform: translateY(-1px);
       }
 
       /* Result Section */
@@ -340,31 +369,31 @@
         padding: 30px;
         border-radius: 10px;
         margin-top: 30px;
-        border: 1px solid #e9ecef;
+        border: 1px solid #ced4da;
         box-shadow: var(--shadow);
       }
       #score {
         font-size: 28px;
         font-weight: 900;
         margin-bottom: 20px;
-        color: var(--accent);
+        color: var(--accent-secondary);
       }
       .review-item {
         margin-bottom: 15px;
         padding: 15px;
         border-radius: 10px;
-        background: #f8f9fa;
+        background: var(--bg);
         border-right: 5px solid transparent;
       }
       .review-item.correct {
         background: #d4edda; /* Light green background */
         border-color: var(--success);
-        color: #155724;
+        color: #155724; /* Darker green text */
       }
       .review-item.incorrect {
         background: #f8d7da; /* Light red background */
         border-color: var(--error);
-        color: #721c24;
+        color: #721c24; /* Darker red text */
       }
 
       /* Leaderboard Modal */
@@ -376,10 +405,10 @@
         padding: 30px;
         border-radius: 15px;
         z-index: 60;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         max-height: 90vh;
         overflow-y: auto;
-        border: 2px solid var(--accent);
+        border: 2px solid var(--accent); /* Blue border */
         color: var(--text);
       }
       #leaderboard h2 {
@@ -392,31 +421,31 @@
         padding: 15px 20px;
         border-radius: 10px;
         margin-bottom: 10px;
-        background: #f1f3f5;
+        background: var(--bg); /* Light background for user card */
         display: flex;
         justify-content: space-between;
         align-items: center;
         transition: transform 0.2s, box-shadow 0.2s;
-        border-right: 4px solid var(--muted);
+        border-right: 4px solid #adb5bd;
       }
       .leader-user:hover {
         transform: scale(1.01);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
       }
       .leader-user.first-place {
-        background: #ffffe0;
-        color: #333;
-        border-right: 4px solid #ffc107;
+        background: #fff3cd; /* Light gold background */
+        color: var(--text);
+        border-right: 4px solid var(--accent-secondary); /* Green border */
       }
       .leader-user.second-place {
-        background: #f8f9fa;
-        color: #333;
+        background: #e9ecef;
+        color: var(--text);
         border-right: 4px solid #adb5bd;
       }
       .leader-user.third-place {
-        background: #f4e9d9;
-        color: #333;
-        border-right: 4px solid #795548;
+        background: #dee2e6; /* Light gray background */
+        color: var(--text);
+        border-right: 4px solid #ced4da;
       }
       .leader-user .rank {
         font-size: 28px;
@@ -447,14 +476,14 @@
         color: var(--muted);
       }
       .level-chip {
-        background: #e9ecef;
+        background: var(--lock);
         padding: 4px 8px;
         border-radius: 10px;
         font-size: 13px;
         margin: 3px;
         display: inline-block;
-        border: 1px solid var(--accent-secondary);
-        color: var(--accent-secondary);
+        border: 1px solid var(--accent);
+        color: var(--accent);
         font-weight: 600;
       }
       .levels {
@@ -468,7 +497,7 @@
         display: none;
         position: fixed;
         inset: 20% 10%;
-        background: #ffffff; /* White modal background */
+        background: var(--card); /* White modal background */
         padding: 30px;
         border-radius: 15px;
         z-index: 70;
@@ -508,12 +537,12 @@
         opacity: 0.8;
       }
       #modal-start-btn {
-        background: var(--success);
+        background: var(--accent);
         color: white;
       }
       #modal-buy-btn {
         background: var(--accent-secondary);
-        color: var(--text);
+        color: white;
         font-weight: 700;
       }
 
@@ -528,25 +557,27 @@
         align-items: center;
         padding: 12px 20px;
         border-radius: 10px;
-        background: var(--text); /* Dark background for high contrast */
-        color: white;
+        background: var(--card);
+        color: var(--text);
         z-index: 80;
         opacity: 0;
         transition: opacity 0.3s;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
       }
       .toast.show {
         opacity: 1;
       }
       .toast.ok {
         background: var(--success);
+        color: white;
       }
       .toast.warn {
-        background: var(--accent-secondary);
-        color: var(--text);
+        background: #ffc107; /* Amber for warning */
+        color: #343a40;
       }
       .toast.err {
         background: var(--error);
+        color: white;
       }
       #toast-title {
         font-size: 18px;
@@ -588,7 +619,7 @@
         }
       }
       img#egypounds {
-        width: 40px; /* Smaller coin image */
+        width: 40px;
       }
       strong {
         font-size: 20px;
