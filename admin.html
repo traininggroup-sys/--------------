@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>المحرر الذكي - إدارة الأسئلة</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #007bff;
+        --success: #28a745;
+        --danger: #dc3545;
+        --purple: #6f42c1;
+        --bg: #f0f2f5;
+      }
+      * {
+        box-sizing: border-box;
+        font-family: "Tajawal", sans-serif;
+        direction: rtl;
+      }
+      body {
+        margin: 0;
+        padding: 20px;
+        background: var(--bg);
+        color: #343a40;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        padding: 30 Arabic px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
+      h1,
+      h2 {
+        text-align: center;
+        color: var(--primary);
+        margin-top: 0;
+      }
+      .section {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        background: #fafafa;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+        color: #555;
+      }
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 250px;
+        font-family: "Consolas", monospace;
+        direction: ltr;
+        text-align: left;
+        background: #272822;
+        color: #f8f8f2;
+        padding: 15px;
+        line-height: 1.5;
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+      button {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.3s;
+        color: white;
+        min-width: 150px;
+      }
+      .btn-load {
+        background: var(--primary);
+      }
+      .btn-save {
+        background: var(--success);
+      }
+      .btn-bulk {
+        background: var(--purple);
+      }
+      .btn-delete {
+        background: var(--danger);
+      }
+      .btn-back {
+        background: #6c757d;
+        max-width: 200px;
+        margin: 20px auto;
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        color: white;
+        line-height: 45px;
+        border-radius: 8px;
+        font-weight: bold;
+      }
+      .toast {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 30px;
+        border-radius: 50px;
+        color: white;
+        display: none;
+        z-index: 1000;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+      }
+      .status-bar {
+        font-size: 13px;
+        margin-top: 5px;
+        color: #666;
+        font-weight: bold;
+      }
+      .badge {
+        background: #007bff;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 10px;
+        margin: 0 5px;
+      }
+      .info-note {
+        font-size: 12px;
+        color: #777;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>⚙️ لوحة التحكم الاحترافية</h1>
+
+      <div class="section" style="background: #eef6ff">
+        <label>اختر المستوى للإدارة:</label>
+        <div style="display: flex; gap: 10px">
+          <select id="level-select" style="flex: 2">
+            <script>
+              for (let i = 1; i <= 100; i++)
+                document.write(`<option value="${i}">المستوى ${i}</option>`);
+            </script>
+          </select>
+          <button class="btn-load" id="btn-fetch">
+            🔍 جلب الأسئلة الحالية
+          </button>
+        </div>
+        <div id="level-status" class="status-bar"></div>
+      </div>
+
+      <div class="section">
+        <h2>🛠️ محرر الأسئلة المباشر</h2>
+        <p class="info-note">
+          يتم فك تشفير الأسئلة هنا تلقائياً لسهولة التعديل. اضغط "حفظ" لتطبيق
+          التغييرات.
+        </p>
+        <textarea id="json-editor" placeholder="اختر مستوى أولاً..."></textarea>
+        <div class="btn-group">
+          <button class="btn-save" id="btn-save-edit">
+            💾 حفظ التعديلات البرمجية
+          </button>
+          <button class="btn-delete" id="btn-clear-level">
+            🗑️ مسح أسئلة المستوى
+          </button>
+        </div>
+      </div>
+
+      <div class="section" style="background: #f4eaff">
+        <h2>⚡ الرفع والدمج الذكي (Bulk)</h2>
+        <p class="info-note">
+          يدعم الشكلين (question/answer كـ نص) أو (JSON رسمي). بدون مسح القديم.
+        </p>
+        <textarea
+          id="bulk-input"
+          style="min-height: 120px; background: #fff; color: #333"
+          placeholder="ضع المصفوفة هنا [ ... ]"
+        ></textarea>
+        <button class="btn-bulk" id="btn-bulk-add">
+          🚀 تحويل ودمج مع المستوى
+        </button>
+      </div>
+
+      <a href="index.html" class="btn-back">🏠 العودة للموقع</a>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        push,
+        remove,
+      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+      // إعدادات Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyDrPR-5-IaSD7-ij1oj3Y4M9ARQBMK66eo",
+        authDomain: "levels-409ba.firebaseapp.com",
+        databaseURL: "https://levels-409ba-default-rtdb.firebaseio.com",
+        projectId: "levels-409ba",
+        storageBucket: "levels-409ba.firebasestorage.app",
+        messagingSenderId: "54945336454",
+        appId: "1:54945336454:web:51e6f513c1d2a91e23d507",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const editor = document.getElementById("json-editor");
+      const bulkInput = document.getElementById("bulk-input");
+      const levelSelect = document.getElementById("level-select");
+      const statusBox = document.getElementById("level-status");
+
+      function notify(msg, type = "success") {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.background = type === "success" ? "#28a745" : "#dc3545";
+        t.style.display = "block";
+        setTimeout(() => (t.style.display = "none"), 3000);
+      }
+
+      function encode(t) {
+        return btoa(unescape(encodeURIComponent(t || "")));
+      }
+      function decode(t) {
+        try {
+          return decodeURIComponent(escape(atob(t)));
+        } catch (e) {
+          return t;
+        }
+      }
+
+      // --- 1. جلب الأسئلة ---
+      document.getElementById("btn-fetch").onclick = async () => {
+        const level = levelSelect.value;
+        statusBox.innerHTML = "جاري التحميل...";
+        try {
+          const snap = await get(ref(db, `questions/${level}`));
+          if (snap.exists()) {
+            const raw = snap.val();
+            const readable = Object.keys(raw).map((id) => ({
+              id: id,
+              q: decode(raw[id].q),
+              options: raw[id].options.map((o) => decode(o)),
+              answer: raw[id].answer,
+              tip: decode(raw[id].tip || ""),
+            }));
+            editor.value = JSON.stringify(readable, null, 4);
+            statusBox.innerHTML = `تم العثور على <span class="badge">${readable.length}</span> سؤال.`;
+          } else {
+            editor.value = "[]";
+            statusBox.innerHTML = "المستوى فارغ حالياً.";
+          }
+        } catch (e) {
+          notify("خطأ: " + e.message, "error");
+        }
+      };
+
+      // --- 2. حفظ التعديلات اليدوية ---
+      document.getElementById("btn-save-edit").onclick = async () => {
+        const level = levelSelect.value;
+        try {
+          const edited = JSON.parse(editor.value);
+          const finalData = {};
+          edited.forEach((item) => {
+            const key = item.id || push(ref(db, `questions/${level}`)).key;
+            finalData[key] = {
+              q: encode(item.q),
+              options: item.options.map((o) => encode(o)),
+              answer: parseInt(item.answer),
+              tip: encode(item.tip || ""),
+            };
+          });
+          await set(ref(db, `questions/${level}`), finalData);
+          notify("✅ تم حفظ التعديلات بنجاح!");
+        } catch (e) {
+          notify("❌ خطأ في JSON: " + e.message, "error");
+        }
+      };
+
+      // --- 3. الرفع والدمج الذكي (يدعم كل الصيغ) ---
+      document.getElementById("btn-bulk-add").onclick = async () => {
+        const level = levelSelect.value;
+        let rawText = bulkInput.value.trim();
+
+        try {
+          if (!rawText) throw new Error("المربع فارغ!");
+          if (rawText.endsWith(";")) rawText = rawText.slice(0, -1);
+
+          let data;
+          try {
+            data = JSON.parse(rawText);
+          } catch (e) {
+            try {
+              data = eval("(" + rawText + ")");
+            } catch (e2) {
+              throw new Error("الصيغة غير صحيحة، تأكدي من [ ] والفواصل.");
+            }
+          }
+
+          const levelRef = ref(db, `questions/${level}`);
+          const oldSnap = await get(levelRef);
+          const currentData = oldSnap.exists() ? oldSnap.val() : {};
+
+          data.forEach((item, index) => {
+            const opts = item.options || item.opts;
+            const ansRaw = item.answer;
+
+            if (!opts || ansRaw === undefined)
+              throw new Error(`السؤال ${index + 1} ناقص.`);
+
+            let ansIndex = -1;
+            if (typeof ansRaw === "number") {
+              ansIndex = ansRaw;
+            } else {
+              const clean = (s) => s.toString().trim().replace(/\s+/g, " ");
+              const cleanAns = clean(ansRaw);
+              ansIndex = opts.findIndex((o) => clean(o) === cleanAns);
+            }
+
+            if (ansIndex === -1 || isNaN(ansIndex)) {
+              throw new Error(
+                `سؤال ${index + 1}: الإجابة "${ansRaw}" لا تطابق الخيارات.`,
+              );
+            }
+
+            const key = push(levelRef).key;
+            currentData[key] = {
+              q: encode(item.question || item.q),
+              options: opts.map((o) => encode(o)),
+              answer: parseInt(ansIndex),
+              tip: encode(item.explanation || item.tip || ""),
+            };
+          });
+
+          await set(levelRef, currentData);
+          notify(`✅ تم دمج ${data.length} سؤال جديد بنجاح!`);
+          bulkInput.value = "";
+          document.getElementById("btn-fetch").click();
+        } catch (e) {
+          notify("❌ " + e.message, "error");
+        }
+      };
+
+      // --- 4. مسح المستوى ---
+      document.getElementById("btn-clear-level").onclick = async () => {
+        if (confirm("سيتم حذف كل أسئلة هذا المستوى نهائياً. هل أنتِ متأكدة؟")) {
+          await remove(ref(db, `questions/${levelSelect.value}`));
+          notify("تم مسح المستوى.");
+          editor.value = "[]";
+          statusBox.innerHTML = "تم المسح.";
+        }
+      };
+    </script>
+  </body>
+</html>
