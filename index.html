@@ -15,26 +15,29 @@
   <body>
     <div class="container">
       <header>
-        <h1>مستوياتي - جروب المشتركين</h1>
-        <h3>معانا هتذاكر وتكسب كمان🔥✨</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h1>مستوياتي - جروب المشتركين</h1>
+            <h3>معانا هتذاكر وتكسب كمان🔥✨</h3>
+          </div>
+          <a
+            href="admin.html"
+            class="back-btn"
+            id="admin-btn"
+            style="text-decoration: none; display: none;"
+            >⚙️ إدارة</a
+          >
+        </div>
 
         <div class="top-controls">
-          <div class="coin-container">
+          <div class="coin-container" id="header-coins" style="display: none;">
             <img src="egyptian-coin-featuring-pharaoh-vector.jpg" id="egypounds" />
-
             <span>حوشت كام:</span>
             <span id="coin-count">جنيه </span>
-            <div id="coin-float" class="coin-float"></div>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
             🏆 المتصدرين
           </button>
-          <a
-            href="admin.html"
-            class="back-btn"
-            style="text-decoration: none; display: inline-block"
-            >⚙️ إدارة</a
-          >
         </div>
       </header>
 
@@ -47,6 +50,11 @@
             <input id="password" placeholder="كلمة المرور" type="password" />
             <button id="login-btn">دخول / إنشاء حساب</button>
           </div>
+        </div>
+        <div class="coin-container" id="login-coins" style="display: none; margin-top: 15px; justify-content: center;">
+          <img src="egyptian-coin-featuring-pharaoh-vector.jpg" id="egypounds-login" />
+          <span>حوشت كام:</span>
+          <span id="coin-count-login">جنيه </span>
         </div>
       </section>
 
@@ -197,7 +205,11 @@
         "close-leaderboard-btn",
       );
       const coinCountEl = document.getElementById("coin-count");
+      const coinCountLoginEl = document.getElementById("coin-count-login");
       const loginBtn = document.getElementById("login-btn");
+      const headerCoins = document.getElementById("header-coins");
+      const loginCoins = document.getElementById("login-coins");
+      const adminBtn = document.getElementById("admin-btn");
 
       // التوست
       const toastEl = document.getElementById("toast"),
@@ -292,14 +304,20 @@
         q.options.forEach((opt, i) => {
           const label = document.createElement("label");
           label.className = "answer-label";
+          label.dataset.value = i;
           label.innerHTML = `
         <input type="radio" name="quiz-opt" value="${i}">
         <span>${opt}</span>
       `;
-          label.addEventListener("click", () => {
+          label.addEventListener("click", (e) => {
+            // Prevent double triggering
+            e.stopPropagation();
             const allLabels = answersDiv.querySelectorAll("label");
             allLabels.forEach((l) => l.classList.remove("selected-opt"));
             label.classList.add("selected-opt");
+            // Also check the radio button
+            const radio = label.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
             selectedOptionIndex = i;
           });
           answersDiv.appendChild(label);
@@ -340,6 +358,12 @@
         const password = document.getElementById("password").value.trim();
         if (!username || !password) {
           showToast("تنبيه", "يرجى إدخال اسم المستخدم وكلمة المرور", "warn");
+          return;
+        }
+
+        // التحقق من كلمة مرور الأدمن
+        if (username === "admin" && password === "admin123") {
+          window.location.href = "admin.html";
           return;
         }
 
@@ -416,8 +440,16 @@ function showLevels() {
         levelsDiv.style.display = "flex";
         if (logoutBtn) logoutBtn.classList.add("show");
         if (leaderboardBtn) leaderboardBtn.style.display = "inline-block";
+        if (adminBtn) adminBtn.style.display = "none";
         resultSection.classList.add("hidden");
         levelsDiv.innerHTML = "";
+        
+        // إظهار الهيدر في صفحة المستويات
+        document.querySelector("header").style.display = "block";
+
+        // إظهار عملة الهيدر وإخفاء عملة تسجيل الدخول
+        if (headerCoins) headerCoins.style.display = "flex";
+        if (loginCoins) loginCoins.style.display = "none";
 
         // رسالة ترحيبية للمستخدم
         const userCoins = currentUser.coins || 0;
@@ -491,6 +523,9 @@ async function startLevel(level) {
         resultSection.style.display = "none";
         resultSection.classList.add("hidden");
         if (logoutBtn) logoutBtn.classList.remove("show");
+        // إخفاء عملة الهيدر وزر المتصدرين في شاشة الأسئلة
+        if (headerCoins) headerCoins.style.display = "none";
+        if (leaderboardBtn) leaderboardBtn.style.display = "none";
 
         currentQuestions = await loadQuestionsFromDB(level);
         timeLeft = levelsData[level].time;
@@ -504,6 +539,14 @@ async function startLevel(level) {
         questionBox.style.display = "none";
         resultSection.style.display = "block";
         resultSection.classList.remove("hidden");
+        
+        // إخفاء الهيدر في شاشة النتيجة
+        document.querySelector("header").style.display = "none";
+
+
+        // إخفاء عملة الهيدر وزر المتصدرين في صفحة النتيجة
+        if (headerCoins) headerCoins.style.display = "none";
+        if (leaderboardBtn) leaderboardBtn.style.display = "none";
 
         const total = currentQuestions.length;
         const passRate = correctAnswers / total;
@@ -548,6 +591,8 @@ async function startLevel(level) {
       window.backToLevelsFromResults = function () {
         resultSection.style.display = "none";
         resultSection.classList.add("hidden");
+        // إظهار الهيدر مرة أخرى
+        document.querySelector("header").style.display = "block";
         showLevels();
       };
 
@@ -555,6 +600,8 @@ async function startLevel(level) {
       window.logoutFromResult = function () {
         resultSection.style.display = "none";
         resultSection.classList.add("hidden");
+        // إظهار الهيدر مرة أخرى
+        document.querySelector("header").style.display = "block";
         showLevels();
       };
 
@@ -568,6 +615,8 @@ async function startLevel(level) {
           levelsDiv.style.display = "none";
           if (leaderboardBtn) leaderboardBtn.style.display = "none";
           logoutBtn.classList.remove("show");
+          // إخفاء عملة الهيدر وإظهار رسالة تسجيل الدخول
+          if (headerCoins) headerCoins.style.display = "none";
           document.getElementById("username").value = "";
           document.getElementById("password").value = "";
         });
