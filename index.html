@@ -20,7 +20,7 @@
 
         <div class="top-controls">
           <div class="coin-container">
-            <img src="العملة-المصرية-test-1jpg.jpg" id="egypounds" />
+            <img src="egyptian-coin-featuring-pharaoh-vector.jpg" id="egypounds" />
 
             <span>حوشت كام:</span>
             <span id="coin-count">جنيه </span>
@@ -419,6 +419,10 @@ function showLevels() {
         resultSection.classList.add("hidden");
         levelsDiv.innerHTML = "";
 
+        // رسالة ترحيبية للمستخدم
+        const userCoins = currentUser.coins || 0;
+        showToast("🎉", `أهلاً يا ${currentUser.username}! انت محوش ${userCoins} جنيه شد حيلك النهاردة واكسب اكتر`, "success");
+
         const passed = currentUser.passedLevels || [];
         const highest = passed.length ? Math.max(...passed) : 0;
 
@@ -452,7 +456,7 @@ function showLevels() {
             
             // عدد الأسئلة
             document.getElementById("modal-questions-count").innerHTML = 
-              `<span class="questions-label">عدد الأسئلة:</span> <span class="questions-value">${levelsData[lvl].questions} أسئلة</span>`;
+              `<span class="questions-label">عدد أسئلة المستوي:</span> <span class="questions-value">${levelsData[lvl].questions} أسئلة</span>`;
             
             // الكلمة التشجيعية للمستوى
             const encouragement = encouragementMessages[lvl] || "معانا هتذاكر وتكسب كمان! 🔥✨";
