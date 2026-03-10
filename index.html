@@ -378,6 +378,21 @@
         }
       });
 
+      // --- كلمات تشجيعية لكل مستوى ---
+      const encouragementMessages = {
+        1: "ابدأ رحلتك التعليمية الآن! 🌟\nقدها وقدودك! 💪",
+        2: "أنت على الطريق الصحيح! 🚀\nواصل التقدم! ⭐",
+        3: "مستواك يرتفع! 📈\nأثبت جدارتك! 🏆",
+        4: "التحدي يزداد! 🎯\nأنت قادر على النجاح! 💫",
+        5: "نصف الطريق! 🌍\nاقتربت من النجاح! 🔥",
+        6: "مستوى متقدم! 🎓\nاستمر بنفس القوة! 💪",
+        7: "أنت naheee! ⭐\nقمة النجاح تنتظرك! 🏔️",
+        8: "مستوى صعب! 🧠\nعقلك حاد! 🔮",
+        9: "على أعتاب التميز! 👑\nأنت بطل! 🏅",
+        10: "المستوى قبل الأخير! 🌟\nاقتربت من النهاية! 🎉",
+        11: "الخطوة الأخيرة! 🏁\nأنت تستحق الت庆祝! 🎊"
+      };
+
       // --- عرض الخريطة والمودال ---
       const levelModal = document.getElementById("level-modal");
       const modalStartBtn = document.getElementById("modal-start-btn");
@@ -426,7 +441,24 @@ function showLevels() {
               return;
             }
             currentLevel = lvl;
+            
+            // تحديث محتوى المودال
             document.getElementById("modal-level-number").textContent = lvl;
+            
+            // النسبة المطلوبة للاجتياز
+            const passRatePercent = (levelsData[lvl].passRate * 100).toFixed(0);
+            document.getElementById("modal-pass-rate").innerHTML = 
+              `<span class="pass-rate-label">النسبة المطلوبة للاجتياز:</span> <span class="pass-rate-value">${passRatePercent}%</span>`;
+            
+            // عدد الأسئلة
+            document.getElementById("modal-questions-count").innerHTML = 
+              `<span class="questions-label">عدد الأسئلة:</span> <span class="questions-value">${levelsData[lvl].questions} أسئلة</span>`;
+            
+            // الكلمة التشجيعية للمستوى
+            const encouragement = encouragementMessages[lvl] || "معانا هتذاكر وتكسب كمان! 🔥✨";
+            document.getElementById("modal-encouragement").innerHTML = 
+              `<span class="encouragement-text">${encouragement.replace(/\n/g, '<br>')}</span>`;
+            
             levelModal.style.display = "block";
           });
           levelsDiv.appendChild(card);
