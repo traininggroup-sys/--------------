@@ -23,9 +23,9 @@
           <a
             href="admin.html"
             class="back-btn"
-            id="admin-btn"
-            style="text-decoration: none; display: none;"
-            >⚙️ إدارة</a
+id="admin-btn"
+            style="text-decoration: none;"
+            >⚙️</a
           >
         </div>
 
@@ -42,9 +42,7 @@
       </header>
 
       <section id="login-section" class="show">
-        <div
-          style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap"
-        >
+        <div class="login-content">
           <div class="input-row">
             <input id="username" placeholder="اسم المستخدم" type="text" />
             <input id="password" placeholder="كلمة المرور" type="password" />
@@ -209,7 +207,20 @@
       const loginBtn = document.getElementById("login-btn");
       const headerCoins = document.getElementById("header-coins");
       const loginCoins = document.getElementById("login-coins");
-      const adminBtn = document.getElementById("admin-btn");
+const adminBtn = document.getElementById("admin-btn");
+
+      // --- حدث زر الأدمن ---
+      if (adminBtn) {
+        adminBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const password = prompt("أدخل كلمة المرور:");
+          if (password === "1") {
+            window.location.href = "admin.html";
+          } else if (password !== null) {
+            showToast("⚠️", "كلمة المرور غير صحيحة", "err");
+          }
+        });
+      }
 
       // التوست
       const toastEl = document.getElementById("toast"),
@@ -623,6 +634,11 @@ async function startLevel(level) {
       }
 
       // --- وظائف إضافية ---
+      // إظهار الهيدر بشكل افتراضي على صفحة تسجيل الدخول
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector("header").style.display = "block";
+      });
+
       function decodeText(t) {
         try {
           return decodeURIComponent(escape(atob(t)));
