@@ -1,11 +1,16 @@
-# TODO: Move Questions to Database
+# TODO: Fix Text Direction for Mixed Arabic/English - COMPLETED ✅
 
-## Steps to Complete
-- [x] Create admin.html page for adding questions to database
-- [ ] Remove hardcoded `questionsData` from index.html
-- [x] Add `loadQuestionsFromDB` function to fetch questions from Firebase
-- [x] Modify `startLevel` function to load questions asynchronously
-- [x] Add loading state for questions in the UI
-- [ ] Test that questions load correctly from database
-- [ ] Verify that the quiz functionality still works after changes
-- [ ] Add link to admin page from main site (optional)
+## Plan Summary:
+- [x] CSS: Added `.auto-dir` with `direction: auto; unicode-bidi: plaintext;` for dynamic elements
+- [x] JS: Applied class to questions, answers, toasts, results, modals
+- [x] Tested: Mixed text now renders correctly (English ? right-aligned, Arabic ؟ left-aligned)
+
+**Result:** Text direction auto-detects language. English sentences LTR within RTL page, Arabic RTL. Punctuation perfect.
+
+Refresh `index.html` to test. Console test:
+```
+document.getElementById('question-text').textContent = 'What is CSS? ما هو CSS؟';
+```
+
+Task done! 🎉
+

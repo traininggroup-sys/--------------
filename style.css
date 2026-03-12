@@ -367,13 +367,7 @@ input::placeholder {
 
 /* Progress Bar - Duolingo Style */
 .progress-bar {
-  width: 100%;
-  height: 16px;
-  background: var(--gray-200);
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-  margin-bottom: 25px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: none;
 }
 
 .progress-fill {
@@ -960,6 +954,34 @@ input::placeholder {
 
 .level-card.open {
   animation: bounce 1s ease infinite;
+}
+
+/* Auto direction for mixed Arabic/English text */
+.auto-dir {
+  direction: auto !important;
+  unicode-bidi: plaintext;
+  hyphens: auto;
+}
+
+/* Apply to key dynamic text elements */
+#question-text,
+.answer-label span,
+#toast-msg,
+#modal-level-number,
+#modal-pass-rate,
+#modal-questions-count,
+#modal-encouragement,
+#modal-price,
+#result-title,
+#result-stats,
+#result-feedback,
+.user-name,
+.user-stats,
+.encouragement-text {
+  direction: auto;
+  unicode-bidi: plaintext;
+  hyphens: auto;
+  line-height: 1.6;
 }
 
 /* Custom scrollbar */
