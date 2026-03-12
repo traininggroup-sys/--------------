@@ -22,7 +22,7 @@
           </div>
           <a
             href="admin.html"
-            class="back-btn"
+            class="back-btn1"
 id="admin-btn"
             style="text-decoration: none;"
             >⚙️</a
@@ -31,8 +31,8 @@ id="admin-btn"
 
         <div class="top-controls">
           <div class="coin-container" id="header-coins" style="display: none;">
-            <img src="egyptian-coin-featuring-pharaoh-vector.jpg" id="egypounds" />
-            <span>حوشت كام:</span>
+            <img src="جنيه.jpg" id="egypounds" />
+            <span>كسبت:</span>
             <span id="coin-count">جنيه </span>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
@@ -44,13 +44,13 @@ id="admin-btn"
       <section id="login-section" class="show">
         <div class="login-content">
           <div class="input-row">
-            <input id="username" placeholder="اسم المستخدم" type="text" />
-            <input id="password" placeholder="كلمة المرور" type="password" />
+            <input id="username" placeholder="اكتب اسمك ثلاثي" type="text" />
+            <input id="password" placeholder="اكتبت رقمك المفضل" type="password" />
             <button id="login-btn">دخول / إنشاء حساب</button>
           </div>
         </div>
         <div class="coin-container" id="login-coins" style="display: none; margin-top: 15px; justify-content: center;">
-          <img src="egyptian-coin-featuring-pharaoh-vector.jpg" id="egypounds-login" />
+          <img src="جنيه.jpg" id="egypounds-login" />
           <span>حوشت كام:</span>
           <span id="coin-count-login">جنيه </span>
         </div>
@@ -241,7 +241,7 @@ const adminBtn = document.getElementById("admin-btn");
       let leaderboardUnsubscribe = null;
 
       const levelsData = {
-        1: { questions: 5, passRate: 0.6, time: 60 },
+        1: { questions: 5, passRate: 0.6, time: 600},
         2: { questions: 5, passRate: 0.65, time: 60 },
         3: { questions: 5, passRate: 0.7, time: 60 },
         4: { questions: 5, passRate: 0.75, time: 60 },
@@ -393,7 +393,7 @@ const adminBtn = document.getElementById("admin-btn");
                 coins: data.coins || 0,
               };
               userCoins = data.coins || 0;
-              coinCountEl.textContent = userCoins;
+              coinCountEl.textContent = userCoins + " جنيه";
               showLevels();
             } else {
               showToast("خطأ", "كلمة المرور غير صحيحة", "err");
@@ -402,7 +402,7 @@ const adminBtn = document.getElementById("admin-btn");
             await set(userRef, { password, passedLevels: [], coins: 0 });
             currentUser = { username, passedLevels: [], coins: 0 };
             userCoins = 0;
-            coinCountEl.textContent = 0;
+            coinCountEl.textContent = "0 جنيه";
             showLevels();
           }
         } catch (e) {
@@ -566,7 +566,7 @@ async function startLevel(level) {
         if (isPassed && !currentUser.passedLevels.includes(currentLevel)) {
           currentUser.passedLevels.push(currentLevel);
           userCoins += 1;
-          coinCountEl.textContent = userCoins;
+          coinCountEl.textContent = userCoins + " جنيه";
           await update(
             ref(db, "users/" + sanitizeFirebaseKey(currentUser.username)),
             {
@@ -692,7 +692,7 @@ async function startLevel(level) {
                   <span class="rank">${i + 1}</span>
                   <div class="user-info">
                     <div class="user-name">${user.username}</div>
-                    <div class="user-stats">✅ ${user.passedLevels} مستويات | 🪙 ${user.coins} عملة</div>
+<div class="user-stats">✅ ${user.passedLevels} مستويات | 🪙 ${user.coins} جنيه</div>
                   </div>
                 </div>
               `;
