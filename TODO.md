@@ -1,16 +1,15 @@
-# TODO: Fix Text Direction for Mixed Arabic/English - COMPLETED ✅
+# TODO: إضافة صفحة كسبت الجنيه
 
-## Plan Summary:
-- [x] CSS: Added `.auto-dir` with `direction: auto; unicode-bidi: plaintext;` for dynamic elements
-- [x] JS: Applied class to questions, answers, toasts, results, modals
-- [x] Tested: Mixed text now renders correctly (English ? right-aligned, Arabic ؟ left-aligned)
+## الخطوات الأساسية (coins modal):
+- [x] 1. إضافة HTML للـ modal في index.html
+- [x] 2. إضافة JS event listener للـ coins div في index.html
+- [x] 3. إضافة CSS styles للـ modal في style.css
+- [x] 4. اختبار الوظيفة
+- [x] 5. تم ✅
 
-**Result:** Text direction auto-detects language. English sentences LTR within RTL page, Arabic RTL. Punctuation perfect.
-
-Refresh `index.html` to test. Console test:
-```
-document.getElementById('question-text').textContent = 'What is CSS? ما هو CSS؟';
-```
-
-Task done! 🎉
-
+## تحديث جديد: Loading Spinner (للعمليات البطيئة)
+- [x] 1. إضافة HTML spinner
+- [x] 2. JS show/hide functions
+- [ ] 3. استدعاء في login, levels, questions, leaderboard
+- [x] 4. CSS animation
+- [ ] 5. تم

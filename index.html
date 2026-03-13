@@ -98,7 +98,19 @@ id="admin-btn"
         <div id="leaderboard-list">جارٍ التحميل...</div>
       </div>
 
+      <!-- Coins Modal - صفحة كسبت الجنيه -->
+      <div id="coins-modal" class="coins-modal" aria-hidden="true">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2>كسبت جنيه! 🪙</h2>
+          <button id="close-coins-modal" class="close-modal">×</button>
+        </div>
+        <div id="coins-content" class="coins-content">
+          اكتب النص هنا...
+        </div>
+      </div>
+
       <div id="level-modal" class="level-modal">
+
         <button id="close-modal" class="close-modal">×</button>
         <h3>المستوى <span id="modal-level-number"></span></h3>
         <p id="modal-pass-rate"></p>
@@ -109,6 +121,12 @@ id="admin-btn"
           <button id="modal-start-btn">ابدأ</button>
           <button id="modal-buy-btn" style="display: none">شراء</button>
         </div>
+      </div>
+
+      <!-- Loading Spinner -->
+      <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>جاري التحميل...</p>
       </div>
 
       <div id="toast" class="toast">
@@ -207,6 +225,9 @@ id="admin-btn"
       const loginBtn = document.getElementById("login-btn");
       const headerCoins = document.getElementById("header-coins");
       const loginCoins = document.getElementById("login-coins");
+      const coinsModal = document.getElementById("coins-modal");
+      const closeCoinsModal = document.getElementById("close-coins-modal");
+      const loadingSpinner = document.getElementById("loading-spinner");
 const adminBtn = document.getElementById("admin-btn");
 
       // --- حدث زر الأدمن ---
@@ -386,6 +407,7 @@ const adminBtn = document.getElementById("admin-btn");
           return;
         }
 
+        showLoading();
         loginBtn.disabled = true;
         loginBtn.textContent = "جاري التحميل...";
 
@@ -416,6 +438,7 @@ const adminBtn = document.getElementById("admin-btn");
         } catch (e) {
           showToast("خطأ", "حدث خطأ في قاعدة البيانات", "err");
         } finally {
+          hideLoading();
           loginBtn.disabled = false;
           loginBtn.textContent = "دخول / إنشاء حساب";
         }
@@ -671,6 +694,15 @@ async function startLevel(level) {
         }, 2500);
       }
 
+      // Loading Spinner Functions
+      function showLoading() {
+        loadingSpinner.classList.add("show");
+      }
+
+      function hideLoading() {
+        loadingSpinner.classList.remove("show");
+      }
+
       // --- لوحة المتصدرين ---
       if (leaderboardBtn) {
         leaderboardBtn.addEventListener("click", async () => {
@@ -724,6 +756,32 @@ async function startLevel(level) {
       if (closeLeaderboardBtn) {
         closeLeaderboardBtn.addEventListener("click", () => {
           leaderboardCard.style.display = "none";
+        });
+      }
+
+      // --- Coins Modal Handlers ---
+      if (headerCoins) {
+        headerCoins.addEventListener("click", () => {
+          if (coinsModal) {
+            coinsModal.style.display = "block";
+          }
+        });
+      }
+
+      if (closeCoinsModal) {
+        closeCoinsModal.addEventListener("click", () => {
+          if (coinsModal) {
+            coinsModal.style.display = "none";
+          }
+        });
+      }
+
+      // Close coins modal when clicking outside
+      if (coinsModal) {
+        coinsModal.addEventListener("click", (e) => {
+          if (e.target === coinsModal) {
+            coinsModal.style.display = "none";
+          }
         });
       }
     </script>
