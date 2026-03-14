@@ -2,4 +2,1371 @@
 * Duolingo Style Design - تصميم دوولينجو
 ============================================ */
 
-@import url("https://fonts.googleapis.com/css
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap");
+
+:root {
+  /* Duolingo Colors */
+  --duo-green: #58cc02;
+  --duo-green-dark: #46a302;
+  --duo-green-light: #d7ff0a;
+  --duo-orange: #ff9600;
+  --duo-orange-dark: #d68200;
+  --duo-blue: #1cb0f6;
+  --duo-blue-dark: #1899d6;
+  --duo-red: #ff4b4b;
+  --duo-red-dark: #e04545;
+  --duo-purple: #af5b5e;
+  --duo-purple-dark: #8b4a4d;
+  --duo-yellow: #ffc800;
+  --duo-yellow-light: #ffea00;
+
+  /* Background */
+  --bg: #ffffff;
+  --bg-gray: #f7f7f7;
+  --bg-light-green: #e5f7e5;
+
+  /* Text */
+  --text: #3c3c3c;
+  --text-light: #6f6f6f;
+  --text-white: #ffffff;
+
+  /* Status */
+  --success: var(--duo-green);
+  --error: var(--duo-red);
+  --warning: var(--duo-orange);
+
+  /* neutrals */
+  --gray-100: #f7f7f7;
+  --gray-200: #ececec;
+  --gray-300: #e0e0e0;
+  --gray-400: #cfcfcf;
+  --gray-500: #afafaf;
+
+  /* Shadows - 3D effect */
+  --shadow: 0 4px 0 #46a302;
+  --shadow-orange: 0 4px 0 #d68200;
+  --shadow-blue: 0 4px 0 #1899d6;
+  --shadow-red: 0 4px 0 #e04545;
+  --shadow-purple: 0 4px 0 #8b4a4d;
+  --shadow-gray: 0 4px 0 #afafaf;
+  --shadow-light: 0 2px 0 rgba(0, 0, 0, 0.1);
+
+  /* Radius */
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-lg: 24px;
+  --radius-pill: 50px;
+
+  /* Transition */
+  --transition: all 0.15s ease;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  font-family: "Tajawal", sans-serif;
+  direction: rtl;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-gray);
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Container */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+/* Header */
+header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.header-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.title-group h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: #272323;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.title-group h3 {
+  margin: 0;
+  font-size: 16px;
+  color: red;
+  font-weight: 600;
+}
+
+h1 {
+  margin: 0 0 5px 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--duo-orange);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* Top Controls */
+.top-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.coin-container {
+  cursor: pointer;
+  flex: 1;
+  max-width: 280px;
+  margin: 0;
+  padding: 6px 7px;
+  background: var(--bg);
+  border: none;
+  /* border-radius: var(--radius-pill); */
+  color: #1d1919;
+  border: 2px solid var(--gray-300);
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: var(--shadow-gray);
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.coin-container img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-inline-end: 3px;
+}
+
+.coin-container span {
+  font-weight: bolder;
+  color: var(--text);
+  font-size: 18px;
+}
+
+/* Buttons - Duolingo Style */
+button {
+  cursor: pointer;
+  padding: 2px 9px;
+  background: var(--duo-green);
+  border: none;
+  /* border-radius: var(--radius-pill); */
+  color: white;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--duo-green-dark);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--duo-green-dark);
+}
+
+/* Back Button */
+.back-btn,
+#leaderboard-btn {
+  background: var(--bg);
+  color: #1d1919;
+  border: 2px solid var(--gray-300);
+  box-shadow: var(--shadow-gray);
+  flex: 1;
+  max-width: 280px;
+  margin: 0;
+  padding: 16px 32px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.back-btn:hover,
+#leaderboard-btn:hover {
+  background: var(--gray-100);
+  color: var(--duo-blue);
+  border-color: var(--duo-blue);
+  box-shadow: 0 4px 0 #afafaf;
+}
+
+.back-btn:active {
+  box-shadow: 0 2px 0 #afafaf;
+}
+
+/* Login Section */
+#login-section {
+  background: transparent;
+  padding: 20px 35px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+}
+
+.login-content {
+  margin-top: 25px;
+}
+
+.input-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--gray-300);
+  background: var(--bg);
+  color: var(--text);
+  width: 220px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: var(--transition);
+  margin: 4px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--duo-blue);
+  box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
+  outline: none;
+}
+
+input::placeholder {
+  color: var(--gray-500);
+}
+
+#login-btn {
+  background: var(--duo-green);
+}
+
+#login-btn:hover {
+  background: var(--duo-green-dark);
+}
+
+/* Levels Section */
+#levels {
+  display: none;
+  margin-top: 24px;
+  gap: 18px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.level-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 22px 28px;
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--bg);
+  border: 2px solid var(--gray-200);
+  transition: var(--transition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: var(--text);
+  box-shadow: 0 4px 0 var(--gray-300);
+  margin: 0 10px;
+}
+
+.level-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 var(--gray-400);
+}
+
+.level-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--gray-300);
+}
+
+.level-card.open {
+  background: var(--duo-blue);
+  color: white;
+  border-color: var(--duo-blue-dark);
+  box-shadow: var(--shadow-blue);
+}
+
+.level-card.open:hover {
+  background: var(--duo-blue-dark);
+  box-shadow: 0 6px 0 #1477b5;
+}
+
+.level-card.open:active {
+  box-shadow: 0 2px 0 #1477b5;
+}
+
+.level-card.passed {
+  background: var(--duo-green);
+  color: white;
+  border-color: var(--duo-green-dark);
+  box-shadow: var(--shadow);
+}
+
+.level-card.passed:hover {
+  background: var(--duo-green-dark);
+  box-shadow: 0 6px 0 var(--duo-green-dark);
+}
+
+.level-card.passed:active {
+  box-shadow: 0 2px 0 var(--duo-green-dark);
+}
+
+.level-card.locked {
+  background: var(--gray-100);
+  color: var(--gray-500);
+  cursor: not-allowed;
+  border-color: var(--gray-200);
+  box-shadow: 0 4px 0 var(--gray-300);
+}
+
+.level-card.locked:hover {
+  transform: none;
+  box-shadow: 0 4px 0 var(--gray-300);
+}
+
+/* Question Box */
+#question-box {
+  display: none;
+  background: var(--bg);
+  padding: 30px 24px;
+  border-radius: var(--radius-lg);
+  margin-top: 20px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+  border-bottom: 4px solid var(--gray-200);
+}
+
+#question-info {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: var(--text-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+/* Progress Bar - Duolingo Style */
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  margin: 10px 20px;
+  background: var(--gray-200);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  display: flex;
+}
+
+.progress-fill {
+  display: none;
+}
+
+#question-text {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: var(--text);
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+#answers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#answers label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid var(--gray-200);
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 0 var(--gray-300);
+  margin: 0 4px;
+  /* Ensure entire label is clickable */
+  position: relative;
+  user-select: none;
+}
+
+#answers label:hover {
+  border-color: var(--duo-blue);
+  background: #f0f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--gray-300);
+}
+
+#answers label.selected-opt {
+  background: #d6f0ff;
+  border-color: var(--duo-blue);
+  color: var(--duo-blue-dark);
+  box-shadow: 0 3px 0 var(--duo-blue-dark);
+  transform: translateY(-1px);
+}
+
+#answers input[type="radio"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--duo-blue);
+}
+
+#next-q-btn {
+  margin-top: 25px;
+  width: 100%;
+  padding: 16px;
+  font-size: 17px;
+  background: var(--duo-green);
+  box-shadow: var(--shadow);
+}
+
+#next-q-btn:hover {
+  background: var(--duo-green-dark);
+  box-shadow: 0 6px 0 var(--duo-green-dark);
+}
+
+/* Result Section */
+#result-section {
+  display: none;
+  background: var(--bg);
+  padding: 35px 25px;
+
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+  border-bottom: 4px solid var(--gray-200);
+  text-align: center;
+}
+
+#result-section h2 {
+  font-size: 26px;
+  margin: 0 0 15px 0;
+  color: var(--text);
+  font-weight: 800;
+}
+
+#result-stats {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--duo-blue);
+  margin-bottom: 12px;
+}
+
+#result-feedback {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  padding: 10px 9px;
+  border-radius: var(--radius-pill);
+  display: inline-block;
+}
+
+#answers-review {
+  text-align: right;
+  margin: 25px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#answers-review h3 {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 15px;
+}
+
+#answers-review > div {
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  background: var(--gray-100);
+  border: 2px solid var(--gray-200);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.result-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+/* Leaderboard */
+#leaderboard {
+  display: none;
+  position: fixed;
+  inset: 10%;
+  background: var(--bg);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  z-index: 60;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid var(--gray-200);
+  direction: rtl;
+}
+
+#leaderboard > div:first-child {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+#leaderboard h2 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.leader-user {
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  transition: var(--transition);
+}
+
+.leader-user .rank {
+  font-size: 24px;
+  font-weight: 900;
+  min-width: 40px;
+  text-align: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.leader-user .user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.leader-user .user-name {
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leader-user .user-stats {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+#leaderboard h2 {
+  color: var(--duo-yellow);
+  margin: 0 0 25px 0;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 800;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.leader-user {
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  background: var(--gray-100);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+  border: 2px solid var(--gray-200);
+}
+
+.leader-user:hover {
+  background: var(--gray-200);
+  transform: translateX(-4px);
+}
+
+.leader-user.first-place {
+  background: linear-gradient(135deg, #ffe566 0%, #ffd700 100%);
+  border-color: #e6c200;
+}
+
+.leader-user.second-place {
+  background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+  border-color: #a0a0a0;
+}
+
+.leader-user.third-place {
+  background: linear-gradient(135deg, #ffb347 0%, #cd853f 100%);
+  border-color: #a06830;
+}
+
+.leader-user .rank {
+  font-size: 20px;
+  font-weight: 800;
+  min-width: 35px;
+  text-align: center;
+  color: var(--text);
+}
+
+.leader-user .user-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.leader-user .user-stats {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* Level Modal - Duolingo Style */
+.level-modal {
+  display: none;
+  position: fixed;
+  inset: 15%;
+  background: var(--bg);
+  padding: 35px;
+  border-radius: var(--radius-lg);
+  z-index: 70;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+  max-height: 65vh;
+  overflow: auto;
+  text-align: center;
+  border: 2px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.level-modal > * {
+  width: 100%;
+  text-align: center;
+}
+
+.level-modal h3 {
+  color: var(--duo-blue);
+  font-size: 24px;
+  margin: 0 0 15px 0;
+  font-weight: 800;
+}
+
+.level-modal p {
+  color: var(--text-light);
+  font-size: 15px;
+  margin: 30px 0;
+  font-weight: 600;
+}
+
+/* Pass Rate Display in Modal */
+.pass-rate-label {
+  color: #272525;
+  font-weight: 800;
+}
+
+.pass-rate-value {
+  color: var(--duo-green);
+  font-weight: 800;
+  font-size: 16px;
+  background: rgba(88, 204, 2, 0.15);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  margin-inline-start: 8px;
+}
+
+/* Questions Count Display in Modal */
+.questions-label {
+  color: #272525;
+  font-weight: 800;
+}
+
+.questions-value {
+  color: var(--duo-blue);
+  font-weight: 800;
+  font-size: 16px;
+  background: rgba(28, 176, 246, 0.15);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  margin-inline-start: 8px;
+}
+
+/* Encouragement Text in Modal */
+.encouragement-text {
+  display: block;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.8;
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  padding: 18px 22px;
+  border-radius: var(--radius);
+  margin-top: 20px;
+  border: 2px solid var(--duo-yellow);
+  box-shadow: 0 3px 0 rgba(245, 158, 11, 0.3);
+}
+
+.level-modal .modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.level-modal .modal-buttons button {
+  flex: 1;
+  max-width: 180px;
+}
+
+.level-modal .close-modal {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: var(--gray-100);
+  border: none;
+  color: #df2727;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  box-shadow: 0 3px 0 var(--gray-300);
+}
+
+.level-modal .close-modal:hover {
+  background: var(--duo-red);
+  color: white;
+  box-shadow: 0 3px 0 var(--duo-red-dark);
+}
+
+/* Toast - Duolingo Style */
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  bottom: 30px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  background: var(--text);
+  color: white;
+  z-index: 80;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.ok {
+  background: var(--duo-green);
+  box-shadow: var(--shadow);
+}
+
+.toast.warn {
+  background: var(--duo-orange);
+  color: white;
+  box-shadow: var(--shadow-orange);
+}
+
+.toast.err {
+  background: var(--duo-red);
+  box-shadow: var(--shadow-red);
+}
+
+#toast-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Footer */
+.footer-note {
+  margin-top: 40px;
+  color: var(--text-light);
+  font-size: 13px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Logout Button */
+.levels-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.logout-btn {
+  display: none;
+  background: var(--duo-red);
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-red);
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 44px;
+  z-index: 100;
+  position: relative;
+}
+
+.logout-btn.show {
+  display: inline-block;
+  pointer-events: auto;
+}
+
+.logout-btn:hover {
+  background: var(--duo-red-dark);
+  box-shadow: 0 6px 0 var(--duo-red-dark);
+}
+
+/* Timer - Duolingo Style */
+#timer {
+  background: var(--duo-orange);
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  box-shadow: 0 3px 0 var(--duo-orange-dark);
+}
+
+/* Utility */
+.text-center {
+  text-align: center;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  header {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+
+  #leaderboard {
+    inset: 5%;
+    padding: 20px 16px;
+    max-height: 90vh;
+  }
+
+  #leaderboard h2 {
+    font-size: 20px;
+  }
+
+  .leader-user {
+    padding: 12px;
+    min-height: 54px;
+    gap: 10px;
+  }
+
+  .leader-user .rank {
+    font-size: 20px;
+    min-width: 36px;
+  }
+
+  .leader-user .user-name {
+    font-size: 15px;
+  }
+
+  #leaderboard > div:first-child {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  #close-leaderboard-btn {
+    order: -1;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .logo {
+    width: 60px;
+  }
+
+  .title-group h1 {
+    font-size: 18px;
+  }
+
+  .title-group h3 {
+    font-size: 20px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  .top-controls {
+    gap: 6px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    max-width: 100%;
+  }
+
+  .coin-container {
+    flex: 1;
+    max-width: none;
+    margin: 0;
+    padding: 6px 7px;
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .back-btn,
+  #leaderboard-btn {
+    flex: 1;
+    max-width: none;
+    padding: 6px 7px;
+    min-height: 44px;
+    font-size: 20px;
+  }
+
+  .coin-container img {
+    width: 33px;
+    height: 33px;
+  }
+
+  #login-section {
+    padding: 30px 16px;
+    width: 100%;
+  }
+
+  .login-content {
+    width: 100%;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  #login-btn {
+    width: 100%;
+  }
+
+  #question-box,
+  #result-section {
+    padding: 24px 16px;
+  }
+
+  #question-text {
+    font-size: 18px;
+    overflow-wrap: break-word;
+  }
+
+  #answers label {
+    font-size: 15px;
+    padding: 14px 16px;
+  }
+
+  .level-card {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+
+  #leaderboard {
+    inset: 5%;
+    padding: 20px 14px;
+  }
+
+  .level-modal {
+    inset: 8%;
+    padding: 28px 16px;
+  }
+
+  .result-buttons {
+    flex-direction: column;
+  }
+
+  .result-buttons button {
+    width: 100%;
+  }
+}
+
+/* Animations */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.level-card.passed {
+  animation: pulse 0.5s ease;
+}
+
+.level-card.open {
+  animation: bounce 1s ease infinite;
+}
+
+/* Auto direction for mixed Arabic/English text */
+.auto-dir {
+  direction: auto !important;
+  unicode-bidi: plaintext;
+  hyphens: auto;
+}
+
+/* Apply to key dynamic text elements */
+#question-text,
+.answer-label span,
+#toast-msg,
+#modal-level-number,
+#modal-pass-rate,
+#modal-questions-count,
+#modal-encouragement,
+#modal-price,
+#result-title,
+#result-stats,
+#result-feedback,
+.user-name,
+.user-stats,
+.encouragement-text {
+  direction: auto;
+  unicode-bidi: plaintext;
+  hyphens: auto;
+  line-height: 1.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--duo-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--duo-green-dark);
+}
+
+/* Coins Modal - صفحة كسبت الجنيه (مثل لوحة المتصدرين) */
+.coins-modal {
+  display: none;
+  position: fixed;
+  inset: 10%;
+  background: var(--bg);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  z-index: 65;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid var(--gray-200);
+  text-align: center;
+}
+
+.coins-modal h2 {
+  color: var(--duo-yellow);
+  margin: 0 0 25px 0;
+  font-size: 24px;
+  font-weight: 800;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.coins-content {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  padding: 25px;
+  border-radius: var(--radius);
+  min-height: 200px;
+  border: 3px dashed var(--duo-yellow);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: 400px;
+  direction: auto;
+  unicode-bidi: plaintext;
+}
+
+.coins-content:focus {
+  border-color: var(--duo-orange);
+  border-width: 3px;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.3);
+}
+
+.coins-modal .close-modal {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: var(--gray-100);
+  border: none;
+  color: var(--text-light);
+  font-size: 28px;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  box-shadow: 0 3px 0 var(--gray-300);
+  font-weight: bold;
+}
+
+.coins-modal .close-modal:hover {
+  background: var(--duo-red);
+  color: white;
+  box-shadow: 0 3px 0 var(--duo-red-dark);
+}
+
+.modal-coin-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-inline-start: 15px;
+}
+
+.coins-modal h2 {
+  margin: 0 15px 0 0;
+}
+
+@media (max-width: 500px) {
+  .modal-coin-img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .coins-modal h2 {
+    font-size: 20px;
+    margin: 0 10px 0 0;
+  }
+}
+
+/* Mobile for Coins Modal */
+@media (max-width: 500px) {
+  .coins-modal {
+    inset: 5%;
+    padding: 20px 15px;
+    max-height: 90vh;
+  }
+
+  .coins-content {
+    font-size: 16px;
+    padding: 20px 15px;
+    min-height: 150px;
+  }
+}
+
+/* Loading Spinner - Duolingo Style */
+.loading-spinner {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Tajawal", sans-serif;
+}
+
+.loading-spinner.show {
+  display: flex;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--gray-200);
+  border-top: 4px solid var(--duo-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner p {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--duo-green);
+  margin: 0;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 500px) {
+  .spinner {
+    width: 50px;
+    height: 50px;
+  }
+
+  .loading-spinner p {
+    font-size: 16px;
+  }
+}
