@@ -128,7 +128,7 @@ header {
   margin: 0;
   font-size: 28px;
   font-weight: 800;
-  color: var(--duo-orange);
+  color: #272323;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -916,7 +916,7 @@ input::placeholder {
   }
 
   .title-group h1 {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .title-group h3 {
