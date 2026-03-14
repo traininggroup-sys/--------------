@@ -196,10 +196,10 @@ h3 {
 }
 
 .coin-container img {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  margin-inline-end: 8px;
+  margin-inline-end: 14px;
 }
 
 .coin-container span {
@@ -249,13 +249,13 @@ button:active {
   flex: 1;
   max-width: 280px;
   margin: 0;
-  padding: 10px 24px;
-  min-height: 44px;
+  padding: 16px 32px;
+  min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .back-btn:hover,
@@ -600,13 +600,66 @@ input::placeholder {
   position: fixed;
   inset: 10%;
   background: var(--bg);
-  padding: 30px;
+  padding: 24px;
   border-radius: var(--radius-lg);
   z-index: 60;
   box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
   max-height: 80vh;
   overflow-y: auto;
   border: 2px solid var(--gray-200);
+  direction: rtl;
+}
+
+#leaderboard > div:first-child {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+#leaderboard h2 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.leader-user {
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  transition: var(--transition);
+}
+
+.leader-user .rank {
+  font-size: 24px;
+  font-weight: 900;
+  min-width: 40px;
+  text-align: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.leader-user .user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.leader-user .user-name {
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leader-user .user-stats {
+  font-size: 13px;
+  opacity: 0.9;
 }
 
 #leaderboard h2 {
@@ -918,6 +971,45 @@ input::placeholder {
     padding-top: 20px;
     padding-bottom: 10px;
     margin-bottom: 18px;
+  }
+
+  #leaderboard {
+    inset: 5%;
+    padding: 20px 16px;
+    max-height: 90vh;
+  }
+
+  #leaderboard h2 {
+    font-size: 20px;
+  }
+
+  .leader-user {
+    padding: 12px;
+    min-height: 54px;
+    gap: 10px;
+  }
+
+  .leader-user .rank {
+    font-size: 20px;
+    min-width: 36px;
+  }
+
+  .leader-user .user-name {
+    font-size: 15px;
+  }
+
+  #leaderboard > div:first-child {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  #close-leaderboard-btn {
+    order: -1;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
   }
 
   .logo {
