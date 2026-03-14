@@ -684,6 +684,15 @@ input::placeholder {
   overflow: auto;
   text-align: center;
   border: 2px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.level-modal > * {
+  width: 100%;
+  text-align: center;
 }
 
 .level-modal h3 {
@@ -765,7 +774,7 @@ input::placeholder {
   right: 15px;
   background: var(--gray-100);
   border: none;
-  color: var(--text-light);
+  color: #df2727;
   font-size: 28px;
   cursor: pointer;
   width: 40px;
