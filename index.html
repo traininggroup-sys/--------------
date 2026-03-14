@@ -75,13 +75,13 @@
 
         <h2 id="question-text">سؤال هنا</h2>
 
-        <form id="quizForm">
+<div id="quiz-container">
           <div id="answers"></div>
 
           <div style="text-align: left; margin-top: 20px">
             <button id="next-q-btn">السؤال التالي ⬅️</button>
           </div>
-        </form>
+        </div>
 
         <div id="tip"></div>
       </section>
@@ -331,6 +331,10 @@ const adminBtn = document.getElementById("admin-btn");
         }
 
         selectedOptionIndex = null;
+        // Clear all radios
+        document.querySelectorAll('input[name="quiz-opt"]').forEach(r => r.checked = false);
+        document.querySelectorAll('.answer-label').forEach(l => l.classList.remove("selected-opt"));
+
         document.getElementById("question-text").textContent = q.q;
         document.getElementById("question-text").classList.add("auto-dir");
         answersDiv.innerHTML = "";
@@ -344,37 +348,46 @@ const adminBtn = document.getElementById("admin-btn");
         <input type="radio" name="quiz-opt" value="${i}">
         <span class="auto-dir">${opt}</span>
       `;
-          label.addEventListener("click", (e) => {
-            // Prevent double triggering
-            e.stopPropagation();
-            const allLabels = answersDiv.querySelectorAll("label");
-            allLabels.forEach((l) => l.classList.remove("selected-opt"));
-            label.classList.add("selected-opt");
-            // Also check the radio button
-            const radio = label.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
-            selectedOptionIndex = i;
-          });
           answersDiv.appendChild(label);
         });
       }
 
-      // زر التالي الموحد
-      document.getElementById("next-q-btn").addEventListener("click", (e) => {
-        e.preventDefault(); // منع إعادة تحميل الصفحة
-        if (selectedOptionIndex === null) {
+      let isProcessing = false;
+
+      // Debounce utility (missing function)
+      function debounce(func, wait) {
+        let timeout;
+        return (...args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+      }
+
+      // زر التالي الموحد مع debounce و disable
+      document.getElementById("next-q-btn").addEventListener("click", debounce((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (isProcessing) return;
+        const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
+        if (!checkedRadio) {
           showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
           return;
         }
 
+        isProcessing = true;
+        document.getElementById("next-q-btn").disabled = true;
+        document.getElementById("next-q-btn").textContent = "جاري الانتقال...";
+
+        const selectedIndex = parseInt(checkedRadio.value);
         const q = currentQuestions[currentQuestionIndex];
         userAnswers.push({
           questionIndex: currentQuestionIndex,
-          userChoice: selectedOptionIndex,
-          correct: selectedOptionIndex === q.answer,
+          userChoice: selectedIndex,
+          correct: selectedIndex === q.answer,
         });
 
-        if (selectedOptionIndex === q.answer) correctAnswers++;
+        if (selectedIndex === q.answer) correctAnswers++;
 
         currentQuestionIndex++;
         if (currentQuestionIndex < currentQuestions.length) {
@@ -382,7 +395,18 @@ const adminBtn = document.getElementById("admin-btn");
         } else {
           endLevel();
         }
-      });
+
+        // Reset after short delay
+        setTimeout(() => {
+          isProcessing = false;
+          const btn = document.getElementById("next-q-btn");
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "السؤال التالي ⬅️";
+          }
+        }, 300);
+
+      }, 200));
 
       // --- تسجيل الدخول ---
       loginBtn.addEventListener("click", async () => {

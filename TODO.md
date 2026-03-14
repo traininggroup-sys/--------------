@@ -1,13 +1,11 @@
-# TODO: Fix Start Screen Logo & Channel Title
+# خطة إصلاح زر "السؤال التالي"
 
-## Plan Steps (Approved by user - logo smaller)
-1. [ ] Edit index.html: Add logo img, restructure header to classes, remove inline styles.
-2. [ ] Edit style.css: Add .logo (smaller responsive), .header-content, .title-group; remove ::before.
-3. [ ] Test: Refresh browser, check desktop/mobile appearance.
-4. [ ] Complete task.
+## الخطوات:
+- [x] 1. إزالة form واستبدال بـ div
+- [x] 2. إضافة radio change event delegation
+- [x] 3. تحديث next-btn handler مع disable
+- [x] 4. إضافة debounce و state flags
+- [x] 5. تحديث renderQuestion()
+- [x] 6. اختبار و attempt_completion
 
-## Completed ✅
-- Edited index.html: Added logo img, title-group, removed inline styles.
-- Edited style.css: Removed ::before, added .header-content/.logo/.title-group (smaller logo: 80px→60px mobile), adjusted paddings/margins.
-
-Steps 3-4 done: Changes applied successfully.
+حالة: جاهز للتنفيذ
