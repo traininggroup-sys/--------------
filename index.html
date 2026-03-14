@@ -69,10 +69,6 @@
       <section id="question-box">
         <div id="question-info"></div>
 
-        <div class="progress-bar">
-          <div class="progress-fill"></div>
-        </div>
-
         <h2 id="question-text">سؤال هنا</h2>
 
 <div id="quiz-container">
@@ -280,16 +276,12 @@ const adminBtn = document.getElementById("admin-btn");
       // --- وظائف المساعدة والوقت ---
       function updateTimerDisplay() {
         const questionInfoEl = document.getElementById("question-info");
-        const progressFill = document.querySelector(".progress-fill");
         const totalTime = levelsData[currentLevel].time;
-        const progressPercent = (timeLeft / totalTime) * 100;
-
-        if (progressFill) progressFill.style.width = progressPercent + "%";
 
         questionInfoEl.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
         <span>السؤال ${currentQuestionIndex + 1} من ${currentQuestions.length}</span>
-        <div id="timer" style="color: ${timeLeft < 60 ? "red" : "var(--accent-secondary)"}; font-weight: bold;">
+        <div id="timer" style="color: ${timeLeft < 60 ? "red" : "#1cb0f6"}; font-weight: bold;">
           ⏳ ${formatTime(timeLeft)}
         </div>
       </div>

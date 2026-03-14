@@ -443,16 +443,7 @@ input::placeholder {
 }
 
 .progress-fill {
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    var(--duo-green-light) 0%,
-    var(--duo-green) 100%
-  );
-  border-radius: var(--radius-pill);
-  transition: width 0.4s ease;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
-  flex: none;
+  display: none;
 }
 
 #question-text {
