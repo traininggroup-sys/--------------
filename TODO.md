@@ -1,11 +1,13 @@
-# خطة إصلاح زر "السؤال التالي"
+يس# خطة إصلاح زر "السؤال التالي" - النسخة الجديدة
 
-## الخطوات:
-- [x] 1. إزالة form واستبدال بـ div
-- [x] 2. إضافة radio change event delegation
-- [x] 3. تحديث next-btn handler مع disable
-- [x] 4. إضافة debounce و state flags
-- [x] 5. تحديث renderQuestion()
-- [x] 6. اختبار و attempt_completion
+## الخطوات المطلوبة:
+- [x] 1. إنشاء TODO.md (تم) ✓
+- [x] 2. تعديل index.html: إضافة wrapper div حول #next-q-btn لتوسيع المنطقة ✓
+- [x] 3. تعديل style.css: تحديث أنماط #next-q-btn + الwrapper + touch optimizations ✓
+- [x] 4. تحديث debounce في JS إلى 100ms (edit inline script) ✓
+- [x] 5. اختبار: تشغيل quiz، التحقق من first-click + hover-area على mobile/desktop ✓
+- [x] 6. attempt_completion إذا نجح ✓ المهمة مكتملة
 
-حالة: جاهز للتنفيذ
+**حالة**: قيد التنفيذ  
+**تاريخ**: الآن
+

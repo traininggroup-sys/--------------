@@ -74,8 +74,10 @@
 <div id="quiz-container">
           <div id="answers"></div>
 
-          <div style="text-align: left; margin-top: 20px">
-            <button id="next-q-btn">السؤال التالي ⬅️</button>
+          <div style="width: 100%; margin-top: 25px; text-align: center;">
+            <div class="next-btn-wrapper">
+              <button id="next-q-btn">السؤال التالي ⬅️</button>
+            </div>
           </div>
         </div>
 
@@ -357,6 +359,9 @@ const adminBtn = document.getElementById("admin-btn");
 
       // زر التالي الموحد مع debounce و disable
       document.getElementById("next-q-btn").addEventListener("click", debounce((e) => {
+        // Enhanced feedback for immediate response
+        e.target.style.transform = 'scale(0.98)';
+        setTimeout(() => { e.target.style.transform = ''; }, 150);
         e.preventDefault();
         e.stopPropagation();
 
@@ -398,7 +403,7 @@ const adminBtn = document.getElementById("admin-btn");
           }
         }, 300);
 
-      }, 200));
+      }, 100));
 
       // --- تسجيل الدخول ---
       loginBtn.addEventListener("click", async () => {
