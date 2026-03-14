@@ -135,7 +135,7 @@ header {
 .title-group h3 {
   margin: 0;
   font-size: 16px;
-  color: var(--text-light);
+  color: red;
   font-weight: 600;
 }
 
@@ -920,7 +920,7 @@ input::placeholder {
   }
 
   .title-group h3 {
-    font-size: 14px;
+    font-size: 20px;
   }
 
   h1 {
