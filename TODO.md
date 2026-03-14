@@ -1,15 +1,13 @@
-# TODO: إضافة صفحة كسبت الجنيه
+# TODO: Fix Start Screen Logo & Channel Title
 
-## الخطوات الأساسية (coins modal):
-- [x] 1. إضافة HTML للـ modal في index.html
-- [x] 2. إضافة JS event listener للـ coins div في index.html
-- [x] 3. إضافة CSS styles للـ modal في style.css
-- [x] 4. اختبار الوظيفة
-- [x] 5. تم ✅
+## Plan Steps (Approved by user - logo smaller)
+1. [ ] Edit index.html: Add logo img, restructure header to classes, remove inline styles.
+2. [ ] Edit style.css: Add .logo (smaller responsive), .header-content, .title-group; remove ::before.
+3. [ ] Test: Refresh browser, check desktop/mobile appearance.
+4. [ ] Complete task.
 
-## تحديث جديد: Loading Spinner (للعمليات البطيئة)
-- [x] 1. إضافة HTML spinner
-- [x] 2. JS show/hide functions
-- [ ] 3. استدعاء في login, levels, questions, leaderboard
-- [x] 4. CSS animation
-- [ ] 5. تم
+## Completed ✅
+- Edited index.html: Added logo img, title-group, removed inline styles.
+- Edited style.css: Removed ::before, added .header-content/.logo/.title-group (smaller logo: 80px→60px mobile), adjusted paddings/margins.
+
+Steps 3-4 done: Changes applied successfully.
