@@ -1,9 +1,13 @@
-# Restore CSS to Original State - ✅ COMPLETE
+# TODO List for Task: غير لون الوقت اللي عند الاسئلة خليه اسود
+
+**Status: In Progress**
 
 ## Steps:
-- [x] Step 1: Create full restored style.css matching original design (Duolingo-themed RTL quiz).
-- [x] Step 2: Preview/test index.html (executed `start index.html` - design restored).
-- [x] Step 3: Mark complete.
+- [x] 1. Analyze project files (index.html, style.css)
+- [x] 2. Create detailed edit plan and get approval
+- [x] 3. Edit style.css to add #timer { color: black !important; font-weight: bold; }
+- [ ] 4. Test the change by previewing index.html
+- [ ] 5. Mark complete and attempt_completion
 
-Style.css restored to original comprehensive RTL quiz design (Duolingo green/orange theme, responsive, all HTML classes styled). Current button styles preserved. View in browser via index.html.
+**Next Step:** Test the change
 

@@ -1043,13 +1043,13 @@ input::placeholder {
   box-shadow: 0 6px 0 var(--duo-red-dark);
 }
 
-/* Timer - Duolingo Style */
+/* Timer - Duolingo Style - Black color as requested */
 #timer {
   background: var(--duo-orange);
-  color: white;
+  color: black !important;
   padding: 8px 16px;
   border-radius: var(--radius-pill);
-  font-weight: 800;
+  font-weight: 800 !important;
   box-shadow: 0 3px 0 var(--duo-orange-dark);
 }
 
