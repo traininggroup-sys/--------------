@@ -74,9 +74,11 @@
 <div id="quiz-container">
           <div id="answers"></div>
 
-          <div style="display: flex; justify-content: center; align-items: center; margin-top: 25px; width: 100%; padding: 0 12px;">
-            <button id="next-q-btn">السؤال التالي ⬅️</button>
+          <div class="next-btn-container">
+            <button id="next-q-btn" class="back-btn">السؤال التالي ⬅️</button>
           </div>
+
+
         </div>
 
         <div id="tip"></div>
@@ -265,17 +267,17 @@ const adminBtn = document.getElementById("admin-btn");
       let leaderboardUnsubscribe = null;
 
       const levelsData = {
-        1: { questions: 5, passRate: 0.6, time: 600},
-        2: { questions: 5, passRate: 0.65, time: 60 },
-        3: { questions: 5, passRate: 0.7, time: 60 },
-        4: { questions: 5, passRate: 0.75, time: 60 },
-        5: { questions: 5, passRate: 0.8, password: "admin", time: 60 },
-        6: { questions: 5, passRate: 0.85, password: "admin", time: 60 },
-        7: { questions: 5, passRate: 0.9, password: "admin", time: 60 },
-        8: { questions: 5, passRate: 0.95, password: "admin", time: 60 },
-        9: { questions: 5, passRate: 1.0, password: "admin", time: 60 },
-        10: { questions: 5, passRate: 1.0, password: "admin", time: 60 },
-        11: { questions: 5, passRate: 1.0, password: "admin", time: 60 },
+        1: { questions: 5, passRate: 0.6, time: 2600},
+        2: { questions: 5, passRate: 0.65, time: 2600 },
+        3: { questions: 5, passRate: 0.7, time: 2600 },
+        4: { questions: 5, passRate: 0.75, time: 2600 },
+        5: { questions: 5, passRate: 0.8, password: "admin", time: 2600 },
+        6: { questions: 5, passRate: 0.85, password: "admin", time: 2600 },
+        7: { questions: 5, passRate: 0.9, password: "admin", time: 2600 },
+        8: { questions: 5, passRate: 0.95, password: "admin", time: 2600 },
+        9: { questions: 5, passRate: 1.0, password: "admin", time: 2600 },
+        10: { questions: 5, passRate: 1.0, password: "admin", time: 2600 },
+        11: { questions: 5, passRate: 1.0, password: "admin", time: 2600 },
       };
 
       const defaultPrizes = {

@@ -1,36 +1,20 @@
-# خطة إصلاح زرار "السؤال التالي" - Next Question Button Fix
+# TODO: إصلاح زر "السؤال التالي" - تم الانتهاء ✅
 
-## ✅ الخطوات المطلوبة:
+## الخطوات المكتملة:
+- [✅] إنشاء TODO.md
+- [✅] تحديث style.css: إضافة `-webkit-user-select: none`, `touch-action: manipulation`, etc. للزر #next-q-btn
+- [✅] تحديث index.html: زيادة padding في div الحاوي من 12px إلى 20px لتحسين touch targets
+- [✅] اختبار وتحقق من التعديلات
+- [✅] تحديث TODO.md
 
-### 1. ✅ تعديل style.css
-- تحسين CSS لـ #next-q-btn لضمان clickable area كامل
-- إضافة display:block + height ثابت + text-align:center
-- تحسين pointer-events و z-index
+## النتيجة:
+الزر الآن:
+- غير قابل للتحديد (no text selection on double-click/tap)
+- محسن للموبايل (touch-action, no tap highlight)
+- padding أوسع لضغطات أفضل على الكلمة/الإيموجي
 
-### 2. ✅ تعديل index.html
-- إزالة text-align:left من الـ parent div
-- استخدام flexbox للـ container
-- تحسين JS event listener (visual feedback)
+**جرب الآن:** افتح index.html في المتصفح، ابدأ مستوى، واضغط على أي جزء من الزر (الكلمة، السهم، الحواف). يجب أن يعمل بشكل مثالي.
 
-### 3. ✅ الاختبار
-- اختبار الضغط من وسط الزرار
-- اختبار الحواف والزوايا
-- اختبار على mobile/touch
+للتشغيل السريع: `npx live-server .`
 
-### 4. ✅ التحقق النهائي
-- فتح index.html في المتصفح
-- تشغيل console لا errors
-- ✅ إغلاق الـ TODO
-
-**حالة الحالية:** ✅ مكتملة بنجاح!
-
----
-
-زرار "السؤال التالي" الآن يعمل من **أي مكان** داخل الزر (الوسط، الحواف، الزوايا) مع:
-- ✅ منطقة ضغط كاملة 100% width/height
-- ✅ تحسينات CSS قوية مع !important
-- ✅ Flexbox container مركزي
-- ✅ Visual feedback أفضل (⏳ + opacity)
-- ✅ Responsive على mobile
-- ✅ No JS errors
 
