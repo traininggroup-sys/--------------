@@ -74,7 +74,7 @@
 <div id="quiz-container">
           <div id="answers"></div>
 
-          <div style="text-align: left; margin-top: 20px">
+          <div style="display: flex; justify-content: center; align-items: center; margin-top: 25px; width: 100%; padding: 0 12px;">
             <button id="next-q-btn">السؤال التالي ⬅️</button>
           </div>
         </div>
@@ -84,9 +84,9 @@
 <div id="leaderboard" class="leaderboard-modal" style="display: none;" aria-hidden="true">
         <div class="leaderboard-header">
           <h2>لوحة المتصدرين</h2>
-          <button id="close-leaderboard-btn" class="back-btn">⬅️ رجوع</button>
         </div>
         <div id="leaderboard-list">جارٍ التحميل...</div>
+        <button id="close-leaderboard-btn" class="back-btn leaderboard-close-btn">⬅️ رجوع</button>
       </div>
 
       <!-- Coins Modal - صفحة كسبت الجنيه -->
@@ -390,7 +390,12 @@ async function loadQuestionsFromDB(level) {
         e.preventDefault();
         e.stopPropagation();
 
-        if (isProcessing) return;
+        if (isProcessing) {
+          e.stopImmediatePropagation();
+          return;
+        }
+        
+        const btn = document.getElementById("next-q-btn");
         const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
         if (!checkedRadio) {
           showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
@@ -398,8 +403,10 @@ async function loadQuestionsFromDB(level) {
         }
 
         isProcessing = true;
-        document.getElementById("next-q-btn").disabled = true;
-        document.getElementById("next-q-btn").textContent = "جاري الانتقال...";
+        btn.disabled = true;
+        btn.style.opacity = "0.8";
+        btn.style.cursor = "wait";
+        btn.innerHTML = "⏳ جاري الانتقال...";
 
         const selectedIndex = parseInt(checkedRadio.value);
         const q = currentQuestions[currentQuestionIndex];
@@ -421,14 +428,15 @@ async function loadQuestionsFromDB(level) {
         // Reset after short delay
         setTimeout(() => {
           isProcessing = false;
-          const btn = document.getElementById("next-q-btn");
           if (btn) {
             btn.disabled = false;
-            btn.textContent = "السؤال التالي ⬅️";
+            btn.style.opacity = "1";
+            btn.style.cursor = "pointer";
+            btn.innerHTML = "السؤال التالي ⬅️";
           }
-        }, 300);
+        }, 500);
 
-      }, 200));
+      }, 150));
 
       // --- تسجيل الدخول ---
       loginBtn.addEventListener("click", async () => {

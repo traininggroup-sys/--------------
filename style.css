@@ -575,12 +575,45 @@ input::placeholder {
 }
 
 #next-q-btn {
-  margin-top: 25px;
-  width: 100%;
-  padding: 16px;
-  font-size: 17px;
-  background: var(--duo-green);
-  box-shadow: var(--shadow);
+  margin-top: 25px !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  padding: 16px 24px !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+  background: var(--duo-green) !important;
+  box-shadow: var(--shadow) !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  color: white !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  user-select: none !important;
+  text-decoration: none !important;
+  overflow: visible !important;
+}
+
+#next-q-btn:hover {
+  background: var(--duo-green-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 0 var(--duo-green-dark) !important;
+}
+
+#next-q-btn:active,
+#next-q-btn:disabled {
+  transform: translateY(1px) !important;
+  box-shadow: 0 2px 0 var(--duo-green-dark) !important;
+}
+
+#next-q-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
 }
 
 #next-q-btn:hover {
@@ -676,6 +709,20 @@ input::placeholder {
   border-bottom: 2px solid var(--gray-200);
 }
 
+#leaderboard .leaderboard-close-btn {
+  position: absolute !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  width: 140px !important;
+  min-height: 48px !important;
+  padding: 12px 20px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-gray) !important;
+  z-index: 10 !important;
+}
+
 #leaderboard h2 {
   font-size: 22px;
   margin: 0;
@@ -723,7 +770,7 @@ input::placeholder {
 }
 
 #leaderboard h2 {
-  color: var(--duo-yellow);
+  color: black;
   margin: 0 0 25px 0;
   font-size: 24px;
   text-align: center;
@@ -1065,11 +1112,13 @@ input::placeholder {
     margin-bottom: 16px;
   }
 
-  #close-leaderboard-btn {
-    order: -1;
-    width: 44px;
-    height: 44px;
-    font-size: 18px;
+  #leaderboard .leaderboard-close-btn {
+    bottom: 15px !important;
+    left: 15px !important;
+    width: 120px !important;
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    font-size: 15px !important;
   }
 
   .logo {
