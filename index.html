@@ -107,7 +107,7 @@
         <p id="modal-pass-rate"></p>
         <p id="modal-questions-count"></p>
         <p id="modal-encouragement">معانا هتذاكر وتكسب كمان! 🔥✨</p>
-        <p id="modal-price" style="display: none;"></p>
+        <p id="modal-price" style="display: none; font-weight: 700; font-size: 18px; color: var(--duo-orange);"></p>
         <div class="modal-buttons">
           <button id="modal-start-btn">ابدأ</button>
           <button id="modal-buy-btn" style="display: none;">شراء</button>
@@ -266,6 +266,12 @@ const adminBtn = document.getElementById("admin-btn");
         11: { questions: 5, passRate: 1.0, password: "admin", time: 60 },
       };
 
+      const defaultPrizes = {
+        1: 10, 2: 25, 3: 50, 4: 100, 5: 200, 6: 350, 7: 500, 8: 750, 9: 1000, 10: 1500, 11: 2500
+      };
+
+      let levelPrizes = {...defaultPrizes};
+
       // دالة تحويل الثواني إلى دقائق:ثواني
       function formatTime(seconds) {
         const mins = Math.floor(seconds / 60);
@@ -300,7 +306,7 @@ const adminBtn = document.getElementById("admin-btn");
       }
 
       // --- نظام الأسئلة ---
-      async function loadQuestionsFromDB(level) {
+async function loadQuestionsFromDB(level) {
         const questionsRef = ref(db, `questions/${level}`);
         const snapshot = await get(questionsRef);
         if (snapshot.exists()) {
@@ -313,6 +319,18 @@ const adminBtn = document.getElementById("admin-btn");
           }));
         }
         return [];
+      }
+
+      async function loadPrizesFromDB() {
+        try {
+          const prizesRef = ref(db, 'prizes');
+          const snapshot = await get(prizesRef);
+          if (snapshot.exists()) {
+            levelPrizes = { ...defaultPrizes, ...snapshot.val() };
+          }
+        } catch (e) {
+          console.log('Using default prizes');
+        }
       }
 
       function renderQuestion() {
@@ -487,7 +505,7 @@ const adminBtn = document.getElementById("admin-btn");
         }
       });
 
-function showLevels() {
+async function showLevels() {
         if (!currentUser) return;
         loginSection.style.display = "none";
         levelsDiv.style.display = "flex";
@@ -504,12 +522,21 @@ function showLevels() {
         if (headerCoins) headerCoins.style.display = "flex";
         if (loginCoins) loginCoins.style.display = "none";
 
+        // Load prizes from DB
+        await loadPrizesFromDB();
+
         // رسالة ترحيبية للمستخدم
         const userCoins = currentUser.coins || 0;
         showToast("🎉", `أهلاً يا ${currentUser.username}! انت محوش ${userCoins} جنيه شد حيلك النهاردة واكسب اكتر`, "success");
 
         const passed = currentUser.passedLevels || [];
         const highest = passed.length ? Math.max(...passed) : 0;
+
+        // Calculate cumulative prizes up to highest
+        let cumulative = 0;
+        for (let i = 1; i <= highest; i++) {
+          cumulative += levelPrizes[i] || 0;
+        }
 
         Object.keys(levelsData).forEach((lvlStr) => {
           const lvl = +lvlStr;
@@ -521,7 +548,8 @@ function showLevels() {
               ? "🔓"
               : "🔒";
 
-          card.innerHTML = `<div>المستوى ${lvl} ${icon}</div>`;
+          const prize = levelPrizes[lvl] || 0;
+          card.innerHTML = `<div class="level-title">المستوى ${lvl} ${icon}<span class="prize-badge">${prize.toLocaleString()} جنيه</span></div>`;
           card.className = `level-card ${passed.includes(lvl) ? "passed" : lvl === highest + 1 ? "open" : "locked"}`;
 
           card.addEventListener("click", async () => {
@@ -606,7 +634,8 @@ async function startLevel(level) {
 
         if (isPassed && !currentUser.passedLevels.includes(currentLevel)) {
           currentUser.passedLevels.push(currentLevel);
-          userCoins += 1;
+          const levelPrize = levelPrizes[currentLevel] || 10;
+          userCoins += levelPrize;
           coinCountEl.textContent = userCoins + " جنيه";
           await update(
             ref(db, "users/" + sanitizeFirebaseKey(currentUser.username)),
@@ -615,6 +644,7 @@ async function startLevel(level) {
               coins: userCoins,
             },
           );
+          showToast("🎉", `مبروك! كسبت ${levelPrize} جنيه من المستوى ${currentLevel}!`, "success");
         }
 
         document.getElementById("result-stats").textContent =

@@ -153,6 +153,42 @@
       <h1>⚙️ لوحة التحكم الاحترافية</h1>
 
       <div class="section" style="background: #eef6ff">
+        <label>إدارة الجوائز لكل مستوى:</label>
+        <div style="display: flex; gap: 10px">
+          <select id="level-select-prizes" style="flex: 2">
+            <script>
+              for (let i = 1; i <= 11; i++)
+                document.write(`<option value="${i}">المستوى ${i}</option>`);
+            </script>
+          </select>
+          <button class="btn-load" id="btn-fetch-prizes">
+            🔍 جلب الجوائز الحالية
+          </button>
+        </div>
+        <div id="prizes-status" class="status-bar"></div>
+        <input
+          type="number"
+          id="prize-input"
+          placeholder="قيمة الجائزة بالجنيه"
+          style="
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+          "
+        />
+        <div class="btn-group">
+          <button class="btn-save" id="btn-save-prize">
+            💾 حفظ جائزة المستوى
+          </button>
+          <button class="btn-delete" id="btn-reset-prize">
+            🔄 إعادة الافتراضي
+          </button>
+        </div>
+
+        <hr style="margin: 30px 0" />
+
         <label>اختر المستوى للإدارة:</label>
         <div style="display: flex; gap: 10px">
           <select id="level-select" style="flex: 2">
@@ -233,6 +269,9 @@
       const editor = document.getElementById("json-editor");
       const bulkInput = document.getElementById("bulk-input");
       const levelSelect = document.getElementById("level-select");
+      const prizesLevelSelect = document.getElementById("level-select-prizes");
+      const prizesStatus = document.getElementById("prizes-status");
+      const prizeInput = document.getElementById("prize-input");
       const statusBox = document.getElementById("level-status");
 
       function notify(msg, type = "success") {
@@ -253,6 +292,50 @@
           return t;
         }
       }
+
+      // --- إدارة الجوائز ---
+      document.getElementById("btn-fetch-prizes").onclick = async () => {
+        const level = prizesLevelSelect.value;
+        prizesStatus.innerHTML = "جاري التحميل...";
+        try {
+          const snap = await get(ref(db, `prizes/${level}`));
+          const prizeValue = snap.exists() ? snap.val() : null;
+          prizeInput.value = prizeValue || "";
+          prizesStatus.innerHTML = prizeValue
+            ? `الجائزة الحالية: <span class="badge">${prizeValue} جنيه</span>`
+            : "الافتراضية (غير محددة)";
+        } catch (e) {
+          notify("خطأ: " + e.message, "error");
+        }
+      };
+
+      document.getElementById("btn-save-prize").onclick = async () => {
+        const level = prizesLevelSelect.value;
+        const value = parseInt(prizeInput.value);
+        if (isNaN(value) || value < 0) {
+          notify("❌ أدخلي قيمة صحيحة (رقم موجب)", "error");
+          return;
+        }
+        try {
+          await set(ref(db, `prizes/${level}`), value);
+          notify(`✅ تم حفظ ${value} جنيه للمستوى ${level}!`);
+          document.getElementById("btn-fetch-prizes").click();
+        } catch (e) {
+          notify("خطأ: " + e.message, "error");
+        }
+      };
+
+      document.getElementById("btn-reset-prize").onclick = async () => {
+        const level = prizesLevelSelect.value;
+        try {
+          await remove(ref(db, `prizes/${level}`));
+          notify(`✅ تم إعادة المستوى ${level} للقيمة الافتراضية`);
+          prizeInput.value = "";
+          document.getElementById("btn-fetch-prizes").click();
+        } catch (e) {
+          notify("خطأ: " + e.message, "error");
+        }
+      };
 
       // --- 1. جلب الأسئلة ---
       document.getElementById("btn-fetch").onclick = async () => {
