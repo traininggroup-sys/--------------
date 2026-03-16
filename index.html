@@ -248,10 +248,11 @@ const adminBtn = document.getElementById("admin-btn");
 
       // --- حدث زر الأدمن ---
       if (adminBtn) {
-        adminBtn.addEventListener("click", (e) => {
+        adminBtn.addEventListener("click", async (e) => {
           e.preventDefault();
+          await loadAdminConfig(); // Ensure latest
           const password = prompt("أدخل كلمة المرور:");
-          if (password === "1") {
+          if (password === adminPassword) {
             window.location.href = "admin.html";
           } else if (password !== null) {
             showToast("⚠️", "كلمة المرور غير صحيحة", "err");
@@ -264,6 +265,24 @@ const adminBtn = document.getElementById("admin-btn");
         toastTitle = document.getElementById("toast-title"),
         toastMsg = document.getElementById("toast-msg");
 
+      // Load admin password from Firebase
+      async function loadAdminConfig() {
+        try {
+          const configRef = ref(db, 'config/adminPassword');
+          const snapshot = await get(configRef);
+          if (snapshot.exists()) {
+            adminPassword = snapshot.val();
+            console.log('Admin password loaded from DB:', adminPassword);
+          } else {
+            // Set default if not exists
+            await set(configRef, "1");
+            console.log('Default admin password set in DB');
+          }
+        } catch (e) {
+          console.error('Error loading admin config:', e);
+        }
+      }
+
       // --- حالة التطبيق ---
       let currentUser = null;
       let currentLevel = 1;
@@ -275,8 +294,9 @@ const adminBtn = document.getElementById("admin-btn");
       let levelTimer = null;
       let timeLeft = 0;
       let selectedOptionIndex = null;
-      let leaderboardUnsubscribe = null;
+let leaderboardUnsubscribe = null;
       let levelsScrollPos = 0;
+      let adminPassword = "1";
 
       const levelsData = {
         1: { questions: 5, passRate: 0.6, time: 2600},
@@ -742,8 +762,9 @@ async function startLevel(level) {
 
       // --- وظائف إضافية ---
       // إظهار الهيدر بشكل افتراضي على صفحة تسجيل الدخول
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector("header").style.display = "block";
+        await loadAdminConfig();
       });
 
       function decodeText(t) {
