@@ -1326,15 +1326,16 @@ input::placeholder {
 .coins-modal {
   display: none;
   position: fixed;
-  inset: 10%;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
   background: var(--bg);
-  padding: 30px;
-  border-radius: var(--radius-lg);
+  padding: 20px;
+  border-radius: 0;
   z-index: 999;
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
-  max-height: 80vh;
+  box-shadow: none;
   overflow-y: auto;
-  border: 2px solid var(--gray-200);
+  border: none;
   text-align: center;
 }
 
@@ -1347,16 +1348,12 @@ input::placeholder {
 }
 
 .coins-content {
-  background: var(--bg);
-  padding: 32px 28px;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   font-family: "Tajawal", sans-serif;
   direction: rtl;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-height: 450px;
+  max-height: none;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -1605,15 +1602,12 @@ input::placeholder {
 /* Mobile for Coins Modal */
 @media (max-width: 500px) {
   .coins-modal {
-    inset: 5%;
-    padding: 20px 15px;
-    max-height: 90vh;
+    padding: 15px;
   }
 
   .coins-content {
     font-size: 16px;
-    padding: 20px 15px;
-    min-height: 150px;
+    padding: 24px 20px;
   }
 }
 

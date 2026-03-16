@@ -1,10 +1,10 @@
-# إصلاح مشكلة إظهار المستويات بعد رجوع من المتصدرين
+# TODO: Make coins-modal Fullscreen
 
-## الخطوات:
-- [x] 1. إضافة حفظ موضع التمرير قبل فتح المتصدرين
-- [x] 2. استعادة موضع التمرير عند الرجوع
-- [x] 3. ضمان إظهار #levels بـ display:flex بشكل صحيح
-- [ ] 4. اختبار التنقل: مستويات → متصدرين → رجوع
-- [x] 5. إنهاء المهمة
+## Steps:
+- [x] 1. Create TODO.md with approved plan breakdown
+- [x] 2. Edit style.css: Update .coins-modal to full screen (inset:0, width:100vw, height:100vh, border-radius:0, adjust padding)
+- [x] 3. Edit .coins-content: Remove max-height restriction, ensure scrolling works
+- [x] 4. Update mobile media query for .coins-modal
+- [ ] 5. Test modal display (manual: interact with coin counter)
+- [ ] 6. attempt_completion
 
-**حالة:** ✅ مكتمل - جرب فتح index.html واختبر التنقل!
