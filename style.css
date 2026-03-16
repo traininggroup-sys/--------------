@@ -363,6 +363,198 @@ input::placeholder {
   justify-content: center;
 }
 
+* {
+  box-sizing: border-box;
+  font-family: "Tajawal", sans-serif;
+  direction: rtl;
+  margin: 0;
+  padding: 0;
+}
+user agent stylesheet img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+.level-card.open .prize-badge,
+.level-card.passed .prize-badge {
+  background: linear-gradient(135deg, #58cc02 0%, #46a302 100%);
+  color: white;
+  border-color: #46a302;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 4px 0 #46a302,
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.prize-badge {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+  color: #b8860b;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  font-size: 16px;
+  box-shadow:
+    0 4px 0 #daa520,
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #daa520;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  min-width: 90px;
+  transition: var(--transition);
+  animation: prizeGlow 2s ease-in-out infinite alternate;
+}
+.level-card.passed {
+  background: var(--duo-green);
+  color: white;
+  border-color: var(--duo-green-dark);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 500px) {
+  .level-card {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+}
+.level-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 22px 28px;
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--bg);
+  border: 2px solid var(--gray-200);
+  transition: var(--transition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: var(--text);
+  box-shadow: 0 4px 0 var(--gray-300);
+  margin: 0 10px;
+}
+body {
+  min-height: 100vh;
+  background: var(--bg-gray);
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.5;
+}
+:root {
+  --duo-green: #58cc02;
+  --duo-green-dark: #46a302;
+  --duo-green-light: #d7ff0a;
+  --duo-orange: #ff9600;
+  --duo-orange-dark: #d68200;
+  --duo-blue: #1cb0f6;
+  --duo-blue-dark: #1899d6;
+  --duo-red: #ff4b4b;
+  --duo-red-dark: #e04545;
+  --duo-purple: #af5b5e;
+  --duo-purple-dark: #8b4a4d;
+  --duo-yellow: #ffc800;
+  --duo-yellow-light: #ffea00;
+  --bg: #ffffff;
+  --bg-gray: #f7f7f7;
+  --bg-light-green: #e5f7e5;
+  --text: #3c3c3c;
+  --text-light: #6f6f6f;
+  --text-white: #ffffff;
+  --success: var(--duo-green);
+  --error: var(--duo-red);
+  --warning: var(--duo-orange);
+  --gray-100: #f7f7f7;
+  --gray-200: #ececec;
+  --gray-300: #e0e0e0;
+  --gray-400: #cfcfcf;
+  --gray-500: #afafaf;
+  --shadow: 0 4px 0 #46a302;
+  --shadow-orange: 0 4px 0 #d68200;
+  --shadow-blue: 0 4px 0 #1899d6;
+  --shadow-red: 0 4px 0 #e04545;
+  --shadow-purple: 0 4px 0 #8b4a4d;
+  --shadow-gray: 0 4px 0 #afafaf;
+  --shadow-light: 0 2px 0 rgba(0, 0, 0, 0.1);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-lg: 24px;
+  --radius-pill: 50px;
+  --transition: all 0.15s ease;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--duo-green);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 4px;
+}
+@font-face {
+  font-family: "Tajawal";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/tajawal/v12/Iura6YBj_oCad4k1nzSBC5xLhLFw4Q.woff2)
+    format("woff2");
+  unicode-range:
+    U + 0600 -06FF,
+    U + 0750 -077F,
+    U + 0870 -088E,
+    U + 0890 -0891,
+    U + 0897 -08e1,
+    U + 08e3 -08FF,
+    U + 200C -200E,
+    U + 2010 -2011,
+    U + 204F,
+    U + 2e41,
+    U + FB50-FDFF,
+    U + FE70-FE74,
+    U + FE76-FEFC,
+    U + 102 -102FB,
+    U + 10e60 -107eE,
+    U + 10EC2 -10EC4,
+    U + 10EFC -10EFF,
+    U + 1EE00 -1EE03,
+    U + 1EE05 -1EE1F,
+    U + 1EE21 -1EE22,
+    U + 1EE24,
+    U + 1EE27,
+    U + 1EE29 -1EE32,
+    U + 1EE34 -1EE37,
+    U + 1EE39,
+    U + 1EE3B,
+    U + 1EE42,
+    U + 1EE47,
+    U + 1EE49,
+    U + 1EE4B,
+    U + 1EE4D -1EE4F,
+    U + 1EE51 -1EE52,
+    U + 1EE54,
+    U + 1EE57,
+    U + 1EE59,
+    U + 1EE5B,
+    U + 1EE5D,
+    U + 1EE5F,
+    U + 1EE61 -1EE62,
+    U + 1EE64,
+    U + 1EE67 -1EE6A,
+    U + 1EE6C -1EE72,
+    U + 1EE74 -1EE77,
+    U + 1EE79 -1EE7C,
+    U + 1EE7E,
+    U + 1EE80 -1EE89,
+    U + 1EE8B -1EE9B,
+    U + 1EEA1 -1EEA3,
+    U + 1EEA5 -1EEA9,
+    U + 1EEAB -1EEBB,
+    U + 1EEF0 -1EEF1;
+}
+img.prizeimg {
+  width: 33px;
+}
 .prize-badge {
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
   color: #b8860b;
