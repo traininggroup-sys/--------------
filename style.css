@@ -966,8 +966,7 @@ input::placeholder {
 }
 
 .toast.err {
-  background: var(--duo-red);
-  box-shadow: var(--shadow-red);
+  background: #00000073;
 }
 
 #toast-title {
