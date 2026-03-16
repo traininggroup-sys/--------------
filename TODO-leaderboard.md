@@ -1,18 +1,10 @@
-# تعديل موضع زر إغلاق لوحة المتصدرين ✅ مكتمل!
+# TODO: تحسين شكل أسماء المتصدرين
 
-**زر "⬅️ رجوع" الآن أسفل يسار:**
-- **Desktop:** `bottom:20px; left:20px; width:140px`
-- **Mobile:** `bottom:15px; left:15px; width:120px` 
-- **Style:** back-btn + shadow + hover effects
-- **JS:** يعمل طبيعي (close event)
+## الخطوات:
+- [x] إنشاء TODO.md مع الخطة
+- [x] تحرير style.css بتحسينات .leader-user, .user-name, .user-stats, top ranks
+- [x] اختبار في المتصفح: تسجيل دخول → كليك trophy → التحقق من الأسماء العربية (bold, shiny, RTL مثالي)
+- [x] إنهاء المهمة بـ attempt_completion
 
-**التحقق:**
-```
-start index.html
-```
-→ 🏆 المتصدرين → شوف الزر أسفل شمال بعرض مناسب! 🎉
+**حالة:** ✅ مكتملة
 
-**ملاحظات:**
-- نقل HTML خارج header → نهاية #leaderboard
-- class `leaderboard-close-btn` مضاف
-- Responsive RTL كامل (يسار = شمال)

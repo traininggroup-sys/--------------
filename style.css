@@ -690,11 +690,11 @@ input::placeholder {
   flex-wrap: wrap;
 }
 
-/* Leaderboard - FIXED FLEX LAYOUT */
+/* Leaderboard - ENHANCED RTL LEADERBOARD */
 #leaderboard {
   display: none;
-  position: fixed;
-  inset: 0;
+  position: fixed !important;
+  inset: 0 !important;
   width: 100%;
   height: 100vh;
   background: white;
@@ -708,7 +708,7 @@ input::placeholder {
   padding: 20px;
   max-width: 100vw;
   max-height: 100vh;
-  overflow: hidden;
+  overflow-y: auto !important; /* سكرول كامل للصفحة */
 }
 
 #leaderboard > div:first-child {
@@ -720,10 +720,29 @@ input::placeholder {
 
 #leaderboard-list {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto !important;
   min-height: 0;
   padding: 10px 0;
   margin-bottom: 20px;
+  scrollbar-width: thin;
+}
+
+#leaderboard-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#leaderboard-list::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 3px;
+}
+
+#leaderboard-list::-webkit-scrollbar-thumb {
+  background: var(--duo-green);
+  border-radius: 3px;
+}
+
+#leaderboard-list::-webkit-scrollbar-thumb:hover {
+  background: var(--duo-green-dark);
 }
 
 #leaderboard .leaderboard-close-btn {
@@ -743,62 +762,170 @@ input::placeholder {
 #leaderboard h2 {
   font-size: 22px;
   margin: 0;
-  color: black;
+  color: var(--text) !important;
   text-align: center;
   font-weight: 800;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .leader-user {
-  padding: 14px 18px;
+  padding: 18px 24px !important;
   border-radius: var(--radius-sm);
   margin-bottom: 10px;
-  background: var(--gray-100);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: var(--transition);
-  border: 2px solid var(--gray-200);
+  background: linear-gradient(145deg, #f8f9fa, #e9ecef) !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 16px !important;
+  min-height: 72px !important;
+  border: 3px solid transparent !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.leader-user::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--duo-gold),
+    var(--duo-silver),
+    var(--duo-bronze),
+    var(--duo-gold)
+  );
+  background-size: 200% 100%;
+  animation: shine 3s linear infinite;
 }
 
 .leader-user:hover {
-  background: var(--gray-200);
-  transform: translateX(-4px);
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2) !important;
+  background: linear-gradient(145deg, #ffffff, #f1f3f4) !important;
 }
 
-.leader-user.first-place {
-  background: linear-gradient(135deg, #ffe566 0%, #ffd700 100%);
-  border-color: #e6c200;
-}
-
-.leader-user.second-place {
-  background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
-  border-color: #a0a0a0;
-}
-
+.leader-user.first-place,
+.leader-user.second-place,
 .leader-user.third-place {
-  background: linear-gradient(135deg, #ffb347 0%, #cd853f 100%);
-  border-color: #a06830;
+  animation: rankPulse 2s ease-in-out infinite;
 }
 
-.leader-user .rank {
-  font-size: 20px;
-  font-weight: 800;
-  min-width: 35px;
-  text-align: center;
-  color: var(--text);
+@keyframes rankPulse {
+  0%,
+  100% {
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 12px 36px rgba(255, 215, 0, 0.6);
+  }
 }
 
-.leader-user .user-name {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--text);
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
-.leader-user .user-stats {
-  font-size: 13px;
-  color: var(--text-light);
-  font-weight: 600;
+.rank {
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  flex-shrink: 0 !important;
+  color: #1a1a1a !important;
+}
+
+.leader-user.first-place .rank {
+  background: linear-gradient(145deg, #ffd700, #ffed4a) !important;
+  color: #b8860b !important;
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6) !important;
+}
+
+.leader-user.second-place .rank {
+  background: linear-gradient(145deg, #c0c0c0, #e5e5e5) !important;
+  color: #404040 !important;
+}
+
+.leader-user.third-place .rank {
+  background: linear-gradient(145deg, #cd7f32, #deb887) !important;
+  color: #4a2c0b !important;
+}
+
+.user-info {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+}
+
+.user-name {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  color: #1f2937 !important;
+  letter-spacing: 0.3px !important;
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.8) !important;
+  /* الألوان المتدرجة معطلة - أسماء سوداء فقط */
+  margin: 0 !important;
+  direction: auto !important;
+  unicode-bidi: plaintext !important;
+  hyphens: auto !important;
+  word-break: break-word !important;
+}
+
+.leader-user.first-place .user-name {
+  font-size: 22px !important;
+  /* الألوان المتدرجة معطلة - أسماء سوداء فقط للأول */
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.6) !important;
+}
+
+.leader-user.second-place .user-name {
+  /* الألوان المتدرجة معطلة - أسماء سوداء فقط للتاني */
+}
+
+.leader-user.third-place .user-name {
+  /* الألوان المتدرجة معطلة - أسماء سوداء فقط للتالت */
+}
+
+.user-stats {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #4a5568 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  direction: auto !important;
+  line-height: 1.3 !important;
+}
+
+.user-stats span {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 15px !important;
+}
+
+.user-stats img.emoji {
+  font-size: 18px !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)) !important;
 }
 
 /* Level Modal - Duolingo Style */
@@ -1501,9 +1628,9 @@ input::placeholder {
 }
 
 .cta-para {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--duo-blue);
+  color: #251cf6;
   text-align: center;
   margin: 0;
   padding: 20px;
