@@ -83,7 +83,7 @@
 
         <div id="tip"></div>
       </section>
-<div id="leaderboard" class="leaderboard-modal" style="display: none;" aria-hidden="true">
+<div id="leaderboard" class="leaderboard-modal" style="display: none;"> 
         <div class="leaderboard-header">
           <h2>لوحة المتصدرين</h2>
         </div>
@@ -92,7 +92,7 @@
       </div>
 
       <!-- Coins Modal - صفحة كسبت الجنيه -->
-      <div id="coins-modal" class="coins-modal" aria-hidden="true">
+          <div id="coins-modal" class="coins-modal"> 
 <div class="modal-header">
   <h2>كسبت جنيه! <img src="جنيه.jpg" class="modal-coin-img" alt="جنيه"></h2>
   <button id="close-coins-modal" class="close-modal">×</button>
@@ -276,6 +276,7 @@ const adminBtn = document.getElementById("admin-btn");
       let timeLeft = 0;
       let selectedOptionIndex = null;
       let leaderboardUnsubscribe = null;
+      let levelsScrollPos = 0;
 
       const levelsData = {
         1: { questions: 5, passRate: 0.6, time: 2600},
@@ -779,9 +780,19 @@ async function startLevel(level) {
 
       // --- لوحة المتصدرين ---
       if (leaderboardBtn) {
-        leaderboardBtn.addEventListener("click", async () => {
+leaderboardBtn.addEventListener("click", async () => {
+          // حفظ موضع التمرير
+          levelsScrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || levelsDiv.scrollTop || 0;
+          
+          // إخفاء header و top-controls و logout btn
+          document.querySelector("header").style.display = "none";
+          if (headerCoins) headerCoins.style.display = "none";
+          if (logoutBtn) logoutBtn.classList.remove("show"); 
+          levelsDiv.style.display = "none";
+          document.body.classList.add('leaderboard-open');
           leaderboardCard.style.display = "block";
           lbList.innerHTML = "جارٍ التحميل...";
+
 
           try {
             const usersRef = ref(db, "users");
@@ -828,9 +839,27 @@ async function startLevel(level) {
       }
 
       if (closeLeaderboardBtn) {
-        closeLeaderboardBtn.addEventListener("click", () => {
+closeLeaderboardBtn.addEventListener("click", () => {
+          // إظهار header و top-controls و logout btn مرة أخرى
+          document.querySelector("header").style.display = "block";
+          if (headerCoins) headerCoins.style.display = "flex";
+          if (logoutBtn && currentUser) logoutBtn.classList.add("show");
+          
+          // إظهار المستويات إذا لس مش في اختبار/نتيجة
+          if (questionBox.style.display !== "block" && resultSection.style.display !== "block") {
+            levelsDiv.style.display = "flex";
+          }
+          
+          document.body.classList.remove('leaderboard-open');
           leaderboardCard.style.display = "none";
+          
+          // استعادة الموضع بعد الرجوع
+          setTimeout(() => {
+            window.scrollTo(0, levelsScrollPos);
+            levelsDiv.scrollTop = levelsScrollPos;
+          }, 200);
         });
+
       }
 
       // --- Coins Modal Handlers ---
