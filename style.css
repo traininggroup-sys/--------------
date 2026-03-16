@@ -241,8 +241,8 @@ button:active {
 /* Back Button */
 .back-btn,
 #leaderboard-btn {
-  background: var(--bg);
-  color: #1d1919;
+  background: #003db6;
+  color: #ffffff;
   border: 2px solid var(--gray-300);
   box-shadow: var(--shadow-gray);
   flex: 1;
@@ -376,8 +376,8 @@ user agent stylesheet img {
 }
 .level-card.open .prize-badge,
 .level-card.passed .prize-badge {
-  background: linear-gradient(135deg, #58cc02 0%, #46a302 100%);
-  color: white;
+  background: #d4c11a;
+  color: #000000;
   border-color: #46a302;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   box-shadow:
@@ -600,8 +600,8 @@ img.prizeimg {
 
 .level-card.open .prize-badge,
 .level-card.passed .prize-badge {
-  background: linear-gradient(135deg, #58cc02 0%, #46a302 100%);
-  color: white;
+  background: #d4c11a;
+  color: #000000;
   border-color: #46a302;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   box-shadow:
@@ -611,8 +611,8 @@ img.prizeimg {
 }
 
 .level-card.locked .prize-badge {
-  background: var(--gray-200);
-  color: var(--gray-500);
+  background: #d4c11a;
+  color: #000000;
   border-color: var(--gray-400);
   box-shadow: 0 4px 0 var(--gray-400);
 }
@@ -1683,4 +1683,7 @@ img.prizeimg {
   .loading-spinner p {
     font-size: 16px;
   }
+}
+img.awardimg {
+  width: 30px;
 }

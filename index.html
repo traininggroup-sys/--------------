@@ -38,7 +38,7 @@
             <span id="coin-count">جنيه </span>
           </div>
           <button id="leaderboard-btn" style="display: none" class="back-btn">
-            🏆 المتصدرين
+            <img class="awardimg" src="trophy (1).png"> المتصدرين
           </button>
         </div>
       </header>
@@ -571,7 +571,7 @@ async function showLevels() {
               : "🔒";
 
           const prize = levelPrizes[lvl] || 0;
-          card.innerHTML = `<div class="level-title">المستوى ${lvl} ${icon}<span class="prize-badge">${prize.toLocaleString()} جنيه<img src="trophy (1).png" class="prizeimg""></span></div>`;
+          card.innerHTML = `<div class="level-title">المستوى ${lvl} ${icon}<span class="prize-badge">${prize.toLocaleString()} جنيه</span></div>`;
           card.className = `level-card ${passed.includes(lvl) ? "passed" : lvl === highest + 1 ? "open" : "locked"}`;
 
           card.addEventListener("click", async () => {

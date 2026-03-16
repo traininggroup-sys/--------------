@@ -1,13 +1,27 @@
-# TODO List for Task: غير لون الوقت اللي عند الاسئلة خليه اسود
+# تقدم إصلاح عرض المستويات ✅
 
-**Status: In Progress**
+## ✅ المهام المكتملة
+- [x] إنشاء خطة الإصلاح
+- [x] تشخيص المشكلة: race condition في showLevels()
+- [x] تعديل index.html: ✅ await loadLevelsFromDB() + loading spinner + sort levels + console logs
 
-## Steps:
-- [x] 1. Analyze project files (index.html, style.css)
-- [x] 2. Create detailed edit plan and get approval
-- [x] 3. Edit style.css to add #timer { color: black !important; font-weight: bold; }
-- [ ] 4. Test the change by previewing index.html
-- [ ] 5. Mark complete and attempt_completion
+## ⏳ المهام المتبقية
+1. [ ] **اختبار فوري**: 
+   ```
+   1. Live Server → index.html
+   2. سجلي دخول → شوفي Console: "✅ Levels loaded: ['1','2',...]"
+   3. المستويات 1-11 تظهر؟ 
+   ```
+2. [ ] جربي admin.html → أضيفي مستوى 12 → refresh index.html → يظهر تحت 11
+3. [ ] أضيفي أسئلة للمستوى الجديد
 
-**Next Step:** Test the change
+## نجح الإصلاح إذا:
+- ✅ Loading spinner يظهر/يختفي
+- ✅ Console: "✅ Levels loaded: 11 levels" + "Rendering 11 levels"
+- ✅ كروت المستويات مرئية (1️⃣🔓 ... 11️⃣🔒)
+
+**الآن جربي index.html وقوليلي النتيجة! 🚀**
+
+---
+Last updated: تم تعديل index.html بنجاح
 
