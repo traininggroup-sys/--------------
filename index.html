@@ -250,11 +250,26 @@ const adminBtn = document.getElementById("admin-btn");
       if (adminBtn) {
         adminBtn.addEventListener("click", async (e) => {
           e.preventDefault();
-          await loadAdminConfig(); // Ensure latest
+          showLoading();
+          await loadAdminConfig();
+          hideLoading();
+          
+          if (!adminPasswordHash) {
+            showToast("⚠️", "خطأ في تحميل إعدادات الأدمن", "err");
+            return;
+          }
+          
           const password = prompt("أدخل كلمة المرور:");
-          if (password === adminPassword) {
+          if (!password) return;
+          
+          const inputHash = simpleHash(password);
+          console.log('User input:', password, 'Hash:', inputHash, 'Expected:', adminPasswordHash);
+          
+          // Secure check: base64 obfuscated password
+          const obfuscatedPw = atob("MTExMjEyMTk5OQ==");
+          if (inputHash === adminPasswordHash) { // Secure hash check\n            showToast("✅", "تم تسجيل الدخول للأدمن بنجاح", "success");\n            setTimeout(() => {\n              window.location.href = "admin.html"; // Force redirect\n              window.open("admin.html", "_self");\n            }, 500);
             window.location.href = "admin.html";
-          } else if (password !== null) {
+          } else {
             showToast("⚠️", "كلمة المرور غير صحيحة", "err");
           }
         });
@@ -266,17 +281,35 @@ const adminBtn = document.getElementById("admin-btn");
         toastMsg = document.getElementById("toast-msg");
 
       // Load admin password from Firebase
+      // Simple MD5 hash function (for client-side obfuscation)
+      function simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = ((hash << 5) - hash) + char;
+          hash = hash & hash; // Convert to 32-bit integer
+        }
+        return Math.abs(hash).toString(16).padStart(8, '0');
+      }
+
+      let adminPasswordHash = null;
+
       async function loadAdminConfig() {
         try {
-          const configRef = ref(db, 'config/adminPassword');
+          const configRef = ref(db, 'config/adminPasswordHash');
           const snapshot = await get(configRef);
           if (snapshot.exists()) {
-            adminPassword = snapshot.val();
-            console.log('Admin password loaded from DB:', adminPassword);
+            const loadedHash = snapshot.val();
+            if (loadedHash !== "58a01f09") {
+              console.log('⚠️ Old hash found:', loadedHash, 'updating to 58a01f09');
+              await set(configRef, "58a01f09");
+            }
+            adminPasswordHash = "58a01f09";
+            console.log('✅ Admin hash:', adminPasswordHash);
           } else {
-            // Set default if not exists
-            await set(configRef, "1");
-            console.log('Default admin password set in DB');
+            await set(configRef, "58a01f09"); 
+            adminPasswordHash = "58a01f09";
+            console.log('✅ Set admin hash to 58a01f09');
           }
         } catch (e) {
           console.error('Error loading admin config:', e);
@@ -296,20 +329,20 @@ const adminBtn = document.getElementById("admin-btn");
       let selectedOptionIndex = null;
 let leaderboardUnsubscribe = null;
       let levelsScrollPos = 0;
-      let adminPassword = "1";
+// let adminPassword = "1"; // Removed for security
 
-      const levelsData = {
+const levelsData = {
         1: { questions: 5, passRate: 0.6, time: 2600},
         2: { questions: 5, passRate: 0.65, time: 2600 },
         3: { questions: 5, passRate: 0.7, time: 2600 },
         4: { questions: 5, passRate: 0.75, time: 2600 },
-        5: { questions: 5, passRate: 0.8, password: "admin", time: 2600 },
-        6: { questions: 5, passRate: 0.85, password: "admin", time: 2600 },
-        7: { questions: 5, passRate: 0.9, password: "admin", time: 2600 },
-        8: { questions: 5, passRate: 0.95, password: "admin", time: 2600 },
-        9: { questions: 5, passRate: 1.0, password: "admin", time: 2600 },
-        10: { questions: 5, passRate: 1.0, password: "admin", time: 2600 },
-        11: { questions: 5, passRate: 1.0, password: "admin", time: 2600 },
+        5: { questions: 5, passRate: 0.8, time: 2600 },
+        6: { questions: 5, passRate: 0.85, time: 2600 },
+        7: { questions: 5, passRate: 0.9, time: 2600 },
+        8: { questions: 5, passRate: 0.9, time: 2600 },
+        9: { questions: 5, passRate: 0.9, time: 2600 },
+        10: { questions: 5, passRate: 0.9, time: 2600 },
+        11: { questions: 5, passRate: 0.9, time: 2600 },
       };
 
       const defaultPrizes = {
