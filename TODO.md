@@ -1,37 +1,10 @@
-# TODO: إخفاء كلمة مرور الأدمن 🔒
+# Secure Admin Panel Access ✅
 
-## ✅ **الخطوات المكتملة**
-- [x] الموافقة على الخطة (11121999)
-- [x] إنشاء TODO.md
-
-## ⏳ **الخطوات المتبقية** ⭐ **القادمة**
-
-### **1. تعديل index.html** ✅ **مكتمل**
-```
-✅ 1️⃣ حذف: let adminPassword = "1"; 
-✅ 2️⃣ loadAdminConfig() → config/adminPasswordHash = "b7a875fc"
-✅ 3️⃣ simpleHash() للتشفير  
-✅ 4️⃣ adminBtn: hash check + loading
-```
-
-### **2. Firebase Console** (يدوي)
-```
-config/
-  adminPasswordHash: "e99a18c428cb38d5f260853678922e03"  // md5("11121999")
-```
-
-### **3. اختبار الأمان** 
-```
-✅ Inspect → مفيش plain password
-✅ ⚙️ → Firebase empty → "خطأ التحقق"  
-✅ Firebase hash → "11121999" يشتغل فقط
-✅ Network → hash مش plain text
-```
-
-### **4. الإنهاء**
-```
-execute_command → open index.html
-attempt_completion ✅
-```
-
-**الحالة الحالية**: خطة جاهزة | **الخطوة القادمة: edit index.html**
+## Steps:
+- [✅] 1. Create TODO.md 
+- [✅] 2. Edit admin.html: Add password protection on load
+- [ ] 3. Test direct access to admin.html (manual)
+- [ ] 4. Verify correct password "11121999" works  
+- [ ] 5. Test wrong password redirects to index.html
+- [✅] 6. Update TODO.md progress (current)
+- [ ] 7. Complete task

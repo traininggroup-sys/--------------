@@ -242,6 +242,31 @@
     <div id="toast" class="toast"></div>
 
     <script type="module">
+      // Admin Password Protection - Secure direct access
+      function simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = (hash << 5) - hash + char;
+          hash = hash & hash;
+        }
+        return Math.abs(hash).toString(16).padStart(8, "0");
+      }
+
+      // ADMIN PASSWORD CHECK - Required for access
+      const ADMIN_PASSWORD_HASH = "58a01f09"; // simpleHash("11121999")
+      const password = prompt("🔐 أدخل كلمة مرور لوحة الإدارة:");
+
+      if (!password || simpleHash(password) !== ADMIN_PASSWORD_HASH) {
+        alert("❌ كلمة المرور غير صحيحة! سيتم إعادة التوجيه...");
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      } else {
+        // Success - show confirmation
+        console.log("✅ Admin access granted");
+      }
+
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
       import {
         getDatabase,
