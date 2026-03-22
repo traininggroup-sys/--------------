@@ -1139,6 +1139,8 @@ input::placeholder {
 
 .logout-btn {
   display: none;
+  margin-top: 20px;
+  margin-bottom: 15px;
   background: var(--duo-red);
   color: white;
   border: none;
