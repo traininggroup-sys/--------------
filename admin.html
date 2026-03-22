@@ -220,8 +220,7 @@
       <div class="section">
         <h2>🛠️ محرر الأسئلة المباشر</h2>
         <p class="info-note">
-          يتم فك تشفير الأسئلة هنا تلقائياً لسهولة التعديل. اضغط "حفظ" لتطبيق
-          التغييرات.
+          الأسئلة plain text بدون تشفير. اضغط "حفظ" لتطبيق التغييرات.
         </p>
         <textarea id="json-editor" placeholder="اختر مستوى أولاً..."></textarea>
         <div class="btn-group">
@@ -237,7 +236,7 @@
       <div class="section" style="background: #f4eaff">
         <h2>⚡ الرفع والدمج الذكي (Bulk)</h2>
         <p class="info-note">
-          يدعم الشكلين (question/answer كـ نص) أو (JSON رسمي). بدون مسح القديم.
+          يدعم الشكلين (question/answer كـ نص) أو (JSON رسمي). بدون تشفير، دمج مع القديم.
         </p>
         <textarea
           id="bulk-input"
@@ -322,16 +321,7 @@
         setTimeout(() => (t.style.display = "none"), 3000);
       }
 
-      function encode(t) {
-        return btoa(unescape(encodeURIComponent(t || "")));
-      }
-      function decode(t) {
-        try {
-          return decodeURIComponent(escape(atob(t)));
-        } catch (e) {
-          return t;
-        }
-      }
+
 
       // --- إدارة الجوائز ---
       document.getElementById("btn-fetch-prizes").onclick = async () => {
@@ -387,10 +377,10 @@
             const raw = snap.val();
             const readable = Object.keys(raw).map((id) => ({
               id: id,
-              q: decode(raw[id].q),
-              options: raw[id].options.map((o) => decode(o)),
+              q: raw[id].q,
+              options: raw[id].options.map((o) => o),
               answer: raw[id].answer,
-              tip: decode(raw[id].tip || ""),
+              tip: raw[id].tip || "",
             }));
             editor.value = JSON.stringify(readable, null, 4);
             statusBox.innerHTML = `تم العثور على <span class="badge">${readable.length}</span> سؤال.`;
@@ -403,91 +393,109 @@
         }
       };
 
-      // --- 2. حفظ التعديلات اليدوية ---
+// --- 2. حفظ التعديلات اليدوية (plaintext only) ---
       document.getElementById("btn-save-edit").onclick = async () => {
         const level = levelSelect.value;
         try {
           const edited = JSON.parse(editor.value);
+          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة []');
+          
           const finalData = {};
-          edited.forEach((item) => {
+          edited.forEach((item, idx) => {
+            if (!item.q || !Array.isArray(item.options) || item.answer === undefined) {
+              throw new Error(`سؤال ${idx+1}: هيكل غير صالح (q, options[], answer مطلوبة)`);
+            }
             const key = item.id || push(ref(db, `questions/${level}`)).key;
             finalData[key] = {
-              q: encode(item.q),
-              options: item.options.map((o) => encode(o)),
+              q: String(item.q).trim(),
+              options: item.options.map(o => String(o).trim()).filter(Boolean),
               answer: parseInt(item.answer),
-              tip: encode(item.tip || ""),
+              tip: String(item.tip || '')
             };
           });
           await set(ref(db, `questions/${level}`), finalData);
-          notify("✅ تم حفظ التعديلات بنجاح!");
+          notify("✅ تم حفظ التعديلات بنجاح! (plaintext)");
         } catch (e) {
-          notify("❌ خطأ في JSON: " + e.message, "error");
+          notify("❌ خطأ: " + e.message, "error");
         }
       };
 
-      // --- 3. الرفع والدمج الذكي (يدعم كل الصيغ) ---
+
+// --- 3. الرفع والدمج الذكي (محسن - plaintext only) ---
       document.getElementById("btn-bulk-add").onclick = async () => {
         const level = levelSelect.value;
         let rawText = bulkInput.value.trim();
 
         try {
           if (!rawText) throw new Error("المربع فارغ!");
-          if (rawText.endsWith(";")) rawText = rawText.slice(0, -1);
 
           let data;
+          // JSON parsing only - no eval for security
           try {
             data = JSON.parse(rawText);
+            if (!Array.isArray(data)) throw new Error("يجب أن تكون مصفوفة []");
           } catch (e) {
-            try {
-              data = eval("(" + rawText + ")");
-            } catch (e2) {
-              throw new Error("الصيغة غير صحيحة، تأكدي من [ ] والفواصل.");
-            }
+            throw new Error(`خطأ JSON: ${e.message}. تأكدي من الصيغة الصحيحة [ {question, options[], answer, explanation} ]`);
           }
 
           const levelRef = ref(db, `questions/${level}`);
           const oldSnap = await get(levelRef);
           const currentData = oldSnap.exists() ? oldSnap.val() : {};
 
+          const newQuestions = [];
           data.forEach((item, index) => {
-            const opts = item.options || item.opts;
-            const ansRaw = item.answer;
+            // Validation
+            if (!item.question && !item.q) throw new Error(`السؤال ${index+1}: ناقص question أو q`);
+            if (!Array.isArray(item.options) || item.options.length < 2) throw new Error(`السؤال ${index+1}: options غير صالحة (array ≥2)`);
+            if (item.answer === undefined && !item.explanation) throw new Error(`السؤال ${index+1}: ناقص answer أو explanation`);
 
-            if (!opts || ansRaw === undefined)
-              throw new Error(`السؤال ${index + 1} ناقص.`);
+            const qText = item.question || item.q;
+            const opts = item.options.map(o => String(o).trim()).filter(Boolean);
+            const ansRaw = item.answer !== undefined ? item.answer : item.explanation;
 
+            // Find answer index - support number or text (case-insensitive, normalized)
             let ansIndex = -1;
-            if (typeof ansRaw === "number") {
+            if (typeof ansRaw === 'number' && ansRaw >= 0 && ansRaw < opts.length) {
               ansIndex = ansRaw;
             } else {
-              const clean = (s) => s.toString().trim().replace(/\s+/g, " ");
-              const cleanAns = clean(ansRaw);
-              ansIndex = opts.findIndex((o) => clean(o) === cleanAns);
+              const normalize = (s) => s.toString().trim().toLowerCase().replace(/\s+/g, ' ').replace(/[^\w\s]/g, '');
+              const normAns = normalize(ansRaw);
+              ansIndex = opts.findIndex(opt => normalize(opt) === normAns);
             }
 
-            if (ansIndex === -1 || isNaN(ansIndex)) {
-              throw new Error(
-                `سؤال ${index + 1}: الإجابة "${ansRaw}" لا تطابق الخيارات.`,
-              );
+            if (ansIndex === -1) {
+              throw new Error(`سؤال ${index+1}: الإجابة "${ansRaw}" لا تطابق أي خيار. الخيارات: ${opts.join(', ')}`);
+            }
+
+            // Skip if exact duplicate
+            const qNorm = qText.toLowerCase().trim();
+            if (Object.values(currentData).some(existing => existing.q.toLowerCase().trim() === qNorm)) {
+              console.warn(`سؤال مكرر: ${qText}`);
+              return;
             }
 
             const key = push(levelRef).key;
             currentData[key] = {
-              q: encode(item.question || item.q),
-              options: opts.map((o) => encode(o)),
-              answer: parseInt(ansIndex),
-              tip: encode(item.explanation || item.tip || ""),
+              q: qText,
+              options: opts,
+              answer: ansIndex,
+              tip: item.explanation || item.tip || ""
             };
+            newQuestions.push(qText.substring(0, 50) + '...');
           });
 
+          if (newQuestions.length === 0) throw new Error('لا توجد أسئلة جديدة (كلها مكررة)');
+
           await set(levelRef, currentData);
-          notify(`✅ تم دمج ${data.length} سؤال جديد بنجاح!`);
+          notify(`✅ تم دمج ${newQuestions.length} سؤال جديد: ${newQuestions.slice(0,3).join('; ')}${newQuestions.length>3 ? '...' : ''}`);
           bulkInput.value = "";
           document.getElementById("btn-fetch").click();
         } catch (e) {
           notify("❌ " + e.message, "error");
+          console.error('Bulk add error:', e);
         }
       };
+
 
       // --- 4. مسح المستوى ---
       document.getElementById("btn-clear-level").onclick = async () => {

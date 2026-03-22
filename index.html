@@ -385,13 +385,7 @@ async function loadQuestionsFromDB(level) {
         const questionsRef = ref(db, `questions/${level}`);
         const snapshot = await get(questionsRef);
         if (snapshot.exists()) {
-          const questionsArray = Object.values(snapshot.val());
-          return questionsArray.map((q) => ({
-            ...q,
-            q: decodeText(q.q),
-            options: q.options.map((opt) => decodeText(opt)),
-            tip: q.tip ? decodeText(q.tip) : q.tip,
-          }));
+          return Object.values(snapshot.val());
         }
         return [];
       }
@@ -434,46 +428,88 @@ function renderQuestion() {
           });
 
           // Safe decode with fallback
+          // Validate question data before rendering
+          if (!q.options || !Array.isArray(q.options) || q.options.length === 0 || q.answer === undefined || q.answer >= q.options.length) {
+            console.error('❌ Invalid question data:', q);
+            showToast('⚠️', 'سؤال غير صالح، الانتقال للسؤال التالي', 'warn');
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+              renderQuestion();
+            } else {
+              endLevel();
+            }
+            return;
+          }
+          
           const safeQ = {
-            q: decodeTextSafe(q.q),
-options: q.options,            answer: q.answer || 0
+            q: q.q || 'سؤال غير متاح',
+            options: (q.options || []).filter(Boolean),
+            answer: Number(q.answer)
           };
 
-          document.getElementById("question-text").textContent = safeQ.q;
+          // Double-check validation after decode
+          if (safeQ.options.length === 0 || safeQ.answer >= safeQ.options.length || safeQ.answer < 0) {
+            console.error('❌ Post-decode validation failed:', safeQ);
+            showToast('⚠️', 'سؤال معطوب، تخطي...', 'warn');
+            currentQuestionIndex++;
+            renderQuestion();
+            return;
+          }
+
+          document.getElementById("question-text").textContent = safeQ.q || 'سؤال غير متاح';
           document.getElementById("question-text").classList.add("auto-dir");
           
           answersDiv.innerHTML = "";
           updateTimerDisplay();
 
           safeQ.options.forEach((opt, i) => {
+            const cleanOpt = opt || '?';
+
             const label = document.createElement("label");
             label.className = "answer-label";
             label.dataset.value = i;
-            label.innerHTML = `
-              <input type="radio" name="quiz-opt" value="${i}">
-              <span class="auto-dir">${opt}</span>
-            `;
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = "quiz-opt";
+            input.value = i;
+            
+            const span = document.createElement("span");
+            span.className = "auto-dir option-text";
+            span.lang = "ar";  // Explicit Arabic lang for better RTL
+            span.dir = "auto";
+            span.textContent = cleanOpt;
+            
+            label.appendChild(input);
+            label.appendChild(span);
             answersDiv.appendChild(label);
+          });
+          
+          console.log('✅ All options rendered clean:', safeQ.options.map((o,i) => ({i, text: o.substring(0,20)})));
+          
+          // ADD CLICK HANDLERS for label selection (UX fix)
+          answersDiv.addEventListener('click', function(e) {
+            const label = e.target.closest('.answer-label');
+            if (!label || isProcessing) return;
+            
+            // Toggle visual selection
+            document.querySelectorAll('.answer-label').forEach(l => l.classList.remove('selected-opt'));
+            label.classList.add('selected-opt');
+            
+            // Sync radio
+            const radio = label.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            
+            selectedOptionIndex = parseInt(label.dataset.value);
+            console.log('🎯 Selected option:', selectedOptionIndex);
           });
           
           // RESTART TIMER
           levelTimer = setInterval(updateTimer, 1000);
-          console.log('✅ Question rendered successfully');
           
         } catch (error) {
           console.error('❌ Render error:', error);
           showToast("❌", "خطأ في تحميل السؤال", "err");
           endLevel();
-        }
-      }
-
-      // Safe decode wrapper
-      function decodeTextSafe(t) {
-        try {
-          return decodeText(t);
-        } catch (e) {
-          console.warn('Decode failed, using raw:', t);
-          return t || 'خطأ في السؤال';
         }
       }
 
@@ -786,26 +822,78 @@ async function startLevel(level) {
         feedback.classList.add("auto-dir");
         feedback.style.color = isPassed ? "green" : "red";
 
-     let reviewHTML = "<h3>مراجعة الإجابات:</h3>";
-currentQuestions.forEach((q, i) => {
-  const uAns = userAnswers.find(a => a.questionIndex === i);
-  const correct = uAns?.correct;
-
-  // فك ترميز السؤال
-  const questionText = decodeTextSafe(q.q) || "خطأ في السؤال";
-
-  // فك ترميز الاختيارات مع fallback
-  const correctOptionText = decodeTextSafe(q.options[q.answer]) || "خيار غير متاح";
-  const userOptionText = uAns ? decodeTextSafe(q.options[uAns.userChoice]) || "خيار غير متاح" : "لم تجب";
-
-  reviewHTML += `
-    <div style="padding:10px; border-bottom:1px solid #ddd; background:${correct ? "#f0fff0" : "#fff0f0"}">
-      <p><b>س${i + 1}:</b> ${questionText}</p>
-      <p style="color:${correct ? "green" : "red"}">إجابتك: ${userOptionText}</p>
-      ${!correct ? `<p style="color:green">الصح: ${correctOptionText}</p>` : ""}
-    </div>`;
-});
-document.getElementById("answers-review").innerHTML = reviewHTML;
+        console.log('🔍 Building results review for', currentQuestions.length, 'questions');
+        const answersReview = document.getElementById('answers-review');
+        answersReview.innerHTML = '<h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">مراجعة الإجابات:</h3>';
+        
+        currentQuestions.forEach((q, i) => {
+          if (!q?.options?.length) {
+            console.warn(`Skipping invalid question ${i}`);
+            return;
+          }
+          
+          const uAns = userAnswers.find(a => a.questionIndex === i);
+          const isCorrect = uAns?.correct ?? false;
+          const correctIdx = Number(q.answer ?? 0);
+          const userIdx = uAns?.userChoice ?? -1;
+          
+          // Safe bounds check
+          const safeCorrectText = (correctIdx >= 0 && correctIdx < q.options.length) ? q.options[correctIdx] : 'غير متاح';
+          const safeUserText = (userIdx >= 0 && userIdx < q.options.length) ? q.options[userIdx] : 'لم تجب';
+          const safeQuestion = q.q;
+          
+          console.group(`سؤال ${i+1}`);
+          console.log('السؤال:', safeQuestion);
+          console.log('إجابتك:', safeUserText, 'الصح:', safeCorrectText, 'صحيح?', isCorrect);
+          console.groupEnd();
+          
+          // Safe DOM creation
+          const itemDiv = document.createElement('div');
+          itemDiv.className = `review-item ${isCorrect ? 'correct' : 'incorrect'}`;
+          itemDiv.style.cssText = `
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border-left: 5px solid ${isCorrect ? '#28a745' : '#dc3545'};
+            background: ${isCorrect ? '#f0fff4' : '#fff5f5'};
+            direction: rtl;
+            font-family: 'Tajawal', Arial, sans-serif;
+          `;
+          
+          // Question line
+          const qLine = document.createElement('div');
+          qLine.style.cssText = 'font-weight: bold; margin-bottom: 8px; color: var(--text); font-size: 15px;';
+          qLine.innerHTML = `<span style="margin-inline-end: 8px;">س${i+1}:</span>`;
+          const qSpan = document.createElement('span');
+          qSpan.className = 'auto-dir review-text';
+          qSpan.textContent = safeQuestion;
+          qLine.appendChild(qSpan);
+          itemDiv.appendChild(qLine);
+          
+          // Your answer
+          const userLine = document.createElement('div');
+          userLine.style.cssText = `color: ${isCorrect ? '#28a745' : '#dc3545'}; font-weight: 700; padding: 8px 0; border-top: 1px solid #eee;`;
+          userLine.innerHTML = '<span style="margin-inline-end: 8px;">إجابتك:</span>';
+          const userSpan = document.createElement('span');
+          userSpan.className = 'auto-dir review-text';
+          userSpan.textContent = safeUserText;
+          userLine.appendChild(userSpan);
+          itemDiv.appendChild(userLine);
+          
+          // Correct answer if wrong
+          if (!isCorrect && safeCorrectText !== 'غير متاح') {
+            const corrLine = document.createElement('div');
+            corrLine.style.cssText = 'color: #28a745; background: #e8f5e8; padding: 10px; border-radius: 8px; margin-top: 8px; font-weight: 600;';
+            corrLine.innerHTML = '✅ الإجابة الصحيحة: ';
+            const corrSpan = document.createElement('span');
+            corrSpan.className = 'auto-dir review-text';
+            corrSpan.textContent = safeCorrectText;
+            corrLine.appendChild(corrSpan);
+            itemDiv.appendChild(corrLine);
+          }
+          
+          answersReview.appendChild(itemDiv);
+        });
       }
 
       // العودة للمستويات من شاشة النتائج - النسخة المُحسَّنة مع error handling
@@ -867,26 +955,12 @@ document.getElementById("answers-review").innerHTML = reviewHTML;
         await loadAdminConfig();
       });
 
-      function decodeText(t) {
-        try {
-          return decodeURIComponent(escape(atob(t)));
-        } catch (e) {
-          return t;
-        }
-      }
+
 
       function sanitizeFirebaseKey(k) {
         return k.replace(/[.#$\[\]]/g, "_");
       }
-function safeOptionText(opt) {
-  try {
-    // جرب تفك الترميز
-    return decodeText(opt);
-  } catch (e) {
-    // لو فشل، رجع النص الأصلي أو placeholder
-    return typeof opt === "string" && opt.trim() ? opt : "خيار غير متاح";
-  }
-}
+
       function showToast(title, msg, type) {
         toastTitle.textContent = title;
         toastMsg.textContent = msg;

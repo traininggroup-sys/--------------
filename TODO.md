@@ -1,28 +1,15 @@
-# TODO: Fix Question Display from Firebase Arrays
+# خطة إصلاح مشكلة صيغة الأسئلة الغريبة
 
-**Status:** 🔄 In Progress (0/7)
+## ✅ المهام المكتملة
+- [ ] إنشاء TODO.md وتخطيط الخطوات
 
-## Breakdown of Approved Plan:
+## 📝 الخطوات المتبقية
+1. ✅ قراءة admin.html و index.html وفهم المشكلة (base64 encoding في الحفظ)
+2. 🛠️ تعديل admin.html: 
+   - إصلاح btn-bulk-add (منع base64، تحسين parsing)
+   - إصلاح btn-save-edit (plaintext save)
+3. 🛠️ تعديل index.html: إضافة base64 decode fallback في renderQuestion
+4. 🧪 اختبار: bulk add → fetch → game play (plaintext display)
+5. ✅ إنهاء المهمة بـ attempt_completion
 
-### Phase 1: JS Logic Fixes (index.html)
-1. [✅] Enhance decodeTextSafe() - Arabic sanitization + logging
-2. [✅] renderQuestion() click handlers + UX feedback
-3. [ ] ✅ endLevel() results review - bounds check + textNode
-4. [ ] ✅ Add .answer-label click handlers
-3. [ ] ✅ endLevel() results review - bounds check + textNode
-4. [ ] ✅ Add .answer-label click handlers
-
-### Phase 2: CSS Polish (style.css)
-5. [ ] ✅ .answer-label/.option-text - RTL hardening
-6. [ ] ✅ Selected option visual feedback
-
-### Phase 3: Admin Prevention (admin.html)
-7. [ ] ✅ encodeSafe() consistency + preview
-
-### Phase 4: Test & Verify
-8. [ ] ✅ Console clean logs + browser test + Firebase admin preview
-
-**Current Step:** Starting Phase 1...
-
-**Expected Result:** Clean Arabic questions/choices in quiz + results screen
-
+## التقدم: 10%
