@@ -439,7 +439,11 @@ async function loadQuestionsFromDB(level) {
         });
       }
 
-      let isProcessing = false;
+let isProcessing = false;
+
+// 🔍 DEBUG: Next button traces
+let nextClickCount = 0;
+
 
       // Debounce utility (missing function)
       function debounce(func, wait) {
@@ -452,6 +456,8 @@ async function loadQuestionsFromDB(level) {
 
       // زر التالي الموحد مع debounce و disable
       document.getElementById("next-q-btn").addEventListener("click", debounce((e) => {
+        console.log(`🔍 NEXT CLICK #${++nextClickCount} | isProcessing: ${isProcessing}`);
+
         e.preventDefault();
         e.stopPropagation();
 
@@ -462,6 +468,7 @@ async function loadQuestionsFromDB(level) {
         
         const btn = document.getElementById("next-q-btn");
         const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
+        console.log('✅ Radio found:', checkedRadio?.value);
         if (!checkedRadio) {
           showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
           return;
@@ -472,6 +479,8 @@ async function loadQuestionsFromDB(level) {
         btn.style.opacity = "0.8";
         btn.style.cursor = "wait";
         btn.innerHTML = "⏳ جاري الانتقال...";
+        console.log('🚀 Starting process | Q:', currentQuestionIndex, '→', currentQuestionIndex+1);
+
 
         const selectedIndex = parseInt(checkedRadio.value);
         const q = currentQuestions[currentQuestionIndex];
@@ -484,14 +493,18 @@ async function loadQuestionsFromDB(level) {
         if (selectedIndex === q.answer) correctAnswers++;
 
         currentQuestionIndex++;
+        console.log('📊 Advance to Q:', currentQuestionIndex, '/', currentQuestions.length);
         if (currentQuestionIndex < currentQuestions.length) {
+          console.log('🎨 Rendering question...');
           renderQuestion();
         } else {
+          console.log('🏁 End level');
           endLevel();
         }
 
-        // Reset after short delay
+        // Reset after short delay (FORCE reset)
         setTimeout(() => {
+          console.log('✅ RESET button | isProcessing=false');
           isProcessing = false;
           if (btn) {
             btn.disabled = false;
