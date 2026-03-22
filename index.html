@@ -1,3 +1,4 @@
+
  <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -435,8 +436,7 @@ function renderQuestion() {
           // Safe decode with fallback
           const safeQ = {
             q: decodeTextSafe(q.q),
-            options: q.options ? q.options.map(decodeTextSafe) : [],
-            answer: q.answer || 0
+options: q.options,            answer: q.answer || 0
           };
 
           document.getElementById("question-text").textContent = safeQ.q;
@@ -786,27 +786,52 @@ async function startLevel(level) {
         feedback.classList.add("auto-dir");
         feedback.style.color = isPassed ? "green" : "red";
 
-        let reviewHTML = "<h3>مراجعة الإجابات:</h3>";
-        currentQuestions.forEach((q, i) => {
-          const uAns = userAnswers.find((a) => a.questionIndex === i);
-          const correct = uAns?.correct;
-          reviewHTML += `
-        <div style="padding:10px; border-bottom:1px solid #ddd; background:${correct ? "#f0fff0" : "#fff0f0"}">
-          <p><b>س${i + 1}:</b> ${q.q}</p>
-          <p style="color:${correct ? "green" : "red"}">إجابتك: ${uAns ? q.options[uAns.userChoice] : "لم تجب"}</p>
-          ${!correct ? `<p style="color:green">الصح: ${q.options[q.answer]}</p>` : ""}
-        </div>`;
-        });
-        document.getElementById("answers-review").innerHTML = reviewHTML;
+     let reviewHTML = "<h3>مراجعة الإجابات:</h3>";
+currentQuestions.forEach((q, i) => {
+  const uAns = userAnswers.find(a => a.questionIndex === i);
+  const correct = uAns?.correct;
+
+  // فك ترميز السؤال
+  const questionText = decodeTextSafe(q.q) || "خطأ في السؤال";
+
+  // فك ترميز الاختيارات مع fallback
+  const correctOptionText = decodeTextSafe(q.options[q.answer]) || "خيار غير متاح";
+  const userOptionText = uAns ? decodeTextSafe(q.options[uAns.userChoice]) || "خيار غير متاح" : "لم تجب";
+
+  reviewHTML += `
+    <div style="padding:10px; border-bottom:1px solid #ddd; background:${correct ? "#f0fff0" : "#fff0f0"}">
+      <p><b>س${i + 1}:</b> ${questionText}</p>
+      <p style="color:${correct ? "green" : "red"}">إجابتك: ${userOptionText}</p>
+      ${!correct ? `<p style="color:green">الصح: ${correctOptionText}</p>` : ""}
+    </div>`;
+});
+document.getElementById("answers-review").innerHTML = reviewHTML;
       }
 
-      // العودة للمستويات من شاشة النتائج
+      // العودة للمستويات من شاشة النتائج - النسخة المُحسَّنة مع error handling
       window.backToLevelsFromResults = function () {
-        resultSection.style.display = "none";
-        resultSection.classList.add("hidden");
-        // إظهار الهيدر مرة أخرى
-        document.querySelector("header").style.display = "block";
-        showLevels();
+        console.log('🔙 زرار العودة ضغط عليه - بداية التنفيذ');
+        try {
+          resultSection.style.display = "none";
+          resultSection.classList.add("hidden");
+          document.querySelector("header").style.display = "block";
+          
+          console.log('✅ تم إخفاء نتائج + إظهار header');
+          
+          if (typeof showLevels === 'function') {
+            showLevels();
+            console.log('✅ تم استدعاء showLevels() بنجاح');
+          } else {
+            console.error('❌ showLevels غير متوفرة');
+            // Fallback: إعادة تحميل الصفحة
+            setTimeout(() => location.reload(), 100);
+          }
+        } catch (error) {
+          console.error('❌ خطأ في backToLevelsFromResults():', error);
+          // Emergency reset
+          setTimeout(() => location.reload(), 500);
+        }
+        console.log('🔙 انتهى تنفيذ backToLevelsFromResults');
       };
 
       // العودة للمستويات من شاشة النتائج (وظيفة جديدة للزر)
@@ -853,7 +878,15 @@ async function startLevel(level) {
       function sanitizeFirebaseKey(k) {
         return k.replace(/[.#$\[\]]/g, "_");
       }
-
+function safeOptionText(opt) {
+  try {
+    // جرب تفك الترميز
+    return decodeText(opt);
+  } catch (e) {
+    // لو فشل، رجع النص الأصلي أو placeholder
+    return typeof opt === "string" && opt.trim() ? opt : "خيار غير متاح";
+  }
+}
       function showToast(title, msg, type) {
         toastTitle.textContent = title;
         toastMsg.textContent = msg;
