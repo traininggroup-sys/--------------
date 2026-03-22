@@ -1863,3 +1863,29 @@ span.titlegroup {
   font-size: 23px;
   color: #1225ac;
 }
+
+/* Enhanced simple-section for centered group image */
+.simple-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.simple-section .image-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.simple-section img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+  display: block;
+}
