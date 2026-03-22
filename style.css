@@ -1240,7 +1240,7 @@ input::placeholder {
 
     #toast-title {
       font-size: 20px;
-      color: red;
+      color: rgb(255, 255, 255);
     }
 
     #toast-msg {
