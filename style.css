@@ -1553,7 +1553,6 @@ input::placeholder {
 
 .simple-section {
   background: linear-gradient(135deg, #fffdf5 0%, #fff8e1 100%);
-  padding: 24px;
   border-radius: var(--radius);
   border: 2px solid var(--duo-yellow-light);
   box-shadow: 0 4px 16px rgba(255, 200, 0, 0.15);
@@ -1562,8 +1561,8 @@ input::placeholder {
 .simple-section h4 {
   font-size: 20px;
   font-weight: 800;
-  color: var(--duo-blue);
-  margin: 0 0 20px 0;
+  color: #090a0a;
+  margin: 10px 0 11px 0;
   text-align: center;
 }
 
@@ -1618,7 +1617,7 @@ input::placeholder {
 .slogan-para {
   font-size: 19px;
   font-weight: 800;
-  color: var(--duo-green);
+  color: #e91303;
   text-align: center;
   margin: 0;
   padding: 18px;
@@ -1849,4 +1848,8 @@ img.awardimg {
 /* Prevent body scroll when leaderboard is open */
 body.leaderboard-open {
   overflow: hidden;
+}
+span.titlegroup {
+  font-size: 23px;
+  color: #1225ac;
 }
