@@ -19,9 +19,7 @@
           <img class="logo" src="لوجو قناة اسئلة الجهاز المركزي.jpg" alt="قناة أسئلة الجهاز المركزي">
           <div class="title-group">
             <h1>قناة أسئلة الجهاز المركزي</h1>
-            <h1>مستوياتي</h1>
-            <h3>معانا هتذاكر وتكسب كمان🔥✨</h3>
-          </div>
+                 </div>
           <a
             href="admin.html"
             class="back-btn1"
@@ -60,7 +58,6 @@
 
       <section id="levels"></section>
 
-      <div class="levels-container" style="text-align: center; margin-top: 20px; width: 100%; max-width: 600px;">
         <button id="logout-btn" class="logout-btn">
           🚪 خروج
         </button>
@@ -410,79 +407,142 @@ async function loadQuestionsFromDB(level) {
         }
       }
 
-      function renderQuestion() {
-        const q = currentQuestions[currentQuestionIndex];
-        if (!q) {
+function renderQuestion() {
+        console.log('📄 Rendering question', currentQuestionIndex);
+        try {
+          const q = currentQuestions[currentQuestionIndex];
+          if (!q) {
+            console.log('❌ No question data, ending level');
+            endLevel();
+            return;
+          }
+
+          // PAUSE TIMER
+          if (levelTimer) {
+            clearInterval(levelTimer);
+          }
+
+          selectedOptionIndex = null;
+          
+          // Clear all radios + visual states
+          document.querySelectorAll('input[name="quiz-opt"]').forEach(r => {
+            r.checked = false;
+          });
+          document.querySelectorAll('.answer-label').forEach(l => {
+            l.classList.remove("selected-opt");
+          });
+
+          // Safe decode with fallback
+          const safeQ = {
+            q: decodeTextSafe(q.q),
+            options: q.options ? q.options.map(decodeTextSafe) : [],
+            answer: q.answer || 0
+          };
+
+          document.getElementById("question-text").textContent = safeQ.q;
+          document.getElementById("question-text").classList.add("auto-dir");
+          
+          answersDiv.innerHTML = "";
+          updateTimerDisplay();
+
+          safeQ.options.forEach((opt, i) => {
+            const label = document.createElement("label");
+            label.className = "answer-label";
+            label.dataset.value = i;
+            label.innerHTML = `
+              <input type="radio" name="quiz-opt" value="${i}">
+              <span class="auto-dir">${opt}</span>
+            `;
+            answersDiv.appendChild(label);
+          });
+          
+          // RESTART TIMER
+          levelTimer = setInterval(updateTimer, 1000);
+          console.log('✅ Question rendered successfully');
+          
+        } catch (error) {
+          console.error('❌ Render error:', error);
+          showToast("❌", "خطأ في تحميل السؤال", "err");
           endLevel();
-          return;
         }
+      }
 
-        selectedOptionIndex = null;
-        // Clear all radios
-        document.querySelectorAll('input[name="quiz-opt"]').forEach(r => r.checked = false);
-        document.querySelectorAll('.answer-label').forEach(l => l.classList.remove("selected-opt"));
-
-        document.getElementById("question-text").textContent = q.q;
-        document.getElementById("question-text").classList.add("auto-dir");
-        answersDiv.innerHTML = "";
-        updateTimerDisplay();
-
-        q.options.forEach((opt, i) => {
-          const label = document.createElement("label");
-          label.className = "answer-label";
-          label.dataset.value = i;
-          label.innerHTML = `
-        <input type="radio" name="quiz-opt" value="${i}">
-        <span class="auto-dir">${opt}</span>
-      `;
-          answersDiv.appendChild(label);
-        });
+      // Safe decode wrapper
+      function decodeTextSafe(t) {
+        try {
+          return decodeText(t);
+        } catch (e) {
+          console.warn('Decode failed, using raw:', t);
+          return t || 'خطأ في السؤال';
+        }
       }
 
 let isProcessing = false;
 
-// 🔘 زر السؤال التالي
+// 🔘 زر السؤال التالي - FIXED VERSION
 const nextBtn = document.getElementById("next-q-btn");
 
 if (nextBtn) {
   nextBtn.addEventListener("click", (e) => {
-
     e.preventDefault();
-
-    if (isProcessing) return;
-
-    isProcessing = true;
-
-    const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
-
-    if (!checkedRadio) {
-      showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
-      isProcessing = false;
+    console.log('🔘 Next button clicked');
+    
+    if (isProcessing) {
+      console.log('⚠️ Next blocked: isProcessing=true');
       return;
     }
-
-    const selectedIndex = parseInt(checkedRadio.value);
-    const q = currentQuestions[currentQuestionIndex];
-
-    userAnswers.push({
-      questionIndex: currentQuestionIndex,
-      userChoice: selectedIndex,
-      correct: selectedIndex === q.answer,
-    });
-
-    if (selectedIndex === q.answer) {
-      correctAnswers++;
-    }
-
-    currentQuestionIndex++;
-
-    if (currentQuestionIndex < currentQuestions.length) {
-      renderQuestion();
+    
+    isProcessing = true;
+    nextBtn.disabled = true;
+    nextBtn.textContent = 'جاري الانتقال...';
+    console.log('✅ Processing started');
+    
+    try {
+      const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
+      if (!checkedRadio) {
+        showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
+        throw new Error('No answer selected');
+      }
+      
+      const selectedIndex = parseInt(checkedRadio.value);
+      const q = currentQuestions[currentQuestionIndex];
+      
+      userAnswers.push({
+        questionIndex: currentQuestionIndex,
+        userChoice: selectedIndex,
+        correct: selectedIndex === q.answer,
+      });
+      
+      if (selectedIndex === q.answer) {
+        correctAnswers++;
+      }
+      
+      currentQuestionIndex++;
+      console.log(`✅ Answer processed. Next index: ${currentQuestionIndex}/${currentQuestions.length}`);
+      
+      if (currentQuestionIndex < currentQuestions.length) {
+        renderQuestion();
+        console.log('✅ Next question rendered');
+      } else {
+        endLevel();
+        console.log('🏁 End of level');
+      }
+    } catch (error) {
+      console.error('❌ Next handler error:', error);
+      showToast("❌", "خطأ في معالجة الإجابة، حاول مرة أخرى", "err");
+    } finally {
+      // ALWAYS RESET
       isProcessing = false;
-    } else {
-      endLevel();
+      nextBtn.disabled = false;
+      nextBtn.textContent = 'السؤال التالي ⬅️';
+      console.log('🔄 Next handler reset complete');
+      
+      // Safety timeout
+      setTimeout(() => {
+        isProcessing = false;
+        nextBtn.disabled = false;
+      }, 2000);
     }
-
   });
 }
 

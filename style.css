@@ -483,10 +483,8 @@ input::placeholder {
 /* Question Box */
 #question-box {
   display: none;
-  background: var(--bg);
   padding: 30px 24px;
   border-radius: var(--radius-lg);
-  margin-top: 20px;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
   border-bottom: 4px solid var(--gray-200);
 }
@@ -573,21 +571,28 @@ input::placeholder {
   height: 22px;
   accent-color: var(--duo-blue);
 }
-#question-box {
-  max-height: 400px; /* حسب المساحة المتاحة */
-  overflow-y: auto;
+
+/* FIXED Next Button - Clean positioning above all elements */
+#quiz-container {
+  padding-bottom: 140px !important;
+  overflow: visible !important;
 }
-#next-q-btn {
-  position: sticky;
-  bottom: 10px;
-  left: 0;
-  width: 100% !important;
-  z-index: 1000 !important;
+
+#answers {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto !important;
+  padding-bottom: 20px;
 }
+
 #next-q-btn {
-  margin-top: 25px !important;
-  width: 100% !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 90vw !important;
+  max-width: 500px !important;
   min-height: 60px !important;
+  margin: 0 !important;
   padding: 20px 24px !important;
   font-size: 18px !important;
   font-weight: 800 !important;
@@ -600,8 +605,7 @@ input::placeholder {
   cursor: pointer !important;
   text-align: center !important;
   display: block !important;
-  position: relative !important;
-  z-index: 10 !important;
+  z-index: 9999 !important; /* Above all modals */
   pointer-events: auto !important;
   user-select: none !important;
   text-decoration: none !important;
@@ -611,15 +615,15 @@ input::placeholder {
   white-space: nowrap !important;
 }
 
-#next-q-btn:hover {
+#next-q-btn:hover:not(:disabled) {
   background: var(--duo-green-dark) !important;
-  transform: translateY(-2px) !important;
+  transform: translateX(-50%) translateY(-2px) !important;
   box-shadow: 0 8px 0 var(--duo-green-dark) !important;
 }
 
-#next-q-btn:active,
+#next-q-btn:active:not(:disabled),
 #next-q-btn:disabled {
-  transform: translateY(1px) !important;
+  transform: translateX(-50%) translateY(1px) !important;
   box-shadow: 0 2px 0 var(--duo-green-dark) !important;
 }
 
@@ -627,11 +631,6 @@ input::placeholder {
   opacity: 0.7 !important;
   cursor: not-allowed !important;
   pointer-events: none !important;
-}
-
-#next-q-btn:hover {
-  background: var(--duo-green-dark);
-  box-shadow: 0 6px 0 var(--duo-green-dark);
 }
 
 /* Result Section */
@@ -1197,7 +1196,6 @@ input::placeholder {
   }
 
   header {
-    padding-top: 20px;
     padding-bottom: 10px;
     margin-bottom: 18px;
   }
