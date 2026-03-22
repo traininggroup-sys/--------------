@@ -264,7 +264,7 @@ const adminBtn = document.getElementById("admin-btn");
           
           // Secure check: base64 obfuscated password
           const obfuscatedPw = atob("MTExMjEyMTk5OQ==");
-          if (inputHash === adminPasswordHash) { // Secure hash check\n            showToast("✅", "تم تسجيل الدخول للأدمن بنجاح", "success");\n            setTimeout(() => {\n              window.location.href = "admin.html"; // Force redirect\n              window.open("admin.html", "_self");\n            }, 500);
+          if (inputHash === adminPasswordHash) { 
             window.location.href = "admin.html";
           } else {
             showToast("⚠️", "كلمة المرور غير صحيحة", "err");
