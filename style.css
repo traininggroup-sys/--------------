@@ -573,7 +573,17 @@ input::placeholder {
   height: 22px;
   accent-color: var(--duo-blue);
 }
-
+#question-box {
+  max-height: 400px; /* حسب المساحة المتاحة */
+  overflow-y: auto;
+}
+#next-q-btn {
+  position: sticky;
+  bottom: 10px;
+  left: 0;
+  width: 100% !important;
+  z-index: 1000 !important;
+}
 #next-q-btn {
   margin-top: 25px !important;
   width: 100% !important;

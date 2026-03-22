@@ -441,80 +441,50 @@ async function loadQuestionsFromDB(level) {
 
 let isProcessing = false;
 
-// 🔍 DEBUG: Next button traces
-let nextClickCount = 0;
+// 🔘 زر السؤال التالي
+const nextBtn = document.getElementById("next-q-btn");
 
+if (nextBtn) {
+  nextBtn.addEventListener("click", (e) => {
 
-      // Debounce utility (missing function)
-      function debounce(func, wait) {
-        let timeout;
-        return (...args) => {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-      }
+    e.preventDefault();
 
-      // زر التالي الموحد مع debounce و disable
-      document.getElementById("next-q-btn").addEventListener("click", debounce((e) => {
-        console.log(`🔍 NEXT CLICK #${++nextClickCount} | isProcessing: ${isProcessing}`);
+    if (isProcessing) return;
 
-        e.preventDefault();
-        e.stopPropagation();
+    isProcessing = true;
 
-        if (isProcessing) {
-          e.stopImmediatePropagation();
-          return;
-        }
-        
-        const btn = document.getElementById("next-q-btn");
-        const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
-        console.log('✅ Radio found:', checkedRadio?.value);
-        if (!checkedRadio) {
-          showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
-          return;
-        }
+    const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
 
-        isProcessing = true;
-        btn.disabled = true;
-        btn.style.opacity = "0.8";
-        btn.style.cursor = "wait";
-        btn.innerHTML = "⏳ جاري الانتقال...";
-        console.log('🚀 Starting process | Q:', currentQuestionIndex, '→', currentQuestionIndex+1);
+    if (!checkedRadio) {
+      showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
+      isProcessing = false;
+      return;
+    }
 
+    const selectedIndex = parseInt(checkedRadio.value);
+    const q = currentQuestions[currentQuestionIndex];
 
-        const selectedIndex = parseInt(checkedRadio.value);
-        const q = currentQuestions[currentQuestionIndex];
-        userAnswers.push({
-          questionIndex: currentQuestionIndex,
-          userChoice: selectedIndex,
-          correct: selectedIndex === q.answer,
-        });
+    userAnswers.push({
+      questionIndex: currentQuestionIndex,
+      userChoice: selectedIndex,
+      correct: selectedIndex === q.answer,
+    });
 
-        if (selectedIndex === q.answer) correctAnswers++;
+    if (selectedIndex === q.answer) {
+      correctAnswers++;
+    }
 
-        currentQuestionIndex++;
-        console.log('📊 Advance to Q:', currentQuestionIndex, '/', currentQuestions.length);
-        if (currentQuestionIndex < currentQuestions.length) {
-          console.log('🎨 Rendering question...');
-          renderQuestion();
-        } else {
-          console.log('🏁 End level');
-          endLevel();
-        }
+    currentQuestionIndex++;
 
-        // Reset after short delay (FORCE reset)
-        setTimeout(() => {
-          console.log('✅ RESET button | isProcessing=false');
-          isProcessing = false;
-          if (btn) {
-            btn.disabled = false;
-            btn.style.opacity = "1";
-            btn.style.cursor = "pointer";
-            btn.innerHTML = "السؤال التالي ⬅️";
-          }
-        }, 500);
+    if (currentQuestionIndex < currentQuestions.length) {
+      renderQuestion();
+      isProcessing = false;
+    } else {
+      endLevel();
+    }
 
-      }, 150));
+  });
+}
 
       // --- تسجيل الدخول ---
       loginBtn.addEventListener("click", async () => {
