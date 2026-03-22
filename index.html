@@ -975,7 +975,18 @@ closeLeaderboardBtn.addEventListener("click", () => {
         });
       }
 
-      // Close coins modal when clicking outside
+// Enter key support for Next Button
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && questionBox.style.display === 'block' && !isProcessing) {
+    const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
+    if (checkedRadio) {
+      console.log('↵ Enter pressed - triggering next');
+      nextBtn.click();
+    }
+  }
+});
+
+// Close coins modal when clicking outside
       if (coinsModal) {
         coinsModal.addEventListener("click", (e) => {
           if (e.target === coinsModal) {
