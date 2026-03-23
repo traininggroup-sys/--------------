@@ -1103,6 +1103,13 @@ input::placeholder {
 
 .toast.err {
   background: #00000073;
+  bottom: 120px;
+  z-index: 10000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.toast.err.show {
+  transform: translateX(-50%) translateY(-20px);
 }
 
 #toast-title {

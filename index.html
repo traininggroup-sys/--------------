@@ -565,8 +565,7 @@ if (nextBtn) {
       }
     } catch (error) {
       console.error('❌ Next handler error:', error);
-      showToast( "اختار إجابة متغلبناش 😂🔔", "err");
-    } finally {
+showToast("⚠️", "اختار إجابة متغلبناش 😂🔔", "err");    } finally {
       // ALWAYS RESET
       isProcessing = false;
       nextBtn.disabled = false;
