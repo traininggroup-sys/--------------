@@ -421,7 +421,7 @@
       };
 
 
-// --- 3. الرفع والدمج الذكي (محسن - plaintext only) ---
+      // --- 3. الرفع والدمج الذكي (مرن - يدعم JS literal + JSON + explanation) ---
       document.getElementById("btn-bulk-add").onclick = async () => {
         const level = levelSelect.value;
         let rawText = bulkInput.value.trim();
@@ -429,31 +429,26 @@
         try {
           if (!rawText) throw new Error("المربع فارغ!");
 
-          let data;
-          // JSON parsing only - no eval for security
-          try {
-            data = JSON.parse(rawText);
-            if (!Array.isArray(data)) throw new Error("يجب أن تكون مصفوفة []");
-          } catch (e) {
-            throw new Error(`خطأ JSON: ${e.message}. تأكدي من الصيغة الصحيحة [ {question, options[], answer, explanation} ]`);
-          }
+          let data = parseBulkData(rawText); // Flexible parser
+          if (!Array.isArray(data)) throw new Error("يجب أن تكون مصفوفة []");
 
           const levelRef = ref(db, `questions/${level}`);
           const oldSnap = await get(levelRef);
           const currentData = oldSnap.exists() ? oldSnap.val() : {};
 
           const newQuestions = [];
+          const skipped = [];
           data.forEach((item, index) => {
-            // Validation
+            // Enhanced validation
             if (!item.question && !item.q) throw new Error(`السؤال ${index+1}: ناقص question أو q`);
             if (!Array.isArray(item.options) || item.options.length < 2) throw new Error(`السؤال ${index+1}: options غير صالحة (array ≥2)`);
-            if (item.answer === undefined && !item.explanation) throw new Error(`السؤال ${index+1}: ناقص answer أو explanation`);
+            if (item.answer === undefined) throw new Error(`السؤال ${index+1}: ناقص answer`);
 
-            const qText = item.question || item.q;
+            const qText = String(item.question || item.q).trim();
             const opts = item.options.map(o => String(o).trim()).filter(Boolean);
-            const ansRaw = item.answer !== undefined ? item.answer : item.explanation;
+            const ansRaw = item.answer;
 
-            // Find answer index - support number or text (case-insensitive, normalized)
+            // Smart answer index detection
             let ansIndex = -1;
             if (typeof ansRaw === 'number' && ansRaw >= 0 && ansRaw < opts.length) {
               ansIndex = ansRaw;
@@ -467,10 +462,10 @@
               throw new Error(`سؤال ${index+1}: الإجابة "${ansRaw}" لا تطابق أي خيار. الخيارات: ${opts.join(', ')}`);
             }
 
-            // Skip if exact duplicate
+            // Skip exact duplicate (case-insensitive)
             const qNorm = qText.toLowerCase().trim();
             if (Object.values(currentData).some(existing => existing.q.toLowerCase().trim() === qNorm)) {
-              console.warn(`سؤال مكرر: ${qText}`);
+              skipped.push(qText.substring(0, 30) + '...');
               return;
             }
 
@@ -479,15 +474,20 @@
               q: qText,
               options: opts,
               answer: ansIndex,
-              tip: item.explanation || item.tip || ""
+              tip: item.explanation || item.tip || item.explain || ""
             };
             newQuestions.push(qText.substring(0, 50) + '...');
           });
 
-          if (newQuestions.length === 0) throw new Error('لا توجد أسئلة جديدة (كلها مكررة)');
+          if (newQuestions.length === 0) throw new Error(`لا توجد أسئلة جديدة${skipped.length ? ` (تم تجاهل ${skipped.length} مكررة)` : ''}`);
 
           await set(levelRef, currentData);
-          notify(`✅ تم دمج ${newQuestions.length} سؤال جديد: ${newQuestions.slice(0,3).join('; ')}${newQuestions.length>3 ? '...' : ''}`);
+          
+          let msg = `✅ تم دمج ${newQuestions.length} سؤال جديد`;
+          if (skipped.length) msg += ` | ⏭️ تم تجاهل ${skipped.length} مكرر: ${skipped.slice(0,2).join('; ')}`;
+          msg += newQuestions.length > 3 ? ` ...` : '';
+          
+          notify(msg);
           bulkInput.value = "";
           document.getElementById("btn-fetch").click();
         } catch (e) {
@@ -495,6 +495,65 @@
           console.error('Bulk add error:', e);
         }
       };
+
+      // Flexible parser: JSON or JS literal objects
+      function parseBulkData(rawText) {
+        try {
+          // Try strict JSON first
+          return JSON.parse(rawText);
+        } catch (jsonErr) {
+          console.log('JSON failed, trying JS literal parse:', jsonErr.message);
+          
+          // Extract JS objects with regex (handle multiple formats)
+          const objectMatches = rawText.match(/\{[^{}]*(?:\}[^{}]*)*\}/g) || [];
+          if (objectMatches.length === 0) throw new Error('لا توجد كائنات صالحة. جربي صيغة JSON أو JS object');
+          
+          const data = [];
+          objectMatches.forEach((objStr, objIndex) => {
+            try {
+              // Parse leniently: split key:value pairs
+              const pairs = objStr.match(/(?:\w+|["'][^"']*["'])\s*:\s*(?:["'][^"']*["']|\[[^\]]*\]|\{[^}]*\}|[\w\s]+)/g) || [];
+              
+              const item = {};
+              pairs.forEach(pair => {
+                const colonIdx = pair.indexOf(':');
+                if (colonIdx > 0) {
+                  let key = pair.substring(0, colonIdx).trim().replace(/["']/g, '');
+                  let value = pair.substring(colonIdx + 1).trim();
+                  
+                  // Handle arrays and nested objects simply
+                  if (value.startsWith('[') && value.endsWith(']')) {
+                    // Split comma-separated options
+                    const opts = value.slice(1, -1).split(/,\s*/).map(o => o.replace(/["']/g, '').trim()).filter(Boolean);
+                    item[key === 'options' ? key : 'options'] = opts;
+                  } else if (!value.startsWith('{')) {
+                    // Simple string/number
+                    value = value.replace(/["']/g, '').trim();
+                    if (key === 'answer' && !isNaN(value)) value = parseInt(value);
+                    item[key === 'question' || key === 'q' ? 'question' : key === 'answer' ? 'answer' : key] = value;
+                  }
+                }
+              });
+              
+              // Ensure required fields via normalization
+              if (item.question || item.q) {
+                item.question = item.question || item.q;
+                delete item.q;
+              }
+              
+              data.push(item);
+            } catch (objErr) {
+              console.warn(`Failed to parse object ${objIndex + 1}:`, objErr);
+            }
+          });
+          
+          if (data.length === 0) throw new Error('فشل في استخراج الأسئلة من النص. تأكدي من الصيغة: [{question:"...", options:["A","B"], answer:"A"}, ...]');
+          
+          console.log(`✅ Parsed ${data.length} questions from JS literal format`);
+          return data;
+        }
+      }
+
 
 
       // --- 4. مسح المستوى ---
