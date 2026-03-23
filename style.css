@@ -1227,6 +1227,7 @@ input::placeholder {
     hyphens: auto;
     word-break: break-word;
     overflow-wrap: anywhere;
+    margin-bottom: 160px;
   }
 
   .toast.show {

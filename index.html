@@ -607,23 +607,26 @@ if (nextBtn) {
     e.preventDefault();
     console.log('🔘 Next button clicked');
     
-    // Clear debounce
-    if (nextDebounceTimer) {
-      console.log('⏳ Debounce active, ignoring click');
-      return;
-    }
-    
-    if (isProcessing) {
-      console.log('⚠️ Next blocked: isProcessing=true');
-      return;
-    }
-    
-    // START PROCESSING + UI LOCK
-    isProcessing = true;
-    nextDebounceTimer = setTimeout(() => { nextDebounceTimer = null; }, 500);
-    nextBtn.disabled = true;
-    nextBtn.textContent = '⏳ جاري الانتقال...';
-    showLoader();
+  // ✅ الأول نتأكد إن فيه إجابة
+const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
+
+if (!checkedRadio) {
+  showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
+  return;
+}
+
+// ✅ بعد التأكد فقط نبدأ القفل
+if (nextDebounceTimer) return;
+if (isProcessing) return;
+
+isProcessing = true;
+nextDebounceTimer = setTimeout(() => { nextDebounceTimer = null; }, 500);
+
+nextBtn.disabled = true;
+nextBtn.textContent = '⏳ جاري الانتقال...';
+showLoader();
+
+
     console.log('✅ Processing started + Loader ON');
     
     // MINIMUM 3s disable
@@ -636,9 +639,13 @@ if (nextBtn) {
     try {
       const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
       if (!checkedRadio) {
-        showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
-        throw new Error('No answer selected');
-      }
+  showToast("⚠️", "يرجى اختيار إجابة أولاً", "warn");
+  isProcessing = false;              // ✅ مهم جدًا
+  nextBtn.disabled = false;          // ✅ فك القفل
+  nextBtn.textContent = 'السؤال التالي ⬅️';
+  hideLoader();                     // ✅ إخفاء اللودر
+  return;                           // ✅ بدل throw
+}
       
       const selectedIndex = parseInt(checkedRadio.value);
       const q = currentQuestions[currentQuestionIndex];
@@ -663,18 +670,29 @@ if (nextBtn) {
         endLevel();
         console.log('🏁 End of level');
       }
-    } catch (error) {
-      console.error('❌ Next handler error:', error);
-      showToast("⚠️", "اختار إجابة متغلبناش 😂🔔", "err");
-    } finally {
+    }
+    
+ catch (error) {
+  console.error('❌ Next handler error:', error);
+
+  // ✅ فك القفل فورًا لو حصل خطأ
+  isProcessing = false;
+  nextBtn.disabled = false;
+  nextBtn.textContent = 'السؤال التالي ⬅️';
+  hideLoader();
+}
+    
+    finally {
       // DELAYED RESET (after render settles)
       setTimeout(() => {
         isProcessing = false;
         nextBtn.disabled = false;
         nextBtn.textContent = 'السؤال التالي ⬅️';
         hideLoader();
+
+
         console.log('🔄 Next handler FULL reset + Loader OFF');
-      }, 2500); // 2.5s delay for render + DOM settle
+    }, 500);// 2.5s delay for render + DOM settle
     }
   });
 }
