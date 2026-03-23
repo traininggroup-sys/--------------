@@ -70,14 +70,51 @@
         <h2 id="question-text">سؤال هنا</h2>
 
 <div id="quiz-container">
+          <!-- Loading Overlay -->
+          <div id="question-loader" class="question-loader" style="display: none;">
+            <div class="loader-spinner"></div>
+            <span>جاري تحميل السؤال...</span>
+          </div>
+          
           <div id="answers"></div>
 
           <div class="next-btn-container">
             <button id="next-q-btn" class="back-btn">السؤال التالي ⬅️</button>
           </div>
 
-
         </div>
+        
+        <!-- CSS for loader -->
+        <style>
+        .question-loader {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(255,255,255,0.95);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          z-index: 100;
+          border-radius: inherit;
+          backdrop-filter: blur(2px);
+        }
+        .loader-spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #1cb0f6;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 15px;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        </style>
 
         <div id="tip"></div>
       </section>
@@ -189,7 +226,7 @@
         </button>
       </div>
 
-</parameter>
+
     </div>
     <!-- Firebase و كود التطبيق (سكربت واحد فقط) -->
     <script type="module">
@@ -326,16 +363,16 @@ let leaderboardUnsubscribe = null;
 
 
 const levelsData = {
-        1: { questions: 5, passRate: 0.6, time: 2600},
-        2: { questions: 5, passRate: 0.65, time: 2600 },
-        3: { questions: 5, passRate: 0.7, time: 2600 },
-        4: { questions: 5, passRate: 0.75, time: 2600 },
-        5: { questions: 5, passRate: 0.8, time: 2600 },
-        6: { questions: 5, passRate: 0.85, time: 2600 },
-        7: { questions: 5, passRate: 0.9, time: 2600 },
-        8: { questions: 5, passRate: 0.9, time: 2600 },
-        9: { questions: 5, passRate: 0.9, time: 2600 },
-        10: { questions: 5, passRate: 0.9, time: 2600 },
+        1: { questions: 5, passRate: 0.6, time: 1200},
+        2: { questions: 5, passRate: 0.65, time: 1020 },
+        3: { questions: 5, passRate: 0.7, time: 840 },
+        4: { questions: 5, passRate: 0.75, time: 720 },
+        5: { questions: 5, passRate: 0.8, time: 600 },
+        6: { questions: 5, passRate: 0.85, time: 600 },
+        7: { questions: 5, passRate: 0.9, time: 600 },
+        8: { questions: 5, passRate: 0.9, time: 600 },
+        9: { questions: 5, passRate: 0.9, time: 600 },
+        10: { questions: 5, passRate: 0.9, time: 600 },
 11: { questions: 5, passRate: 0.9, time: 2600, passwordHash: "00000037" },
 
       };
@@ -403,41 +440,65 @@ async function loadQuestionsFromDB(level) {
 
 function renderQuestion() {
         console.log('📄 Rendering question', currentQuestionIndex);
+        let skipCount = 0;
+        const MAX_SKIPS = 3;
+        
+        showLoader(); // Show loader during render
+        
         try {
           const q = currentQuestions[currentQuestionIndex];
           if (!q) {
             console.log('❌ No question data, ending level');
             endLevel();
+            hideLoader();
             return;
           }
 
-          // PAUSE TIMER
+          // PAUSE TIMER EXPLICITLY
+          let wasRunning = !!levelTimer;
           if (levelTimer) {
             clearInterval(levelTimer);
+            console.log('⏸️ Timer paused');
           }
 
           selectedOptionIndex = null;
           
-          // Clear all radios + visual states
-          document.querySelectorAll('input[name="quiz-opt"]').forEach(r => {
-            r.checked = false;
-          });
-          document.querySelectorAll('.answer-label').forEach(l => {
-            l.classList.remove("selected-opt");
-          });
+          // Clear all radios + visual states (batch)
+          document.querySelectorAll('input[name="quiz-opt"]').forEach(r => r.checked = false);
+          document.querySelectorAll('.answer-label').forEach(l => l.classList.remove("selected-opt"));
 
-          // Safe decode with fallback
-          // Validate question data before rendering
-          if (!q.options || !Array.isArray(q.options) || q.options.length === 0 || q.answer === undefined || q.answer >= q.options.length) {
-            console.error('❌ Invalid question data:', q);
-            showToast('⚠️', 'سؤال غير صالح، الانتقال للسؤال التالي', 'warn');
+          // VALIDATION + SKIP LOGIC
+          const validateQuestion = (qData) => {
+            if (!qData.options || !Array.isArray(qData.options) || 
+                qData.options.length === 0 || 
+                qData.answer === undefined || 
+                qData.answer >= qData.options.length || qData.answer < 0) {
+              return false;
+            }
+            const safeOpts = (qData.options || []).filter(Boolean);
+            return safeOpts.length > 0 && safeOpts.length > qData.answer;
+          };
+
+          if (!validateQuestion(q)) {
+            skipCount++;
+            console.warn(`⚠️ Skip ${skipCount}/${MAX_SKIPS}: Invalid q${currentQuestionIndex}`, q);
+            showToast('⚠️', `تخطي سؤال ${skipCount}/${MAX_SKIPS} (بيانات ناقصة)`, 'warn');
+            
+            if (skipCount >= MAX_SKIPS) {
+              console.error('❌ Max skips reached, ending level');
+              endLevel();
+              hideLoader();
+              return;
+            }
+            
             currentQuestionIndex++;
             if (currentQuestionIndex < currentQuestions.length) {
-              renderQuestion();
+              return renderQuestion(); // Recursive safe
             } else {
               endLevel();
+              hideLoader();
+              return;
             }
-            return;
           }
           
           const safeQ = {
@@ -446,27 +507,31 @@ function renderQuestion() {
             answer: Number(q.answer)
           };
 
-          // Double-check validation after decode
-          if (safeQ.options.length === 0 || safeQ.answer >= safeQ.options.length || safeQ.answer < 0) {
-            console.error('❌ Post-decode validation failed:', safeQ);
-            showToast('⚠️', 'سؤال معطوب، تخطي...', 'warn');
+          // FINAL VALIDATION
+          if (!validateQuestion(safeQ)) {
+            skipCount++;
+            console.error(`❌ Post-process skip ${skipCount}:`, safeQ);
+            if (skipCount >= MAX_SKIPS) {
+              endLevel();
+              hideLoader();
+              return;
+            }
             currentQuestionIndex++;
-            renderQuestion();
-            return;
+            return renderQuestion();
           }
 
-          document.getElementById("question-text").textContent = safeQ.q || 'سؤال غير متاح';
+          // UPDATE UI
+          document.getElementById("question-text").textContent = safeQ.q;
           document.getElementById("question-text").classList.add("auto-dir");
           
-          answersDiv.innerHTML = "";
-          updateTimerDisplay();
-
+          // BATCH DOM CREATION with DocumentFragment
+          const fragment = document.createDocumentFragment();
           safeQ.options.forEach((opt, i) => {
             const cleanOpt = opt || '?';
-
             const label = document.createElement("label");
             label.className = "answer-label";
             label.dataset.value = i;
+            
             const input = document.createElement("input");
             input.type = "radio";
             input.name = "quiz-opt";
@@ -474,63 +539,99 @@ function renderQuestion() {
             
             const span = document.createElement("span");
             span.className = "auto-dir option-text";
-            span.lang = "ar";  // Explicit Arabic lang for better RTL
+            span.lang = "ar";
             span.dir = "auto";
             span.textContent = cleanOpt;
             
             label.appendChild(input);
             label.appendChild(span);
-            answersDiv.appendChild(label);
+            fragment.appendChild(label);
           });
           
-          console.log('✅ All options rendered clean:', safeQ.options.map((o,i) => ({i, text: o.substring(0,20)})));
+          answersDiv.innerHTML = "";
+          answersDiv.appendChild(fragment); // Single DOM write
           
-          // ADD CLICK HANDLERS for label selection (UX fix)
-          answersDiv.addEventListener('click', function(e) {
+          updateTimerDisplay();
+          console.log('✅ Question rendered:', safeQ.options.length, 'options');
+
+          // REATTACH CLICK HANDLER (after DOM batch)
+          answersDiv.onclick = function(e) {
             const label = e.target.closest('.answer-label');
             if (!label || isProcessing) return;
-            
-            // Toggle visual selection
             document.querySelectorAll('.answer-label').forEach(l => l.classList.remove('selected-opt'));
             label.classList.add('selected-opt');
-            
-            // Sync radio
             const radio = label.querySelector('input[type="radio"]');
             if (radio) radio.checked = true;
-            
             selectedOptionIndex = parseInt(label.dataset.value);
-            console.log('🎯 Selected option:', selectedOptionIndex);
-          });
+            console.log('🎯 Selected:', selectedOptionIndex);
+          };
           
-          // RESTART TIMER
-          levelTimer = setInterval(updateTimer, 1000);
+          // RESUME TIMER
+          if (wasRunning) {
+            levelTimer = setInterval(updateTimer, 1000);
+            console.log('▶️ Timer resumed');
+          }
           
         } catch (error) {
           console.error('❌ Render error:', error);
-          showToast("❌", "خطأ في تحميل السؤال", "err");
-          endLevel();
+          showToast("❌", "خطأ في السؤال، الانتقال للتالي", "err");
+          currentQuestionIndex++;
+          if (currentQuestionIndex < currentQuestions.length) {
+            renderQuestion();
+          } else {
+            endLevel();
+          }
+        } finally {
+          hideLoader(); // Always hide
+          console.log('✅ renderQuestion complete');
         }
       }
 
 let isProcessing = false;
+let nextDebounceTimer = null;
+let totalSkips = 0; // Global skip counter for error recovery
 
-// 🔘 زر السؤال التالي - FIXED VERSION
+// 🔘 زر السؤال التالي - FIXED VERSION v2.0
 const nextBtn = document.getElementById("next-q-btn");
+const questionLoaderEl = document.getElementById("question-loader");
+
+function showLoader() {
+  if (questionLoaderEl) questionLoaderEl.style.display = 'flex';
+}
+function hideLoader() {
+  if (questionLoaderEl) questionLoaderEl.style.display = 'none';
+}
 
 if (nextBtn) {
   nextBtn.addEventListener("click", (e) => {
     e.preventDefault();
     console.log('🔘 Next button clicked');
     
+    // Clear debounce
+    if (nextDebounceTimer) {
+      console.log('⏳ Debounce active, ignoring click');
+      return;
+    }
+    
     if (isProcessing) {
       console.log('⚠️ Next blocked: isProcessing=true');
       return;
     }
     
+    // START PROCESSING + UI LOCK
     isProcessing = true;
+    nextDebounceTimer = setTimeout(() => { nextDebounceTimer = null; }, 500);
     nextBtn.disabled = true;
-    nextBtn.textContent = 'جاري الانتقال...';
-    console.log('✅ Processing started');
+    nextBtn.textContent = '⏳ جاري الانتقال...';
+    showLoader();
+    console.log('✅ Processing started + Loader ON');
+    
+    // MINIMUM 3s disable
+    setTimeout(() => {
+      if (isProcessing) {
+        console.log('🔒 Min disable timeout');
+      }
+    }, 3000);
     
     try {
       const checkedRadio = document.querySelector('input[name="quiz-opt"]:checked');
@@ -557,25 +658,23 @@ if (nextBtn) {
       
       if (currentQuestionIndex < currentQuestions.length) {
         renderQuestion();
-        console.log('✅ Next question rendered');
+        console.log('✅ renderQuestion() called');
       } else {
         endLevel();
         console.log('🏁 End of level');
       }
     } catch (error) {
       console.error('❌ Next handler error:', error);
-showToast("⚠️", "اختار إجابة متغلبناش 😂🔔", "err");    } finally {
-      // ALWAYS RESET
-      isProcessing = false;
-      nextBtn.disabled = false;
-      nextBtn.textContent = 'السؤال التالي ⬅️';
-      console.log('🔄 Next handler reset complete');
-      
-      // Safety timeout
+      showToast("⚠️", "اختار إجابة متغلبناش 😂🔔", "err");
+    } finally {
+      // DELAYED RESET (after render settles)
       setTimeout(() => {
         isProcessing = false;
         nextBtn.disabled = false;
-      }, 2000);
+        nextBtn.textContent = 'السؤال التالي ⬅️';
+        hideLoader();
+        console.log('🔄 Next handler FULL reset + Loader OFF');
+      }, 2500); // 2.5s delay for render + DOM settle
     }
   });
 }
@@ -745,6 +844,9 @@ async function showLevels() {
       });
 
 async function startLevel(level) {
+        totalSkips = 0; // Reset skips for new level
+        console.log('🚀 Starting level', level, 'with reset skips');
+        
         if (levelsData[level]?.passwordHash) {
           const pass = prompt("أدخل كلمة مرور المستوى:");
           const inputHash = simpleHash(pass);
@@ -766,7 +868,19 @@ async function startLevel(level) {
         if (headerCoins) headerCoins.style.display = "none";
         if (leaderboardBtn) leaderboardBtn.style.display = "none";
 
-        currentQuestions = await loadQuestionsFromDB(level);
+        try {
+          currentQuestions = await loadQuestionsFromDB(level);
+          if (currentQuestions.length === 0) {
+            throw new Error('No questions loaded');
+          }
+          console.log(`📥 Loaded ${currentQuestions.length} questions`);
+        } catch (e) {
+          console.error('❌ Failed to load questions:', e);
+          showToast('❌', 'خطأ في تحميل الأسئلة', 'err');
+          levelsDiv.style.display = "flex";
+          return;
+        }
+        
         timeLeft = levelsData[level].time;
         levelTimer = setInterval(updateTimer, 1000);
         renderQuestion();
