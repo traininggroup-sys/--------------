@@ -1,25 +1,10 @@
-# TODO: إصلاح زرار "السؤال التالي" - خطة معتمدة ✅
+# TODO: إضافة أيقونة قنواتنا (Plan Implementation)
 
-## الخطوات المطلوبة (4/5 مكتملة)
+## الخطوات المتبقية:
+- [✅] **خطوة 1**: إنشاء TODO.md (تم)
+- [✅] **خطوة 2**: تعديل index.html (إضافة زر + modal + JS handlers) (تم)
+- [✅] **خطوة 3**: تعديل style.css (تصميم الزر + الـ modal) (تم)
+- [ ] **خطوة 4**: اختبار الوظائف (فتح/إغلاق، لينكات، responsive)
+- [ ] **خطوة 5**: إنهاء المهمة بـ attempt_completion
 
-### ✅ 1. Loading Overlay CSS → مكتمل
-
-### ✅ 2. Next Button (debounce 500ms + 3s lock) → مكتمل
-
-### ✅ 3. renderQuestion() optimization → مكتمل
-- Timer pause/resume, batch DOM, skip logic
-
-### ✅ 4. Error Recovery → مكتمل
-- ✅ Global `totalSkips` counter
-- ✅ Enhanced startLevel() with try/catch
-- ✅ Detailed validation logging
-
-### [ ] 5. الاختبار والإنهاء
-```
-✅ open index.html  
-✅ Test Next button spam → smooth transitions  
-✅ Console: no errors, clean logs  
-✅ attempt_completion
-```
-
-**الحالة:** ✅ 4/5 مكتمل | **تقدم:** 80% | **التالي:** Test & Complete
+## التقدم: 3/5 خطوة مكتملة

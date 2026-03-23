@@ -21,6 +21,7 @@
           <div class="title-group">
             <h1>قناة أسئلة الجهاز المركزي</h1>
                  </div>
+          <button id="channels-btn" class="channels-btn" title="للوصول لقنواتنا">📢</button>
           <a
             href="admin.html"
             class="back-btn1"
@@ -124,6 +125,28 @@
         </div>
         <div id="leaderboard-list">جارٍ التحميل...</div>
         <button id="close-leaderboard-btn" class="back-btn leaderboard-close-btn">⬅️ رجوع</button>
+      </div>
+
+      <!-- Channels Modal -->
+      <div id="channels-modal" class="channels-modal">
+        <div class="modal-header">
+          <h2>قنواتنا 📢</h2>
+          <button id="close-channels-modal" class="close-modal">×</button>
+        </div>
+        <div id="channels-content" class="channels-content">
+          <div class="channel-item">
+            <span>📌 قناة التليجرام:</span><br>
+            <a href="https://t.me/questions7000" target="_blank">https://t.me/questions7000 👇</a>
+          </div>
+          <div class="channel-item">
+            <span>📌 قناة اليوتيوب:</span><br>
+            <a href="https://youtube.com/channel/UC1Z3sb2Yt6e19z5Ic8SznZQ?si=MzspkbcHCgRVd1xA" target="_blank">https://youtube.com/channel/UC1Z3sb2Yt6e19z5Ic8SznZQ?si=MzspkbcHCgRVd1xA 👇</a>
+          </div>
+          <div class="channel-item">
+            <span>📌 قناة الفيس:</span><br>
+            <a href="https://www.facebook.com/profile.php?id=61574570998452" target="_blank">https://www.facebook.com/profile.php?id=61574570998452 👇</a>
+          </div>
+        </div>
       </div>
 
       <!-- Coins Modal - صفحة كسبت الجنيه -->
@@ -275,6 +298,9 @@
       const loginCoins = document.getElementById("login-coins");
       const coinsModal = document.getElementById("coins-modal");
       const closeCoinsModal = document.getElementById("close-coins-modal");
+      const channelsBtn = document.getElementById("channels-btn");
+      const channelsModal = document.getElementById("channels-modal");
+      const closeChannelsModal = document.getElementById("close-channels-modal");
       const loadingSpinner = document.getElementById("loading-spinner");
 const adminBtn = document.getElementById("admin-btn");
 
@@ -1220,6 +1246,29 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Close coins modal when clicking outside
+      // Channels Modal Handlers
+      if (channelsBtn) {
+        channelsBtn.addEventListener("click", () => {
+          if (channelsModal) {
+            channelsModal.style.display = "block";
+          }
+        });
+      }
+      if (closeChannelsModal) {
+        closeChannelsModal.addEventListener("click", () => {
+          if (channelsModal) {
+            channelsModal.style.display = "none";
+          }
+        });
+      }
+      if (channelsModal) {
+        channelsModal.addEventListener("click", (e) => {
+          if (e.target === channelsModal) {
+            channelsModal.style.display = "none";
+          }
+        });
+      }
+
       if (coinsModal) {
         coinsModal.addEventListener("click", (e) => {
           if (e.target === coinsModal) {
