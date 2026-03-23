@@ -189,7 +189,7 @@
         </button>
       </div>
 
-</parameter>
+
     </div>
     <!-- Firebase و كود التطبيق (سكربت واحد فقط) -->
     <script type="module">
@@ -486,7 +486,7 @@ function renderQuestion() {
           console.log('✅ All options rendered clean:', safeQ.options.map((o,i) => ({i, text: o.substring(0,20)})));
           
           // ADD CLICK HANDLERS for label selection (UX fix)
-          answersDiv.addEventListener('click', function(e) {
+       answersDiv.onclick = function(e) {
             const label = e.target.closest('.answer-label');
             if (!label || isProcessing) return;
             
@@ -500,7 +500,7 @@ function renderQuestion() {
             
             selectedOptionIndex = parseInt(label.dataset.value);
             console.log('🎯 Selected option:', selectedOptionIndex);
-          });
+          };
           
           // RESTART TIMER
           levelTimer = setInterval(updateTimer, 1000);
