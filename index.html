@@ -229,25 +229,9 @@
         <p id="result-feedback" style="font-size: 18px; color: #007bff"></p>
       </div>
       <div id="answers-review"></div>
-      <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
-        <button
-          onclick="backToLevelsFromResults()"
-          style="
-            padding: 15px 30px;
-            font-size: 18px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            flex: 1;
-            min-width: 200px;
-            max-width: 300px;
-          "
-        >
-          🏠 العودة لصفحة المستويات
-        </button>
-      </div>
+      <button id="back-btn-result">
+  🏠 العودة لصفحة المستويات
+</button>
 
 
     </div>
@@ -772,7 +756,9 @@ showLoader();
           loginBtn.textContent = "دخول / إنشاء حساب";
         }
       });
-
+document.getElementById("back-btn-result").addEventListener("click", () => {
+  backToLevelsFromResults();
+});
       // --- كلمات تشجيعية لكل مستوى ---
       const encouragementMessages = {
         1: "ابدأ رحلتك التعليمية الآن! 🌟\nقدها وقدودك! 💪",
