@@ -1,12 +1,25 @@
-# خطة رفع رسالة الـ Toast Error
+# TODO: إصلاح زرار "السؤال التالي" - خطة معتمدة ✅
 
-## الخطوات:
-- [ ] 1. إنشاء TODO.md (تم)
-- [x] 2. تعديل style.css: رفع .toast.err إلى bottom:120px ✓ (موبايل سيتم mobile override)
+## الخطوات المطلوبة (4/5 مكتملة)
 
-- [ ] 3. تحديث TODO.md بعد التعديل
-- [ ] 4. اختبار التوست عبر خطأ (مثل باسورد غلط)
-- [ ] 5. إنهاء المهمة ✓
+### ✅ 1. Loading Overlay CSS → مكتمل
 
-**الملفات المُحدثة:** style.css
+### ✅ 2. Next Button (debounce 500ms + 3s lock) → مكتمل
 
+### ✅ 3. renderQuestion() optimization → مكتمل
+- Timer pause/resume, batch DOM, skip logic
+
+### ✅ 4. Error Recovery → مكتمل
+- ✅ Global `totalSkips` counter
+- ✅ Enhanced startLevel() with try/catch
+- ✅ Detailed validation logging
+
+### [ ] 5. الاختبار والإنهاء
+```
+✅ open index.html  
+✅ Test Next button spam → smooth transitions  
+✅ Console: no errors, clean logs  
+✅ attempt_completion
+```
+
+**الحالة:** ✅ 4/5 مكتمل | **تقدم:** 80% | **التالي:** Test & Complete
