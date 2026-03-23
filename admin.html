@@ -437,7 +437,8 @@
           const currentData = oldSnap.exists() ? oldSnap.val() : {};
 
           const newQuestions = [];
-          const skipped = [];
+          // const skipped = [];  ← Removed
+
           data.forEach((item, index) => {
             // Enhanced validation
             if (!item.question && !item.q) throw new Error(`السؤال ${index+1}: ناقص question أو q`);
@@ -462,12 +463,8 @@
               throw new Error(`سؤال ${index+1}: الإجابة "${ansRaw}" لا تطابق أي خيار. الخيارات: ${opts.join(', ')}`);
             }
 
-            // Skip exact duplicate (case-insensitive)
-            const qNorm = qText.toLowerCase().trim();
-            if (Object.values(currentData).some(existing => existing.q.toLowerCase().trim() === qNorm)) {
-              skipped.push(qText.substring(0, 30) + '...');
-              return;
-            }
+            // Add ALL questions (no duplicate check)
+
 
             const key = push(levelRef).key;
             currentData[key] = {
@@ -479,13 +476,14 @@
             newQuestions.push(qText.substring(0, 50) + '...');
           });
 
-          if (newQuestions.length === 0) throw new Error(`لا توجد أسئلة جديدة${skipped.length ? ` (تم تجاهل ${skipped.length} مكررة)` : ''}`);
+          if (newQuestions.length === 0) throw new Error('لا توجد أسئلة صالحة');
+
 
           await set(levelRef, currentData);
           
-          let msg = `✅ تم دمج ${newQuestions.length} سؤال جديد`;
-          if (skipped.length) msg += ` | ⏭️ تم تجاهل ${skipped.length} مكرر: ${skipped.slice(0,2).join('; ')}`;
+          let msg = `✅ تم دمج ${newQuestions.length} سؤال${newQuestions.length > 1 ? 'ات' : ''}`;
           msg += newQuestions.length > 3 ? ` ...` : '';
+
           
           notify(msg);
           bulkInput.value = "";
