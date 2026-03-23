@@ -261,7 +261,6 @@ const adminBtn = document.getElementById("admin-btn");
           console.log('User input:', password, 'Hash:', inputHash, 'Expected:', adminPasswordHash);
           
           // Secure check: base64 obfuscated password
-          const obfuscatedPw = atob("MTExMjEyMTk5OQ==");
           if (inputHash === adminPasswordHash) { 
             window.location.href = "admin.html";
           } else {
