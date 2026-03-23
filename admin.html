@@ -222,7 +222,7 @@
         <p class="info-note">
           الأسئلة plain text بدون تشفير. اضغط "حفظ" لتطبيق التغييرات.
         </p>
-        <textarea id="json-editor" placeholder="اختر مستوى أولاً..."></textarea>
+<textarea id="json-editor" placeholder='[{"question": "سؤال...", "options": ["أ","ب"], "answer": "أ", "explanation": "شرح..."}]'></textarea>
         <div class="btn-group">
           <button class="btn-save" id="btn-save-edit">
             💾 حفظ التعديلات البرمجية
@@ -231,21 +231,6 @@
             🗑️ مسح أسئلة المستوى
           </button>
         </div>
-      </div>
-
-      <div class="section" style="background: #f4eaff">
-        <h2>⚡ الرفع والدمج الذكي (Bulk)</h2>
-        <p class="info-note">
-          يدعم الشكلين (question/answer كـ نص) أو (JSON رسمي). بدون تشفير، دمج مع القديم.
-        </p>
-        <textarea
-          id="bulk-input"
-          style="min-height: 120px; background: #fff; color: #333"
-          placeholder="ضع المصفوفة هنا [ ... ]"
-        ></textarea>
-        <button class="btn-bulk" id="btn-bulk-add">
-          🚀 تحويل ودمج مع المستوى
-        </button>
       </div>
 
       <a href="index.html" class="btn-back">🏠 العودة للموقع</a>
@@ -306,7 +291,6 @@
       const db = getDatabase(app);
 
       const editor = document.getElementById("json-editor");
-      const bulkInput = document.getElementById("bulk-input");
       const levelSelect = document.getElementById("level-select");
       const prizesLevelSelect = document.getElementById("level-select-prizes");
       const prizesStatus = document.getElementById("prizes-status");
@@ -398,25 +382,34 @@
         const level = levelSelect.value;
         try {
           const edited = JSON.parse(editor.value);
-          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة []');
+          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة JSON: [{"question":"...", "options":[...], "answer":"...", "explanation":"..."}]');
           
           const finalData = {};
           edited.forEach((item, idx) => {
-            if (!item.q || !Array.isArray(item.options) || item.answer === undefined) {
-              throw new Error(`سؤال ${idx+1}: هيكل غير صالح (q, options[], answer مطلوبة)`);
+            if (!item.question || !Array.isArray(item.options) || !item.answer || !item.explanation) {
+              throw new Error(`سؤال ${idx+1}: مطلوب question, options[], answer(نص مطابق لخيار), explanation`);
             }
+            const qText = item.question.trim();
+            const opts = item.options.map(o => String(o).trim()).filter(Boolean);
+            if (opts.length < 2) throw new Error(`سؤال ${idx+1}: options يجب ≥2 خيارات`);
+            const ansStr = String(item.answer).trim();
+            const ansIndex = opts.findIndex(opt => opt === ansStr);
+            if (ansIndex === -1) throw new Error(`سؤال ${idx+1}: answer "${ansStr}" غير موجود في options: ${opts.join(', ')}`);
+            const tip = item.explanation.trim();
+
             const key = item.id || push(ref(db, `questions/${level}`)).key;
             finalData[key] = {
-              q: String(item.q).trim(),
-              options: item.options.map(o => String(o).trim()).filter(Boolean),
-              answer: parseInt(item.answer),
-              tip: String(item.tip || '')
+              q: qText,
+              options: opts,
+              answer: ansIndex,
+              tip: tip
             };
           });
           await set(ref(db, `questions/${level}`), finalData);
-          notify("✅ تم حفظ التعديلات بنجاح! (plaintext)");
+          notify(`✅ تم حفظ ${edited.length} سؤال في المستوى ${level}!`);
+          statusBox.innerHTML = `✅ ${edited.length} سؤال محفوظ`;
         } catch (e) {
-          notify("❌ خطأ: " + e.message, "error");
+          notify("❌ " + e.message, "error");
         }
       };
 
@@ -436,56 +429,40 @@
           const oldSnap = await get(levelRef);
           const currentData = oldSnap.exists() ? oldSnap.val() : {};
 
-          const newQuestions = [];
-          // const skipped = [];  ← Removed
+          const addedCount = 0;
 
           data.forEach((item, index) => {
-            // Enhanced validation
-            if (!item.question && !item.q) throw new Error(`السؤال ${index+1}: ناقص question أو q`);
-            if (!Array.isArray(item.options) || item.options.length < 2) throw new Error(`السؤال ${index+1}: options غير صالحة (array ≥2)`);
-            if (item.answer === undefined) throw new Error(`السؤال ${index+1}: ناقص answer`);
+            // Strict validation for exact format
+            if (typeof item.question !== 'string' || !item.question.trim()) throw new Error(`السؤال ${index+1}: 'question' نص مطلوب`);
+            if (!Array.isArray(item.options) || item.options.length < 2) throw new Error(`السؤال ${index+1}: 'options' مصفوفة ≥2 مطلوبة`);
+            if (typeof item.answer !== 'string' || !item.answer.trim()) throw new Error(`السؤال ${index+1}: 'answer' نص مطابق لخيار مطلوب`);
+            if (typeof item.explanation !== 'string') throw new Error(`السؤال ${index+1}: 'explanation' نص مطلوب`);
 
-            const qText = String(item.question || item.q).trim();
+            const qText = item.question.trim();
             const opts = item.options.map(o => String(o).trim()).filter(Boolean);
-            const ansRaw = item.answer;
+            const ansStr = item.answer.trim();
+            const tip = item.explanation.trim();
 
-            // Smart answer index detection
-            let ansIndex = -1;
-            if (typeof ansRaw === 'number' && ansRaw >= 0 && ansRaw < opts.length) {
-              ansIndex = ansRaw;
-            } else {
-              const normalize = (s) => s.toString().trim().toLowerCase().replace(/\s+/g, ' ').replace(/[^\w\s]/g, '');
-              const normAns = normalize(ansRaw);
-              ansIndex = opts.findIndex(opt => normalize(opt) === normAns);
-            }
-
+            // Exact match answer string to options index
+            const ansIndex = opts.findIndex(opt => opt === ansStr);
             if (ansIndex === -1) {
-              throw new Error(`سؤال ${index+1}: الإجابة "${ansRaw}" لا تطابق أي خيار. الخيارات: ${opts.join(', ')}`);
+              throw new Error(`سؤال ${index+1}: 'answer' "${ansStr}" لا يطابق أي خيار. الخيارات: ${opts.join(' | ')}`);
             }
-
-            // Add ALL questions (no duplicate check)
-
 
             const key = push(levelRef).key;
             currentData[key] = {
               q: qText,
               options: opts,
               answer: ansIndex,
-              tip: item.explanation || item.tip || item.explain || ""
+              tip: tip
             };
-            newQuestions.push(qText.substring(0, 50) + '...');
+            addedCount++;
           });
 
-          if (newQuestions.length === 0) throw new Error('لا توجد أسئلة صالحة');
-
+          if (addedCount === 0) throw new Error('لا توجد أسئلة صالحة');
 
           await set(levelRef, currentData);
-          
-          let msg = `✅ تم دمج ${newQuestions.length} سؤال${newQuestions.length > 1 ? 'ات' : ''}`;
-          msg += newQuestions.length > 3 ? ` ...` : '';
-
-          
-          notify(msg);
+          notify(`✅ تم دمج ${addedCount} سؤال${addedCount > 1 ? ' جديدة' : ' جديدة'} بنجاح!`);
           bulkInput.value = "";
           document.getElementById("btn-fetch").click();
         } catch (e) {
@@ -494,62 +471,78 @@
         }
       };
 
-      // Flexible parser: JSON or JS literal objects
-      function parseBulkData(rawText) {
-        try {
-          // Try strict JSON first
-          return JSON.parse(rawText);
-        } catch (jsonErr) {
-          console.log('JSON failed, trying JS literal parse:', jsonErr.message);
-          
-          // Extract JS objects with regex (handle multiple formats)
-          const objectMatches = rawText.match(/\{[^{}]*(?:\}[^{}]*)*\}/g) || [];
-          if (objectMatches.length === 0) throw new Error('لا توجد كائنات صالحة. جربي صيغة JSON أو JS object');
-          
-          const data = [];
-          objectMatches.forEach((objStr, objIndex) => {
-            try {
-              // Parse leniently: split key:value pairs
-              const pairs = objStr.match(/(?:\w+|["'][^"']*["'])\s*:\s*(?:["'][^"']*["']|\[[^\]]*\]|\{[^}]*\}|[\w\s]+)/g) || [];
-              
-              const item = {};
-              pairs.forEach(pair => {
-                const colonIdx = pair.indexOf(':');
-                if (colonIdx > 0) {
-                  let key = pair.substring(0, colonIdx).trim().replace(/["']/g, '');
-                  let value = pair.substring(colonIdx + 1).trim();
-                  
-                  // Handle arrays and nested objects simply
-                  if (value.startsWith('[') && value.endsWith(']')) {
-                    // Split comma-separated options
-                    const opts = value.slice(1, -1).split(/,\s*/).map(o => o.replace(/["']/g, '').trim()).filter(Boolean);
-                    item[key === 'options' ? key : 'options'] = opts;
-                  } else if (!value.startsWith('{')) {
-                    // Simple string/number
-                    value = value.replace(/["']/g, '').trim();
-                    if (key === 'answer' && !isNaN(value)) value = parseInt(value);
-                    item[key === 'question' || key === 'q' ? 'question' : key === 'answer' ? 'answer' : key] = value;
-                  }
-                }
-              });
-              
-              // Ensure required fields via normalization
-              if (item.question || item.q) {
-                item.question = item.question || item.q;
-                delete item.q;
-              }
-              
-              data.push(item);
-            } catch (objErr) {
-              console.warn(`Failed to parse object ${objIndex + 1}:`, objErr);
-            }
-          });
-          
-          if (data.length === 0) throw new Error('فشل في استخراج الأسئلة من النص. تأكدي من الصيغة: [{question:"...", options:["A","B"], answer:"A"}, ...]');
-          
-          console.log(`✅ Parsed ${data.length} questions from JS literal format`);
-          return data;
+      // Sample questions from user
+      const SAMPLE_QUESTIONS = `[
+  {
+    "question": "مجمع صوامع عرب العليقات بمدينة الخانكة بمحافظة ----",
+    "options": ["بني سويف", "الجيزة", "الإسكندرية", "القليوبية"],
+    "answer": "القليوبية",
+    "explanation": "يقع مجمع صوامع عرب العليقات بمدينة الخانكة في محافظة القليوبية لتخزين القمح والحبوب."
+  },
+  {
+    "question": "إعطاء المرأة حق الترشح لأول مرة بالانتخابات عام ---",
+    "options": ["1956", "1959", "1951", "1957"],
+    "answer": "1956",
+    "explanation": "أُعطيَت المرأة المصرية حق الترشح والانتخاب لأول مرة عام 1956 في عهد الرئيس جمال عبد الناصر."
+  },
+  {
+    "question": "إعلان الرئيس عبد الفتاح السيسي عام -- عامًا للمرأة المصرية،",
+    "options": ["2023", "2021", "2019", "2017"],
+    "answer": "2017",
+    "explanation": "أعلن الرئيس عبد الفتاح السيسي عام 2017 عامًا للمرأة المصرية تقديرًا لدورها في المجتمع والتنمية."
+  },
+  {
+    "question": "يعد مشروع إعادة تأهيل وتبطين ترع الري أحدث المشروعات المصرية لمواجهة أزمة العجز المائي",
+    "options": ["صح", "خطأ"],
+    "answer": "صح",
+    "explanation": "مشروع تبطين الترع من أهم المشروعات الحديثة لترشيد استهلاك المياه وتقليل الفاقد وتحسين إدارة الموارد المائية."
+  },
+  {
+    "question": "صدر قانون مكافحة الإرهاب عام 2013",
+    "options": ["صح", "خطأ"],
+    "answer": "خطأ",
+    "explanation": "قانون مكافحة الإرهاب في مصر صدر عام 2015 وليس عام 2013، بهدف مواجهة التنظيمات الإرهابية."
+  }
+]`;
+
+      // Load sample handler
+      btnLoadSample.onclick = () => {
+        bulkInput.value = SAMPLE_QUESTIONS;
+        notify("✅ تم تحميل عينة 6 أسئلة! اختر المستوى واضغط دمج.");
+      };
+
+      // Preview merge handler
+      btnBulkPreview.onclick = async () => {
+        const rawText = bulkInput.value.trim();
+        if (!rawText) {
+          notify("❌ المربع فارغ!", "error");
+          return;
         }
+        try {
+          const data = parseBulkData(rawText);
+          const levelRef = ref(db, `questions/${levelSelect.value}`);
+          const oldSnap = await get(levelRef);
+          const currentCount = oldSnap.exists() ? Object.keys(oldSnap.val()).length : 0;
+          bulkPreview.innerHTML = `✅ صالح! سيضيف <span class="badge">${data.length}</span> أسئلة جديدة (الحالي: ${currentCount} → الجديد: ${currentCount + data.length})`;
+          bulkPreview.style.display = "block";
+        } catch (e) {
+          bulkPreview.innerHTML = `❌ خطأ: ${e.message}`;
+          bulkPreview.style.background = "#ffe6e6";
+          bulkPreview.style.display = "block";
+          notify(e.message, "error");
+        }
+      };
+
+      // Simple JSON-only parser - exact format only
+      function parseBulkData(rawText) {
+        let data;
+        try {
+          data = JSON.parse(rawText);
+        } catch (e) {
+          throw new Error('JSON غير صالح. استخدمي صيغة دقيقة: [{"question":"...", "options":["a","b"], "answer":"a", "explanation":"..."}]');
+        }
+        if (!Array.isArray(data)) throw new Error('يجب أن تكون مصفوفة []');
+        return data;
       }
 
 
