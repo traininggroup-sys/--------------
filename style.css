@@ -141,7 +141,7 @@ header {
 
 .channels-btn {
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 10px;
   background: var(--duo-blue);
   color: white;
@@ -370,7 +370,7 @@ input::placeholder {
   width: 100%;
   max-width: 460px;
   padding: 22px 28px;
-  border-radius: var(--radius);
+  border-radius: 36px;
   text-align: center;
   font-weight: 800;
   cursor: pointer;
