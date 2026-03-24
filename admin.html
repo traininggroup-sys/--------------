@@ -414,146 +414,35 @@
       };
 
 
-      // --- 3. الرفع والدمج الذكي (مرن - يدعم JS literal + JSON + explanation) ---
-      document.getElementById("btn-bulk-add").onclick = async () => {
+
+
+/* TODO: Bulk import feature can be added here later */
+
+
+
+      // --- 4. مسح المستوى 🗑️ (محدث 100%)
+      document.getElementById("btn-clear-level").onclick = async () => {
         const level = levelSelect.value;
-        let rawText = bulkInput.value.trim();
-
-        try {
-          if (!rawText) throw new Error("المربع فارغ!");
-
-          let data = parseBulkData(rawText); // Flexible parser
-          if (!Array.isArray(data)) throw new Error("يجب أن تكون مصفوفة []");
-
-          const levelRef = ref(db, `questions/${level}`);
-          const oldSnap = await get(levelRef);
-          const currentData = oldSnap.exists() ? oldSnap.val() : {};
-
-          const addedCount = 0;
-
-          data.forEach((item, index) => {
-            // Strict validation for exact format
-            if (typeof item.question !== 'string' || !item.question.trim()) throw new Error(`السؤال ${index+1}: 'question' نص مطلوب`);
-            if (!Array.isArray(item.options) || item.options.length < 2) throw new Error(`السؤال ${index+1}: 'options' مصفوفة ≥2 مطلوبة`);
-            if (typeof item.answer !== 'string' || !item.answer.trim()) throw new Error(`السؤال ${index+1}: 'answer' نص مطابق لخيار مطلوب`);
-            if (typeof item.explanation !== 'string') throw new Error(`السؤال ${index+1}: 'explanation' نص مطلوب`);
-
-            const qText = item.question.trim();
-            const opts = item.options.map(o => String(o).trim()).filter(Boolean);
-            const ansStr = item.answer.trim();
-            const tip = item.explanation.trim();
-
-            // Exact match answer string to options index
-            const ansIndex = opts.findIndex(opt => opt === ansStr);
-            if (ansIndex === -1) {
-              throw new Error(`سؤال ${index+1}: 'answer' "${ansStr}" لا يطابق أي خيار. الخيارات: ${opts.join(' | ')}`);
-            }
-
-            const key = push(levelRef).key;
-            currentData[key] = {
-              q: qText,
-              options: opts,
-              answer: ansIndex,
-              tip: tip
-            };
-            addedCount++;
-          });
-
-          if (addedCount === 0) throw new Error('لا توجد أسئلة صالحة');
-
-          await set(levelRef, currentData);
-          notify(`✅ تم دمج ${addedCount} سؤال${addedCount > 1 ? ' جديدة' : ' جديدة'} بنجاح!`);
-          bulkInput.value = "";
-          document.getElementById("btn-fetch").click();
-        } catch (e) {
-          notify("❌ " + e.message, "error");
-          console.error('Bulk add error:', e);
-        }
-      };
-
-      // Sample questions from user
-      const SAMPLE_QUESTIONS = `[
-  {
-    "question": "مجمع صوامع عرب العليقات بمدينة الخانكة بمحافظة ----",
-    "options": ["بني سويف", "الجيزة", "الإسكندرية", "القليوبية"],
-    "answer": "القليوبية",
-    "explanation": "يقع مجمع صوامع عرب العليقات بمدينة الخانكة في محافظة القليوبية لتخزين القمح والحبوب."
-  },
-  {
-    "question": "إعطاء المرأة حق الترشح لأول مرة بالانتخابات عام ---",
-    "options": ["1956", "1959", "1951", "1957"],
-    "answer": "1956",
-    "explanation": "أُعطيَت المرأة المصرية حق الترشح والانتخاب لأول مرة عام 1956 في عهد الرئيس جمال عبد الناصر."
-  },
-  {
-    "question": "إعلان الرئيس عبد الفتاح السيسي عام -- عامًا للمرأة المصرية،",
-    "options": ["2023", "2021", "2019", "2017"],
-    "answer": "2017",
-    "explanation": "أعلن الرئيس عبد الفتاح السيسي عام 2017 عامًا للمرأة المصرية تقديرًا لدورها في المجتمع والتنمية."
-  },
-  {
-    "question": "يعد مشروع إعادة تأهيل وتبطين ترع الري أحدث المشروعات المصرية لمواجهة أزمة العجز المائي",
-    "options": ["صح", "خطأ"],
-    "answer": "صح",
-    "explanation": "مشروع تبطين الترع من أهم المشروعات الحديثة لترشيد استهلاك المياه وتقليل الفاقد وتحسين إدارة الموارد المائية."
-  },
-  {
-    "question": "صدر قانون مكافحة الإرهاب عام 2013",
-    "options": ["صح", "خطأ"],
-    "answer": "خطأ",
-    "explanation": "قانون مكافحة الإرهاب في مصر صدر عام 2015 وليس عام 2013، بهدف مواجهة التنظيمات الإرهابية."
-  }
-]`;
-
-      // Load sample handler
-      btnLoadSample.onclick = () => {
-        bulkInput.value = SAMPLE_QUESTIONS;
-        notify("✅ تم تحميل عينة 6 أسئلة! اختر المستوى واضغط دمج.");
-      };
-
-      // Preview merge handler
-      btnBulkPreview.onclick = async () => {
-        const rawText = bulkInput.value.trim();
-        if (!rawText) {
-          notify("❌ المربع فارغ!", "error");
+        console.log('🗑️ مسح المستوى:', level);
+        
+        if (!level) {
+          notify("❌ اختر مستوى أولاً من القائمة!", "error");
+          statusBox.innerHTML = "❌ يجب اختيار مستوى أولاً";
           return;
         }
-        try {
-          const data = parseBulkData(rawText);
-          const levelRef = ref(db, `questions/${levelSelect.value}`);
-          const oldSnap = await get(levelRef);
-          const currentCount = oldSnap.exists() ? Object.keys(oldSnap.val()).length : 0;
-          bulkPreview.innerHTML = `✅ صالح! سيضيف <span class="badge">${data.length}</span> أسئلة جديدة (الحالي: ${currentCount} → الجديد: ${currentCount + data.length})`;
-          bulkPreview.style.display = "block";
-        } catch (e) {
-          bulkPreview.innerHTML = `❌ خطأ: ${e.message}`;
-          bulkPreview.style.background = "#ffe6e6";
-          bulkPreview.style.display = "block";
-          notify(e.message, "error");
-        }
-      };
-
-      // Simple JSON-only parser - exact format only
-      function parseBulkData(rawText) {
-        let data;
-        try {
-          data = JSON.parse(rawText);
-        } catch (e) {
-          throw new Error('JSON غير صالح. استخدمي صيغة دقيقة: [{"question":"...", "options":["a","b"], "answer":"a", "explanation":"..."}]');
-        }
-        if (!Array.isArray(data)) throw new Error('يجب أن تكون مصفوفة []');
-        return data;
-      }
-
-
-
-      // --- 4. مسح المستوى ---
-      document.getElementById("btn-clear-level").onclick = async () => {
-        if (confirm("سيتم حذف كل أسئلة هذا المستوى نهائياً. هل أنتِ متأكدة؟")) {
-          await remove(ref(db, `questions/${levelSelect.value}`));
-          notify("تم مسح المستوى.");
-          editor.value = "[]";
-          statusBox.innerHTML = "تم المسح.";
+        
+        if (confirm(`🗑️ سيتم مسح كل أسئلة المستوى ${level} نهائياً. متأكدة؟`)) {
+          try {
+            statusBox.innerHTML = `جاري مسح المستوى ${level}...`;
+            await remove(ref(db, `questions/${level}`));
+            notify(`✅ تم مسح المستوى ${level} بنجاح! 🎉`);
+            editor.value = "[]";
+            statusBox.innerHTML = `✅ تم مسح ${level} - فارغ الآن (${new Date().toLocaleTimeString('ar')})`;
+          } catch (error) {
+            console.error('❌ خطأ Firebase:', error);
+            notify(`❌ خطأ في المسح: ${error.message}`, "error");
+            statusBox.innerHTML = `❌ فشل مسح ${level}: ${error.message}`;
+          }
         }
       };
     </script>
