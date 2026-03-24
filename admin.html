@@ -222,7 +222,11 @@
         <p class="info-note">
           الأسئلة plain text بدون تشفير. اضغط "حفظ" لتطبيق التغييرات.
         </p>
-<textarea id="json-editor" placeholder='[{"question": "سؤال...", "options": ["أ","ب"], "answer": "أ", "explanation": "شرح..."}]'></textarea>
+        <textarea id="json-editor" placeholder='[
+  {"question": "عاصمة مصر؟", "options": ["القاهرة","الإسكندرية"], "answer": "القاهرة", "explanation": "القاهرة هي العاصمة"},
+  {"question": "2+2؟", "options": ["3","4"], "answer": 1},
+  {"question": "تعريف الحاسب؟", "options": ["خطأ","صح"], "answer": "صح"}
+]' style="font-size: 14px;"></textarea>
         <div class="btn-group">
           <button class="btn-save" id="btn-save-edit">
             💾 حفظ التعديلات البرمجية
@@ -382,20 +386,31 @@
         const level = levelSelect.value;
         try {
           const edited = JSON.parse(editor.value);
-          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة JSON: [{"question":"...", "options":[...], "answer":"...", "explanation":"..."}]');
+          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة JSON array من الأسئلة');
           
           const finalData = {};
           edited.forEach((item, idx) => {
-            if (!item.question || !Array.isArray(item.options) || !item.answer || !item.explanation) {
-              throw new Error(`سؤال ${idx+1}: مطلوب question, options[], answer(نص مطابق لخيار), explanation`);
+            if (!item.question || !Array.isArray(item.options) || item.answer === undefined || item.answer === null) {
+              throw new Error(`سؤال ${idx+1}: مطلوب question, options[], answer (نص أو رقم)`);
             }
             const qText = item.question.trim();
             const opts = item.options.map(o => String(o).trim()).filter(Boolean);
             if (opts.length < 2) throw new Error(`سؤال ${idx+1}: options يجب ≥2 خيارات`);
+            
+            let ansIndex;
             const ansStr = String(item.answer).trim();
-            const ansIndex = opts.findIndex(opt => opt === ansStr);
-            if (ansIndex === -1) throw new Error(`سؤال ${idx+1}: answer "${ansStr}" غير موجود في options: ${opts.join(', ')}`);
-            const tip = item.explanation.trim();
+            ansIndex = opts.findIndex(opt => opt.trim() === ansStr);
+            
+            if (ansIndex === -1) {
+              const ansNum = parseInt(ansStr);
+              if (!isNaN(ansNum) && ansNum >= 0 && ansNum < opts.length) {
+                ansIndex = ansNum;
+              } else {
+                throw new Error(`سؤال ${idx+1}: answer "${ansStr}" غير موجود في options (${opts.join(' / ')})\nأو استخدم رقم الفهرس (0,1,2...)`);
+              }
+            }
+            
+            const tip = (item.explanation || item.tip || "").trim();
 
             const key = item.id || push(ref(db, `questions/${level}`)).key;
             finalData[key] = {

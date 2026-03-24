@@ -1,19 +1,18 @@
-# Fix btnLoadSample Error - Task Progress
+# خطة تطوير محرر الأسئلة المرن - ✅ مكتملة
 
-## Plan Steps
-- [ ] 1. Create TODO.md ✅ **Created**
-- [✅] 2. Remove broken bulk/sample code from admin.html
-- [✅] 3. Update TODO.md with completion status  
-- [✅] 4. Test admin panel loads without JS error (admin.html opened, no console errors expected)
-- [✅] 5. Verify prizes/questions features work (existing handlers preserved)
-- [✅] 6. Complete task
+## ✅ الخطوات المكتملة
+- [x] قراءة وفهم admin.html
+- [x] إنشاء خطة التعديل
+- [x] تأكيد الخطة مع المستخدم
+- [x] تعديل منطق الحفظ: explanation اختياري، answer (نص أو رقم)
+- [x] تحديث placeholder وأمثلة مرنة
+- [x] تحديث رسائل الخطأ الواضحة
 
-**Status:** ✅ **FIXED!** The `btnLoadSample` ReferenceError has been resolved by removing incomplete bulk import code. Admin panel now loads cleanly.
+## 📋 التعديلات الرئيسية في admin.html:
+1. ✅ `explanation` أصبح اختياري (أو `tip`)
+2. ✅ `answer` يقبل نص مطابق لخيار **أو** رقم فهرس (0,1,2...)
+3. ✅ placeholder يوضح الأمثلة الـ3 المطلوبة
+4. ✅ رسائل خطأ مفصلة للـ debugging
 
-**Changes Made:**
-- Removed ~50 lines of broken JS (btnLoadSample.onclick, btnBulkPreview.onclick, parseBulkData())
-- Added TODO comment for future bulk feature
-- All working features preserved: prizes, questions, delete
-
-Open `admin.html` and check browser console (F12) - no more errors!
-
+## 🧪 للاختبار:
+افتح `admin.html` → أدخل كلمة المرور `11121999` → جرب الحفظ بأي من الصيغ الثلاث!
