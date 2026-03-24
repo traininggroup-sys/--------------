@@ -146,6 +146,9 @@
         color: #777;
         margin-top: 5px;
       }
+      #json-preview .ok { color: #28a745; }
+      #json-preview .error { color: #dc3545; }
+      #json-preview .warning { color: #ffc107; }
     </style>
   </head>
   <body>
@@ -227,7 +230,15 @@
   {"question": "2+2؟", "options": ["3","4"], "answer": 1},
   {"question": "تعريف الحاسب؟", "options": ["خطأ","صح"], "answer": "صح"}
 ]' style="font-size: 14px;"></textarea>
+        
+        <!-- 🆕 Preview & Test Section -->
+        <div id="json-preview" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin: 15px 0; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; display: none;">
+          <strong>📋 معاينة الأسئلة:</strong>
+          <div id="preview-list"></div>
+        </div>
+        
         <div class="btn-group">
+          <button class="btn-load" id="btn-test-json" style="background: #ffc107; color: #212529;">🧪 اختبار JSON</button>
           <button class="btn-save" id="btn-save-edit">
             💾 حفظ التعديلات البرمجية
           </button>
@@ -309,7 +320,75 @@
         setTimeout(() => (t.style.display = "none"), 3000);
       }
 
+      // 🆕 JSON Preview & Test Functions
+function validateQuestionPreview(item, idx) {
+        const errors = [];
+        const qText = (item.question || item.q)?.trim();
+        if (!qText) errors.push('❌ question/q فاضي');
+        const opts = (item.options || []).map(o => String(o || '').trim()).filter(Boolean);
+        const ansStr = String(item.answer ?? '').trim();
+        
+        if (!Array.isArray(item.options) || opts.length < 2) errors.push('❌ options < 2');
+        if (item.answer === undefined || item.answer === null) errors.push('❌ answer مش موجود');
+        
+        let ansIndex = -1;
+        if (ansStr && opts.length > 0) {
+          ansIndex = opts.findIndex(opt => opt === ansStr);
+          if (ansIndex === -1) {
+            const ansNum = parseInt(ansStr);
+            if (!isNaN(ansNum) && ansNum >= 0 && ansNum < opts.length) {
+              ansIndex = ansNum;
+            }
+          }
+        }
+        
+        const status = errors.length ? 'error' : ansIndex >= 0 ? 'ok' : 'warning';
+        const statusText = errors.length ? errors[0] : 
+                          ansIndex >= 0 ? `✅ ${ansStr} → index ${ansIndex}` : 
+                          '⚠️ answer مش مطابق';
+        
+        return { status, statusText, ansIndex, preview: `${qText?.slice(0,30)}${qText?.length > 30 ? '...' : ''} → [${opts.slice(0,2).join('/')}...] → ${statusText}` };
+      }
 
+      function testJson() {
+        try {
+          const edited = JSON.parse(editor.value);
+          if (!Array.isArray(edited)) throw new Error('JSON يجب يكون array');
+          
+          const previewList = document.getElementById('preview-list');
+          const previewDiv = document.getElementById('json-preview');
+          
+          previewList.innerHTML = '';
+          let allValid = true;
+          
+          edited.forEach((item, idx) => {
+            const result = validateQuestionPreview(item, idx);
+            const div = document.createElement('div');
+            div.className = `preview-item ${result.status}`;
+            div.innerHTML = `<strong>س${idx+1}:</strong> ${result.preview}`;
+            previewList.appendChild(div);
+            if (result.status !== 'ok') allValid = false;
+          });
+          
+          previewDiv.style.display = 'block';
+          statusBox.innerHTML = allValid ? 
+            `<span class="badge" style="background: #28a745;">✅ ${edited.length} سؤال صالح 100%</span>` :
+            `<span class="badge" style="background: #ffc107;">⚠️ ${edited.length} سؤال (${edited.filter((_,i)=>validateQuestionPreview(edited[i],i).status!=='ok').length} به خطأ)</span>`;
+            
+          notify(allValid ? '✅ JSON تمام - جاهز للحفظ!' : '⚠️ شوفي الـ preview وعدلي الأخطاء');
+        } catch (e) {
+          notify('❌ JSON syntax خطأ: ' + e.message, 'error');
+        }
+      }
+
+      // Auto-test on editor change (debounced)
+      let testTimeout;
+      editor.addEventListener('input', () => {
+        clearTimeout(testTimeout);
+        testTimeout = setTimeout(testJson, 1000);
+      });
+
+      document.getElementById('btn-test-json').onclick = testJson;
 
       // --- إدارة الجوائز ---
       document.getElementById("btn-fetch-prizes").onclick = async () => {
@@ -390,16 +469,15 @@
           
           const finalData = {};
           edited.forEach((item, idx) => {
-            if (!item.question || !Array.isArray(item.options) || item.answer === undefined || item.answer === null) {
-              throw new Error(`سؤال ${idx+1}: مطلوب question, options[], answer (نص أو رقم)`);
+            // Enhanced validation with preview logic  
+            const previewResult = validateQuestionPreview(item, idx);
+            if (previewResult.status !== 'ok') {
+              throw new Error(`س${idx+1}: ${previewResult.statusText}\n💡 مثال:\n{"question":"سؤال","options":["1","2"],"answer":"1" أو 0}`);
             }
             const qText = item.question.trim();
             const opts = item.options.map(o => String(o).trim()).filter(Boolean);
-            if (opts.length < 2) throw new Error(`سؤال ${idx+1}: options يجب ≥2 خيارات`);
             
-            let ansIndex;
-            const ansStr = String(item.answer).trim();
-            ansIndex = opts.findIndex(opt => opt.trim() === ansStr);
+            const ansIndex = previewResult.ansIndex;
             
             if (ansIndex === -1) {
               const ansNum = parseInt(ansStr);
