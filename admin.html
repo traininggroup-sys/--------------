@@ -226,9 +226,17 @@
           الأسئلة plain text بدون تشفير. اضغط "حفظ" لتطبيق التغييرات.
         </p>
         <textarea id="json-editor" placeholder='[
-  {"question": "عاصمة مصر؟", "options": ["القاهرة","الإسكندرية"], "answer": "القاهرة", "explanation": "القاهرة هي العاصمة"},
-  {"question": "2+2؟", "options": ["3","4"], "answer": 1},
-  {"question": "تعريف الحاسب؟", "options": ["خطأ","صح"], "answer": "صح"}
+  {
+    question: "عند حفظ النص تلقائيًا بعد فترة زمنية محددة دون تدخل المستخدم، يُسمى ذلك بـ؟",
+    options: ["النسخ الاحتياطي", "الحفظ التلقائي", "الحذف التلقائي", "التحديث التلقائي"],
+    answer: "الحفظ التلقائي"
+  },
+  {
+    question: "أي مما يلي لا يعتبر نظام تشغيل:",
+    options: ["ويندوز XP", "ويندوز XL", "ويندوز 2000", "ويندوز 98"],
+    answer: "ويندوز XL"
+  }
+  // يدعم التنسيقين: {question: "..."} OR {"question": "..."}
 ]' style="font-size: 14px;"></textarea>
         
         <!-- 🆕 Preview & Test Section -->
@@ -321,14 +329,39 @@
       }
 
       // 🆕 JSON Preview & Test Functions
+      
+      // 🔄 NEW: Normalize JS object literals to valid JSON
+      function normalizeInputJson(rawText) {
+        if (!rawText || typeof rawText !== 'string') return '[]';
+        
+        // Regex to match unquoted keys: {key: value} or ,key: value
+        // Captures: group1=prefix({ or ,), group2=key name
+        const keyRegex = /([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*?)\s*:/g;
+        
+        let normalized = rawText.replace(keyRegex, (match, prefix, key) => {
+          // Skip if already quoted or special keys
+          if (key === 'true' || key === 'false' || key === 'null' || /^\d+$/.test(key)) {
+            return match;
+          }
+          // Quote the key: { → {"key":
+          return `${prefix}"${key}":`;
+        });
+        
+        // Clean up common issues: trailing commas, etc.
+        normalized = normalized.replace(/,\s*([\]}])/g, '$1');
+        normalized = normalized.replace(/([{,]\s*)\n\s*([}\]])/g, '$1$2');
+        
+        return normalized.trim();
+      }
+
 function validateQuestionPreview(item, idx) {
         const errors = [];
         const qText = (item.question || item.q)?.trim();
         if (!qText) errors.push('❌ question/q فاضي');
-        const opts = (item.options || []).map(o => String(o || '').trim()).filter(Boolean);
+        const opts = (item.options || item.opts || []).map(o => String(o || '').trim()).filter(Boolean);
         const ansStr = String(item.answer ?? '').trim();
         
-        if (!Array.isArray(item.options) || opts.length < 2) errors.push('❌ options < 2');
+        if (!Array.isArray(opts) || opts.length < 2) errors.push('❌ options/opts < 2');
         if (item.answer === undefined || item.answer === null) errors.push('❌ answer مش موجود');
         
         let ansIndex = -1;
@@ -352,7 +385,8 @@ function validateQuestionPreview(item, idx) {
 
       function testJson() {
         try {
-          const edited = JSON.parse(editor.value);
+          const normalized = normalizeInputJson(editor.value);
+          const edited = JSON.parse(normalized);
           if (!Array.isArray(edited)) throw new Error('JSON يجب يكون array');
           
           const previewList = document.getElementById('preview-list');
@@ -375,7 +409,7 @@ function validateQuestionPreview(item, idx) {
             `<span class="badge" style="background: #28a745;">✅ ${edited.length} سؤال صالح 100%</span>` :
             `<span class="badge" style="background: #ffc107;">⚠️ ${edited.length} سؤال (${edited.filter((_,i)=>validateQuestionPreview(edited[i],i).status!=='ok').length} به خطأ)</span>`;
             
-          notify(allValid ? '✅ JSON تمام - جاهز للحفظ!' : '⚠️ شوفي الـ preview وعدلي الأخطاء');
+          notify(allValid ? '✅ JSON تمام - جاهز للحفظ! (دعم {question: ...} و {"question": ...})' : '⚠️ شوفي الـ preview وعدلي الأخطاء');
         } catch (e) {
           notify('❌ JSON syntax خطأ: ' + e.message, 'error');
         }
@@ -464,8 +498,9 @@ function validateQuestionPreview(item, idx) {
       document.getElementById("btn-save-edit").onclick = async () => {
         const level = levelSelect.value;
         try {
-          const edited = JSON.parse(editor.value);
-          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة JSON array من الأسئلة');
+          const normalized = normalizeInputJson(editor.value);
+          const edited = JSON.parse(normalized);
+          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة array من الأسئلة');
           
           const finalData = {};
           edited.forEach((item, idx) => {
