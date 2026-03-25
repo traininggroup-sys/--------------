@@ -66,11 +66,12 @@
       </div>
 
       <section id="question-box">
-        <div id="question-info"></div>
-
-    
+        <div id="question-info" style="margin-bottom: 15px;"></div>
+        <div id="question-text" style="font-size: 20px; padding: 20px; background: #f0f8ff; border-radius: 12px; text-align: center; font-weight: bold; border: 2px solid #1cb0f6;"></div>
 
 <div id="quiz-container">
+
+
           <!-- Loading Overlay -->
           <div id="question-loader" class="question-loader" style="display: none;">
             <div class="loader-spinner"></div>
@@ -246,6 +247,8 @@
         update,
         onValue,
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+      
+import { allLevelsQuestions, loadQuestions } from './questions.js';
 
       // إعدادات Firebase
       const firebaseConfig = {
@@ -401,19 +404,20 @@ const levelsData = {
       }
 
       // --- وظائف المساعدة والوقت ---
-      function updateTimerDisplay() {
+function updateTimerDisplay() {
         const questionInfoEl = document.getElementById("question-info");
         const totalTime = levelsData[currentLevel].time;
 
         questionInfoEl.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <span>السؤال ${currentQuestionIndex + 1} من ${currentQuestions.length}</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 8px;">
+        <span style="font-weight: bold;">السؤال ${currentQuestionIndex + 1} من ${currentQuestions.length}</span>
         <div id="timer" style="color: ${timeLeft < 60 ? "red" : "#1cb0f6"}; font-weight: bold;">
           ⏳ ${formatTime(timeLeft)}
         </div>
       </div>
     `;
       }
+
 
       function updateTimer() {
         timeLeft--;
@@ -428,13 +432,9 @@ const levelsData = {
 
       // --- نظام الأسئلة ---
 async function loadQuestionsFromDB(level) {
-        const questionsRef = ref(db, `questions/${level}`);
-        const snapshot = await get(questionsRef);
-        if (snapshot.exists()) {
-          return Object.values(snapshot.val());
-        }
-        return [];
-      }
+  // 🔥 PURE LOCAL - no Firebase/DB خالص ✅
+  return await loadQuestions(level);
+}
 
       async function loadPrizesFromDB() {
         try {
@@ -449,153 +449,76 @@ async function loadQuestionsFromDB(level) {
       }
 
 function renderQuestion() {
-        console.log('📄 Rendering question', currentQuestionIndex);
-        let skipCount = 0;
-        const MAX_SKIPS = 3;
-        
-        showLoader(); // Show loader during render
-        
-        try {
-          const q = currentQuestions[currentQuestionIndex];
-          if (!q) {
-            console.log('❌ No question data, ending level');
-            endLevel();
-            hideLoader();
-            return;
-          }
+  // FALLBACK: Check for empty questions or invalid index - FIXED HEADER ISSUE
+  if (!currentQuestions.length || currentQuestionIndex >= currentQuestions.length) {
+    const questionInfoEl = document.getElementById("question-info");
+    questionInfoEl.innerHTML = `
+      <div style="font-size: 18px; padding: 20px; background: #ffebee; border-radius: 10px; margin-bottom: 20px; text-align: center; color: #c62828; border: 2px solid #f44336;">
+        <strong>⚠️ لا توجد أسئلة في المستوى ${currentLevel}</strong><br>
+        <small>تحقق من questions-level${currentLevel}.js أو أضف أسئلة</small>
+      </div>
+    `;
+    if (nextBtn) nextBtn.style.display = 'none';
+    showToast("⚠️", `المستوى ${currentLevel}: لا أسئلة متاحة`, "warn");
+    console.error(`❌ Level ${currentLevel}: No questions (index ${currentQuestionIndex}/${currentQuestions.length})`);
+    return;
+  }
+  console.log('🔍 Raw question:', currentQuestions[currentQuestionIndex]);
+  
+  let q = currentQuestions[currentQuestionIndex];
+  
+  // Flexible FULL normalization - supports 2-6+ options
+  const safeOptions = Array.isArray(q.options) && q.options.length >= 2 ? q.options : ['خيار 1', 'خيار 2', 'خيار 3', 'خيار 4'];
+  const answerIndex = typeof q.answer === 'number' ? q.answer : safeOptions.findIndex(opt => opt.trim() === String(q.answer).trim());
+  const safeAnswerIndex = (answerIndex >= 0 && answerIndex < safeOptions.length) ? answerIndex : 0;
+  
+  const normQ = {
+    question: q.question || q.q || 'سؤال غير محدد',
+    options: safeOptions,
+    answer: safeAnswerIndex,
+    explanation: q.explanation || q.tip || ''
+  };
+  
+  console.log(`✅ Level ${currentLevel}: ${normQ.options.length} options, answer index: ${safeAnswerIndex}`);
+  
+  console.log('✅ Normalized:', normQ);
+  
+  // Display
+  const questionTextEl = document.getElementById("question-text");
+  const questionInfoEl = document.getElementById("question-info");
+  
+  questionTextEl.innerHTML = `<strong>${normQ.question}</strong>`;
+  console.log(`✅ Rendering question ${currentQuestionIndex + 1}:`, normQ.question);
+  
+  // Options
 
-          // PAUSE TIMER EXPLICITLY
-          let wasRunning = !!levelTimer;
-          if (levelTimer) {
-            clearInterval(levelTimer);
-            console.log('⏸️ Timer paused');
-          }
+  const fragment = document.createDocumentFragment();
+  normQ.options.forEach((opt, i) => {
+    const label = document.createElement("label");
+    label.style.cssText = 'display: block; padding: 12px; margin: 8px 0; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all .3s;';
+    label.innerHTML = `
+      <input type="radio" name="quiz-opt" value="${i}" style="margin-left: 10px;">
+      <span>${opt}</span>
+    `;
+    fragment.appendChild(label);
+  });
+  
+  answersDiv.innerHTML = '';
+  answersDiv.appendChild(fragment);
+  updateTimerDisplay();
+  
+  console.log(`✅ Question rendered fully. Total questions: ${currentQuestions.length}, current: ${currentQuestionIndex}`);
+  
+  // Click handler
+  answersDiv.onclick = (e) => {
 
-          selectedOptionIndex = null;
-          
-          // Clear all radios + visual states (batch)
-          document.querySelectorAll('input[name="quiz-opt"]').forEach(r => r.checked = false);
-          document.querySelectorAll('.answer-label').forEach(l => l.classList.remove("selected-opt"));
-
-          // VALIDATION + SKIP LOGIC
-          const validateQuestion = (qData) => {
-            if (!qData.options || !Array.isArray(qData.options) || 
-                qData.options.length === 0 || 
-                qData.answer === undefined || 
-                qData.answer >= qData.options.length || qData.answer < 0) {
-              return false;
-            }
-            const safeOpts = (qData.options || []).filter(Boolean);
-            return safeOpts.length > 0 && safeOpts.length > qData.answer;
-          };
-
-          if (!validateQuestion(q)) {
-            skipCount++;
-            console.warn(`⚠️ Skip ${skipCount}/${MAX_SKIPS}: Invalid q${currentQuestionIndex}`, q);
-            showToast('⚠️', `تخطي سؤال ${skipCount}/${MAX_SKIPS} (بيانات ناقصة)`, 'warn');
-            
-            if (skipCount >= MAX_SKIPS) {
-              console.error('❌ Max skips reached, ending level');
-              endLevel();
-              hideLoader();
-              return;
-            }
-            
-            currentQuestionIndex++;
-            if (currentQuestionIndex < currentQuestions.length) {
-              return renderQuestion(); // Recursive safe
-            } else {
-              endLevel();
-              hideLoader();
-              return;
-            }
-          }
-          
-          const safeQ = {
-            q: q.q || 'سؤال غير متاح',
-            options: (q.options || []).filter(Boolean),
-            answer: Number(q.answer)
-          };
-
-          // FINAL VALIDATION
-          if (!validateQuestion(safeQ)) {
-            skipCount++;
-            console.error(`❌ Post-process skip ${skipCount}:`, safeQ);
-            if (skipCount >= MAX_SKIPS) {
-              endLevel();
-              hideLoader();
-              return;
-            }
-            currentQuestionIndex++;
-            return renderQuestion();
-          }
-
-          // UPDATE UI
-          document.getElementById("question-text").textContent = safeQ.q;
-          document.getElementById("question-text").classList.add("auto-dir");
-          
-          // BATCH DOM CREATION with DocumentFragment
-          const fragment = document.createDocumentFragment();
-          safeQ.options.forEach((opt, i) => {
-            const cleanOpt = opt || '?';
-            const label = document.createElement("label");
-            label.className = "answer-label";
-            label.dataset.value = i;
-            
-            const input = document.createElement("input");
-            input.type = "radio";
-            input.name = "quiz-opt";
-            input.value = i;
-            
-            const span = document.createElement("span");
-            span.className = "auto-dir option-text";
-            span.lang = "ar";
-            span.dir = "auto";
-            span.textContent = cleanOpt;
-            
-            label.appendChild(input);
-            label.appendChild(span);
-            fragment.appendChild(label);
-          });
-          
-          answersDiv.innerHTML = "";
-          answersDiv.appendChild(fragment); // Single DOM write
-          
-          updateTimerDisplay();
-          console.log('✅ Question rendered:', safeQ.options.length, 'options');
-
-          // REATTACH CLICK HANDLER (after DOM batch)
-          answersDiv.onclick = function(e) {
-            const label = e.target.closest('.answer-label');
-            if (!label || isProcessing) return;
-            document.querySelectorAll('.answer-label').forEach(l => l.classList.remove('selected-opt'));
-            label.classList.add('selected-opt');
-            const radio = label.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
-            selectedOptionIndex = parseInt(label.dataset.value);
-            console.log('🎯 Selected:', selectedOptionIndex);
-          };
-          
-          // RESUME TIMER
-          if (wasRunning) {
-            levelTimer = setInterval(updateTimer, 1000);
-            console.log('▶️ Timer resumed');
-          }
-          
-        } catch (error) {
-          console.error('❌ Render error:', error);
-          showToast("❌", "خطأ في السؤال، الانتقال للتالي", "err");
-          currentQuestionIndex++;
-          if (currentQuestionIndex < currentQuestions.length) {
-            renderQuestion();
-          } else {
-            endLevel();
-          }
-        } finally {
-          hideLoader(); // Always hide
-          console.log('✅ renderQuestion complete');
-        }
-      }
+    const label = e.target.closest('label');
+    if (label) {
+      document.querySelectorAll('input[name="quiz-opt"]').forEach(r => r.checked = false);
+      label.querySelector('input').checked = true;
+    }
+  };
+}
 
 let isProcessing = false;
 let nextDebounceTimer = null;
@@ -658,14 +581,21 @@ showLoader();
 }
       
       const selectedIndex = parseInt(checkedRadio.value);
-      const q = currentQuestions[currentQuestionIndex];
+      const rawQ = currentQuestions[currentQuestionIndex];
+      
+      // Re-normalize for consistency
+      const safeOptions = Array.isArray(rawQ.options) && rawQ.options.length >= 2 ? rawQ.options : ['خيار 1', 'خيار 2'];
+      const answerIndex = typeof rawQ.answer === 'number' ? rawQ.answer : safeOptions.findIndex(opt => opt.trim() === String(rawQ.answer).trim());
+      const safeAnswerIndex = (answerIndex >= 0 && answerIndex < safeOptions.length) ? answerIndex : 0;
+      
+      const isCorrect = selectedIndex === safeAnswerIndex;
       
       userAnswers.push({
         questionIndex: currentQuestionIndex,
         userChoice: selectedIndex,
-        correct: selectedIndex === q.answer,
+        correct: isCorrect,
       });
-      if (selectedIndex === q.answer) {
+      if (isCorrect) {
         correctAnswers++;
       }
       
@@ -971,13 +901,19 @@ async function startLevel(level) {
           
           const uAns = userAnswers.find(a => a.questionIndex === i);
           const isCorrect = uAns?.correct ?? false;
-          const correctIdx = Number(q.answer ?? 0);
+          
+          // Full flexible matching
+          const safeOptions = Array.isArray(q.options) && q.options.length >= 2 ? q.options : ['خيار 1', 'خيار 2'];
+          const answerIndex = typeof q.answer === 'number' ? q.answer : safeOptions.findIndex(opt => opt.trim() === String(q.answer).trim());
+          const correctIdx = (answerIndex >= 0 && answerIndex < safeOptions.length) ? answerIndex : 0;
           const userIdx = uAns?.userChoice ?? -1;
           
-          // Safe bounds check
-          const safeCorrectText = (correctIdx >= 0 && correctIdx < q.options.length) ? q.options[correctIdx] : 'غير متاح';
-          const safeUserText = (userIdx >= 0 && userIdx < q.options.length) ? q.options[userIdx] : 'لم تجب';
-          const safeQuestion = q.q;
+          const safeCorrectText = safeOptions[correctIdx] || 'غير محدد';
+          const safeUserText = (userIdx >= 0 && userIdx < safeOptions.length) ? safeOptions[userIdx] : 'لم تجب';
+          const safeQuestion = q.question || q.q || 'سؤال غير محدد';
+          
+          // Explanation always available
+          const explanation = q.explanation || q.tip || '';
           
           console.group(`سؤال ${i+1}`);
           console.log('السؤال:', safeQuestion);
@@ -1017,16 +953,34 @@ async function startLevel(level) {
           userLine.appendChild(userSpan);
           itemDiv.appendChild(userLine);
           
-          // Correct answer if wrong
+          // Correct answer + explanation (always)
+          const corrContainer = document.createElement('div');
+          corrContainer.style.cssText = 'margin-top: 8px;';
+          
+          const corrAnswerDiv = document.createElement('div');
+          corrAnswerDiv.style.cssText = 'color: #28a745; background: #e8f5e8; padding: 10px; border-radius: 8px; margin-bottom: 6px; font-weight: 600;';
+          corrAnswerDiv.innerHTML = '✅ الإجابة الصحيحة: ';
+          const corrSpan = document.createElement('span');
+          corrSpan.className = 'auto-dir review-text';
+          corrSpan.textContent = safeCorrectText;
+          corrAnswerDiv.appendChild(corrSpan);
+          
+          corrContainer.appendChild(corrAnswerDiv);
+          
+          // Explanation if exists
+          if (explanation.trim()) {
+            const explDiv = document.createElement('div');
+            explDiv.style.cssText = 'color: #0066cc; background: #e3f2fd; padding: 8px 12px; border-radius: 6px; font-size: 14px; margin-top: 4px; border-right: 3px solid #1cb0f6;';
+            explDiv.innerHTML = '💡 <strong>التفسير:</strong> ';
+            const explSpan = document.createElement('span');
+            explSpan.className = 'auto-dir';
+            explSpan.textContent = explanation;
+            explDiv.appendChild(explSpan);
+            corrContainer.appendChild(explDiv);
+          }
+          
           if (!isCorrect && safeCorrectText !== 'غير متاح') {
-            const corrLine = document.createElement('div');
-            corrLine.style.cssText = 'color: #28a745; background: #e8f5e8; padding: 10px; border-radius: 8px; margin-top: 8px; font-weight: 600;';
-            corrLine.innerHTML = '✅ الإجابة الصحيحة: ';
-            const corrSpan = document.createElement('span');
-            corrSpan.className = 'auto-dir review-text';
-            corrSpan.textContent = safeCorrectText;
-            corrLine.appendChild(corrSpan);
-            itemDiv.appendChild(corrLine);
+            itemDiv.appendChild(corrContainer);
           }
           
           answersReview.appendChild(itemDiv);
@@ -1151,7 +1105,7 @@ leaderboardBtn.addEventListener("click", async () => {
               );
 
               let html = "";
-             users.forEach((user, i) => {
+              users.slice(0, 20).forEach((user, i) => {
                 let rankClass = "";
                 if (i === 0) rankClass = "first-place";
                 else if (i === 1) rankClass = "second-place";

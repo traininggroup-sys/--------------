@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>المحرر الذكي - إدارة الأسئلة</title>
+    <title>المحرر الذكي - إدارة الجوائز فقط</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap"
       rel="stylesheet"
@@ -31,10 +31,9 @@
         max-width: 1000px;
         margin: 0 auto;
         background: white;
-        padding: 30 Arabic px;
+        padding: 30px;
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        padding: 30px;
       }
       h1,
       h2 {
@@ -56,23 +55,13 @@
         color: #555;
       }
       select,
-      textarea {
+      input {
         width: 100%;
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 8px;
         font-size: 15px;
-      }
-      textarea {
-        resize: vertical;
-        min-height: 250px;
-        font-family: "Consolas", monospace;
-        direction: ltr;
-        text-align: left;
-        background: #272822;
-        color: #f8f8f2;
-        padding: 15px;
-        line-height: 1.5;
+        margin-bottom: 10px;
       }
       .btn-group {
         display: flex;
@@ -96,9 +85,6 @@
       }
       .btn-save {
         background: var(--success);
-      }
-      .btn-bulk {
-        background: var(--purple);
       }
       .btn-delete {
         background: var(--danger);
@@ -133,6 +119,9 @@
         margin-top: 5px;
         color: #666;
         font-weight: bold;
+        padding: 10px;
+        background: #e9ecef;
+        border-radius: 5px;
       }
       .badge {
         background: #007bff;
@@ -141,128 +130,105 @@
         border-radius: 10px;
         margin: 0 5px;
       }
-      .info-note {
-        font-size: 12px;
-        color: #777;
-        margin-top: 5px;
+      .success {
+        background: #28a745 !important;
       }
-      #json-preview .ok { color: #28a745; }
-      #json-preview .error { color: #dc3545; }
-      #json-preview .warning { color: #ffc107; }
+      .info-box {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
     </style>
   </head>
   <body>
     <!-- Loading Screen -->
-    <div id="loading-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999; font-family: 'Tajawal', sans-serif;">
-      <div style="font-size: 24px; margin-bottom: 20px;">🔐 جاري التحقق...</div>
-      <div style="width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div
+      id="loading-screen"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        z-index: 9999;
+        font-family: &quot;Tajawal&quot;, sans-serif;
+      "
+    >
+      <div style="font-size: 24px; margin-bottom: 20px">🔐 جاري التحقق...</div>
+      <div
+        style="
+          width: 50px;
+          height: 50px;
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          border-top: 4px solid white;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        "
+      ></div>
     </div>
 
     <style>
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
     </style>
 
-    <div class="container" id="admin-panel" style="display: none;">
-      <h1>⚙️ لوحة التحكم الاحترافية
+    <div class="container" id="admin-panel" style="display: none">
+      <h1>⚙️ لوحة التحكم - إدارة الجوائز فقط ✅</h1>
 
-      <div class="section" style="background: #eef6ff">
-        <label>إدارة الجوائز لكل مستوى:</label>
+      <div class="section">
+        <h2>🏆 إدارة الجوائز لكل مستوى</h2>
+        <label>اختر المستوى:</label>
         <div style="display: flex; gap: 10px">
-          <select id="level-select-prizes" style="flex: 2">
+          <select id="level-select-prizes">
             <script>
               for (let i = 1; i <= 11; i++)
                 document.write(`<option value="${i}">المستوى ${i}</option>`);
             </script>
           </select>
           <button class="btn-load" id="btn-fetch-prizes">
-            🔍 جلب الجوائز الحالية
+            🔍 جلب الجائزة الحالية
           </button>
         </div>
-        <div id="prizes-status" class="status-bar"></div>
+        <div id="prizes-status" class="status-bar">اختر مستوى واضغط جلب...</div>
+
+        <label>قيمة الجائزة (جنيه):</label>
         <input
           type="number"
           id="prize-input"
-          placeholder="قيمة الجائزة بالجنيه"
-          style="
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-          "
+          placeholder="أدخل قيمة الجائزة"
+          min="0"
         />
+
         <div class="btn-group">
-          <button class="btn-save" id="btn-save-prize">
-            💾 حفظ جائزة المستوى
-          </button>
+          <button class="btn-save" id="btn-save-prize">💾 حفظ الجائزة</button>
           <button class="btn-delete" id="btn-reset-prize">
-            🔄 إعادة الافتراضي
-          </button>
-        </div>
-
-        <hr style="margin: 30px 0" />
-
-        <label>اختر المستوى للإدارة:</label>
-        <div style="display: flex; gap: 10px">
-          <select id="level-select" style="flex: 2">
-            <script>
-              for (let i = 1; i <= 100; i++)
-                document.write(`<option value="${i}">المستوى ${i}</option>`);
-            </script>
-          </select>
-          <button class="btn-load" id="btn-fetch">
-            🔍 جلب الأسئلة الحالية
-          </button>
-        </div>
-        <div id="level-status" class="status-bar"></div>
-      </div>
-
-      <div class="section">
-        <h2>🛠️ محرر الأسئلة المباشر</h2>
-        <p class="info-note">
-          الأسئلة plain text بدون تشفير. اضغط "حفظ" لتطبيق التغييرات.
-        </p>
-        <textarea id="json-editor" placeholder='[
-  {
-    question: "عند حفظ النص تلقائيًا بعد فترة زمنية محددة دون تدخل المستخدم، يُسمى ذلك بـ؟",
-    options: ["النسخ الاحتياطي", "الحفظ التلقائي", "الحذف التلقائي", "التحديث التلقائي"],
-    answer: "الحفظ التلقائي"
-  },
-  {
-    question: "أي مما يلي لا يعتبر نظام تشغيل:",
-    options: ["ويندوز XP", "ويندوز XL", "ويندوز 2000", "ويندوز 98"],
-    answer: "ويندوز XL"
-  }
-  // يدعم التنسيقين: {question: "..."} OR {"question": "..."}
-]' style="font-size: 14px;"></textarea>
-        
-        <!-- 🆕 Preview & Test Section -->
-        <div id="json-preview" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin: 15px 0; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; display: none;">
-          <strong>📋 معاينة الأسئلة:</strong>
-          <div id="preview-list"></div>
-        </div>
-        
-        <div class="btn-group">
-          <button class="btn-load" id="btn-test-json" style="background: #ffc107; color: #212529;">🧪 اختبار JSON</button>
-          <button class="btn-save" id="btn-save-edit">
-            💾 حفظ التعديلات البرمجية
-          </button>
-          <button class="btn-delete" id="btn-clear-level">
-            🗑️ مسح أسئلة المستوى
+            🔄 إعادة افتراضي
           </button>
         </div>
       </div>
 
-      <a href="index.html" class="btn-back">🏠 العودة للموقع</a>
+      <a href="index.html" class="btn-back">🏠 العودة للعبة الرئيسية</a>
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script type="module">
-      // Admin Password Protection - Secure direct access
+      // Password Protection
       function simpleHash(str) {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
@@ -273,33 +239,27 @@
         return Math.abs(hash).toString(16).padStart(8, "0");
       }
 
-      // ADMIN PASSWORD CHECK - Required for access
-      const ADMIN_PASSWORD_HASH = "58a01f09"; // simpleHash("11121999")
-      const password = prompt("🔐 أدخل كلمة مرور لوحة الإدارة:");
+      const ADMIN_PASSWORD_HASH = "58a01f09"; // hash("11121999")
+      const password = prompt("🔐 كلمة مرور لوحة الإدارة:");
 
       if (!password || simpleHash(password) !== ADMIN_PASSWORD_HASH) {
-        alert("❌ كلمة المرور غير صحيحة! سيتم إعادة التوجيه...");
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 2000);
+        alert("❌ خطأ في كلمة المرور!");
+        setTimeout(() => (window.location.href = "index.html"), 2000);
       } else {
-        // Success - show panel
-        document.getElementById('loading-screen').style.display = 'none';
-        document.getElementById('admin-panel').style.display = 'block';
-        console.log("✅ Admin access granted");
+        document.getElementById("loading-screen").style.display = "none";
+        document.getElementById("admin-panel").style.display = "block";
       }
 
+      // Firebase for PRIZES ONLY
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
       import {
         getDatabase,
         ref,
         set,
         get,
-        push,
         remove,
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-      // إعدادات Firebase
       const firebaseConfig = {
         apiKey: "AIzaSyDrPR-5-IaSD7-ij1oj3Y4M9ARQBMK66eo",
         authDomain: "levels-409ba.firebaseapp.com",
@@ -313,264 +273,60 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      const editor = document.getElementById("json-editor");
-      const levelSelect = document.getElementById("level-select");
       const prizesLevelSelect = document.getElementById("level-select-prizes");
       const prizesStatus = document.getElementById("prizes-status");
       const prizeInput = document.getElementById("prize-input");
-      const statusBox = document.getElementById("level-status");
 
       function notify(msg, type = "success") {
-        const t = document.getElementById("toast");
-        t.textContent = msg;
-        t.style.background = type === "success" ? "#28a745" : "#dc3545";
-        t.style.display = "block";
-        setTimeout(() => (t.style.display = "none"), 3000);
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.className = `toast ${type}`;
+        toast.style.display = "block";
+        setTimeout(() => (toast.style.display = "none"), 4000);
       }
 
-      // 🆕 JSON Preview & Test Functions
-      
-      // 🔄 NEW: Normalize JS object literals to valid JSON
-      function normalizeInputJson(rawText) {
-        if (!rawText || typeof rawText !== 'string') return '[]';
-        
-        // Regex to match unquoted keys: {key: value} or ,key: value
-        // Captures: group1=prefix({ or ,), group2=key name
-        const keyRegex = /([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*?)\s*:/g;
-        
-        let normalized = rawText.replace(keyRegex, (match, prefix, key) => {
-          // Skip if already quoted or special keys
-          if (key === 'true' || key === 'false' || key === 'null' || /^\d+$/.test(key)) {
-            return match;
-          }
-          // Quote the key: { → {"key":
-          return `${prefix}"${key}":`;
-        });
-        
-        // Clean up common issues: trailing commas, etc.
-        normalized = normalized.replace(/,\s*([\]}])/g, '$1');
-        normalized = normalized.replace(/([{,]\s*)\n\s*([}\]])/g, '$1$2');
-        
-        return normalized.trim();
-      }
-
-function validateQuestionPreview(item, idx) {
-        const errors = [];
-        const qText = (item.question || item.q)?.trim();
-        if (!qText) errors.push('❌ question/q فاضي');
-        const opts = (item.options || item.opts || []).map(o => String(o || '').trim()).filter(Boolean);
-        const ansStr = String(item.answer ?? '').trim();
-        
-        if (!Array.isArray(opts) || opts.length < 2) errors.push('❌ options/opts < 2');
-        if (item.answer === undefined || item.answer === null) errors.push('❌ answer مش موجود');
-        
-        let ansIndex = -1;
-        if (ansStr && opts.length > 0) {
-          ansIndex = opts.findIndex(opt => opt === ansStr);
-          if (ansIndex === -1) {
-            const ansNum = parseInt(ansStr);
-            if (!isNaN(ansNum) && ansNum >= 0 && ansNum < opts.length) {
-              ansIndex = ansNum;
-            }
-          }
-        }
-        
-        const status = errors.length ? 'error' : ansIndex >= 0 ? 'ok' : 'warning';
-        const statusText = errors.length ? errors[0] : 
-                          ansIndex >= 0 ? `✅ ${ansStr} → index ${ansIndex}` : 
-                          '⚠️ answer مش مطابق';
-        
-        return { status, statusText, ansIndex, preview: `${qText?.slice(0,30)}${qText?.length > 30 ? '...' : ''} → [${opts.slice(0,2).join('/')}...] → ${statusText}` };
-      }
-
-      function testJson() {
-        try {
-          const normalized = normalizeInputJson(editor.value);
-          const edited = JSON.parse(normalized);
-          if (!Array.isArray(edited)) throw new Error('JSON يجب يكون array');
-          
-          const previewList = document.getElementById('preview-list');
-          const previewDiv = document.getElementById('json-preview');
-          
-          previewList.innerHTML = '';
-          let allValid = true;
-          
-          edited.forEach((item, idx) => {
-            const result = validateQuestionPreview(item, idx);
-            const div = document.createElement('div');
-            div.className = `preview-item ${result.status}`;
-            div.innerHTML = `<strong>س${idx+1}:</strong> ${result.preview}`;
-            previewList.appendChild(div);
-            if (result.status !== 'ok') allValid = false;
-          });
-          
-          previewDiv.style.display = 'block';
-          statusBox.innerHTML = allValid ? 
-            `<span class="badge" style="background: #28a745;">✅ ${edited.length} سؤال صالح 100%</span>` :
-            `<span class="badge" style="background: #ffc107;">⚠️ ${edited.length} سؤال (${edited.filter((_,i)=>validateQuestionPreview(edited[i],i).status!=='ok').length} به خطأ)</span>`;
-            
-          notify(allValid ? '✅ JSON تمام - جاهز للحفظ! (دعم {question: ...} و {"question": ...})' : '⚠️ شوفي الـ preview وعدلي الأخطاء');
-        } catch (e) {
-          notify('❌ JSON syntax خطأ: ' + e.message, 'error');
-        }
-      }
-
-      // Auto-test on editor change (debounced)
-      let testTimeout;
-      editor.addEventListener('input', () => {
-        clearTimeout(testTimeout);
-        testTimeout = setTimeout(testJson, 1000);
-      });
-
-      document.getElementById('btn-test-json').onclick = testJson;
-
-      // --- إدارة الجوائز ---
+      // Fetch Prize
       document.getElementById("btn-fetch-prizes").onclick = async () => {
         const level = prizesLevelSelect.value;
-        prizesStatus.innerHTML = "جاري التحميل...";
+        prizesStatus.innerHTML = "⏳ جاري التحميل...";
         try {
           const snap = await get(ref(db, `prizes/${level}`));
-          const prizeValue = snap.exists() ? snap.val() : null;
-          prizeInput.value = prizeValue || "";
-          prizesStatus.innerHTML = prizeValue
-            ? `الجائزة الحالية: <span class="badge">${prizeValue} جنيه</span>`
-            : "الافتراضية (غير محددة)";
+          const prize = snap.val();
+          prizeInput.value = prize || "";
+          prizesStatus.innerHTML = prize
+            ? `<span class="badge success">${prize} جنيه</span> ← الجائزة الحالية`
+            : `<span class="badge">غير محددة (افتراضي)</span>`;
         } catch (e) {
           notify("خطأ: " + e.message, "error");
         }
       };
 
+      // Save Prize
       document.getElementById("btn-save-prize").onclick = async () => {
         const level = prizesLevelSelect.value;
         const value = parseInt(prizeInput.value);
-        if (isNaN(value) || value < 0) {
-          notify("❌ أدخلي قيمة صحيحة (رقم موجب)", "error");
-          return;
-        }
+        if (isNaN(value) || value < 0)
+          return notify("❌ رقم موجب فقط!", "error");
         try {
           await set(ref(db, `prizes/${level}`), value);
-          notify(`✅ تم حفظ ${value} جنيه للمستوى ${level}!`);
+          notify(`✅ حفظ ${value} جنيه للمستوى ${level}!`);
           document.getElementById("btn-fetch-prizes").click();
         } catch (e) {
-          notify("خطأ: " + e.message, "error");
+          notify("❌ خطأ الحفظ: " + e.message, "error");
         }
       };
 
+      // Reset Prize
       document.getElementById("btn-reset-prize").onclick = async () => {
         const level = prizesLevelSelect.value;
+        if (!confirm(`🔄 إعادة جائزة المستوى ${level} للافتراضي؟`)) return;
         try {
           await remove(ref(db, `prizes/${level}`));
-          notify(`✅ تم إعادة المستوى ${level} للقيمة الافتراضية`);
+          notify(`✅ إعادة افتراضي للمستوى ${level}`);
           prizeInput.value = "";
           document.getElementById("btn-fetch-prizes").click();
         } catch (e) {
-          notify("خطأ: " + e.message, "error");
-        }
-      };
-
-      // --- 1. جلب الأسئلة ---
-      document.getElementById("btn-fetch").onclick = async () => {
-        const level = levelSelect.value;
-        statusBox.innerHTML = "جاري التحميل...";
-        try {
-          const snap = await get(ref(db, `questions/${level}`));
-          if (snap.exists()) {
-            const raw = snap.val();
-            const readable = Object.keys(raw).map((id) => ({
-              id: id,
-              q: raw[id].q,
-              options: raw[id].options.map((o) => o),
-              answer: raw[id].answer,
-              tip: raw[id].tip || "",
-            }));
-            editor.value = JSON.stringify(readable, null, 4);
-            statusBox.innerHTML = `تم العثور على <span class="badge">${readable.length}</span> سؤال.`;
-          } else {
-            editor.value = "[]";
-            statusBox.innerHTML = "المستوى فارغ حالياً.";
-          }
-        } catch (e) {
-          notify("خطأ: " + e.message, "error");
-        }
-      };
-
-// --- 2. حفظ التعديلات اليدوية (plaintext only) ---
-      document.getElementById("btn-save-edit").onclick = async () => {
-        const level = levelSelect.value;
-        try {
-          const normalized = normalizeInputJson(editor.value);
-          const edited = JSON.parse(normalized);
-          if (!Array.isArray(edited)) throw new Error('يجب أن تكون مصفوفة array من الأسئلة');
-          
-          const finalData = {};
-          edited.forEach((item, idx) => {
-            // Enhanced validation with preview logic  
-            const previewResult = validateQuestionPreview(item, idx);
-            if (previewResult.status !== 'ok') {
-              throw new Error(`س${idx+1}: ${previewResult.statusText}\n💡 مثال:\n{"question":"سؤال","options":["1","2"],"answer":"1" أو 0}`);
-            }
-            const qText = item.question.trim();
-            const opts = item.options.map(o => String(o).trim()).filter(Boolean);
-            
-            const ansIndex = previewResult.ansIndex;
-            
-            if (ansIndex === -1) {
-              const ansNum = parseInt(ansStr);
-              if (!isNaN(ansNum) && ansNum >= 0 && ansNum < opts.length) {
-                ansIndex = ansNum;
-              } else {
-                throw new Error(`سؤال ${idx+1}: answer "${ansStr}" غير موجود في options (${opts.join(' / ')})\nأو استخدم رقم الفهرس (0,1,2...)`);
-              }
-            }
-            
-            const tip = (item.explanation || item.tip || "").trim();
-
-            const key = item.id || push(ref(db, `questions/${level}`)).key;
-            finalData[key] = {
-              q: qText,
-              options: opts,
-              answer: ansIndex,
-              tip: tip
-            };
-          });
-          await set(ref(db, `questions/${level}`), finalData);
-          notify(`✅ تم حفظ ${edited.length} سؤال في المستوى ${level}!`);
-          statusBox.innerHTML = `✅ ${edited.length} سؤال محفوظ`;
-        } catch (e) {
-          notify("❌ " + e.message, "error");
-        }
-      };
-
-
-
-
-/* TODO: Bulk import feature can be added here later */
-
-
-
-      // --- 4. مسح المستوى 🗑️ (محدث 100%)
-      document.getElementById("btn-clear-level").onclick = async () => {
-        const level = levelSelect.value;
-        console.log('🗑️ مسح المستوى:', level);
-        
-        if (!level) {
-          notify("❌ اختر مستوى أولاً من القائمة!", "error");
-          statusBox.innerHTML = "❌ يجب اختيار مستوى أولاً";
-          return;
-        }
-        
-        if (confirm(`🗑️ سيتم مسح كل أسئلة المستوى ${level} نهائياً. متأكدة؟`)) {
-          try {
-            statusBox.innerHTML = `جاري مسح المستوى ${level}...`;
-            await remove(ref(db, `questions/${level}`));
-            notify(`✅ تم مسح المستوى ${level} بنجاح! 🎉`);
-            editor.value = "[]";
-            statusBox.innerHTML = `✅ تم مسح ${level} - فارغ الآن (${new Date().toLocaleTimeString('ar')})`;
-          } catch (error) {
-            console.error('❌ خطأ Firebase:', error);
-            notify(`❌ خطأ في المسح: ${error.message}`, "error");
-            statusBox.innerHTML = `❌ فشل مسح ${level}: ${error.message}`;
-          }
+          notify("❌ خطأ: " + e.message, "error");
         }
       };
     </script>
