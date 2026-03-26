@@ -72,11 +72,7 @@
 <div id="quiz-container">
 
 
-          <!-- Loading Overlay -->
-          <div id="question-loader" class="question-loader" style="display: none;">
-            <div class="loader-spinner"></div>
-            <span>جاري تحميل السؤال...</span>
-          </div>
+
           
           <div id="answers"></div>
 
@@ -237,7 +233,70 @@
 
     </div>
     <!-- Firebase و كود التطبيق (سكربت واحد فقط) -->
-    <script type="module">
+<script type="module">
+  // Anti-copy protection
+  document.addEventListener('DOMContentLoaded', function() {
+    const protectedElements = document.querySelectorAll('#question-text, #answers, #question-info, .level-card, .review-item');
+    
+    // CSS protection
+    protectedElements.forEach(el => {
+      el.style.userSelect = 'none';
+      el.style.webkitUserSelect = 'none';
+      el.style.msUserSelect = 'none';
+      el.style.mozUserSelect = 'none';
+    });
+    
+    // Event protections
+    document.addEventListener('contextmenu', e => {
+      if (protectedElements.contains(e.target.closest('#question-box, #result-section, #levels'))) {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    document.addEventListener('selectstart', e => {
+      if (protectedElements.contains(e.target.closest('#question-box, #result-section, #levels'))) {
+        e.preventDefault();
+        return false;
+      }
+    });
+    
+    document.addEventListener('dragstart', e => e.preventDefault());
+    document.addEventListener('copy', e => {
+      const activeEl = document.activeElement;
+      if (protectedElements.contains(activeEl.closest('#question-box, #result-section, #levels'))) {
+        e.preventDefault();
+        showToast('🚫', 'نسخ المحتوى غير مسموح', 'warn');
+        return false;
+      }
+    });
+    
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's')) {
+        const activeEl = document.activeElement;
+        if (protectedElements.contains(activeEl.closest('#question-box, #result-section, #levels'))) {
+          e.preventDefault();
+          showToast('🚫', 'نسخ/عرض المصدر غير مسموح', 'warn');
+          return false;
+        }
+      }
+      if (e.key === 'F12') {
+        e.preventDefault();
+        showToast('🚫', 'DevTools غير مسموح', 'warn');
+      }
+    });
+    
+    // Disable text selection visually
+    document.addEventListener('selectionchange', () => {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const selContainer = selection.getRangeAt(0).commonAncestorContainer;
+        if (protectedElements.contains(selContainer.closest('#question-box, #result-section, #levels'))) {
+          selection.removeAllRanges();
+        }
+      }
+    });
+  });
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
       import {
         getDatabase,
@@ -690,19 +749,21 @@ document.getElementById("back-btn-result").addEventListener("click", () => {
   backToLevelsFromResults();
 });
       // --- كلمات تشجيعية لكل مستوى ---
-      const encouragementMessages = {
-        1: "ابدأ رحلتك التعليمية الآن! 🌟\nقدها وقدودك! 💪",
-        2: "أنت على الطريق الصحيح! 🚀\nواصل التقدم! ⭐",
-        3: "مستواك يرتفع! 📈\nأثبت جدارتك! 🏆",
-        4: "التحدي يزداد! 🎯\nأنت قادر على النجاح! 💫",
-        5: "نصف الطريق! 🌍\nاقتربت من النجاح! 🔥",
-        6: "مستوى متقدم! 🎓\nاستمر بنفس القوة! 💪",
-        7: "⭐\nقمة النجاح تنتظرك! 🏔️",
-        8: "مستوى صعب! 🧠\nعقلك حاد! 🔮",
-        9: "على أعتاب التميز! 👑\nأنت بطل! 🏅",
-        10: "المستوى قبل الأخير! 🌟\nاقتربت من النهاية! 🎉",
-        11: "الخطوة الأخيرة! 🏁\nأنت تستحق المكافأة! 🎊"
-      };
+     const encouragementMessages = {
+  1: "🚀 أصعب خطوة هي البداية، وبمجرد أن تبدأ.. فقد قطعت نصف الطريق.",
+  2: "💸 انتي بتتعبي دلوقتي عشان بكره تشتري اللي نفسك فيه من غير ما تبصي على السعر",
+  3: "🔥 الاستمرارية تتغلب على الموهبة؛ ابقَ مستيقظاً.",
+  4: "🛡️ محدش هيقدر يكسر بنت ناجحة ومعاها فلوس'.. انتي دلوقتي بتبني الدرع اللي هيحميكي ويخليكي ست الكل",
+  5: "💄 جهزي اللبس الشيك والميك أب، انتي خلاص بقيتي على بُعد خطوة من توقيع العقد وبداية حياة 'الهوانم",
+  6: "🏆 اسعي انك تحققي الاستقلال والرفاهية والفلوس والنجاح",
+  7: "⭐ الصمود هو السر عندما يتعب الآخرون، يظهر معدن الأبطال.. أنت تقترب.",
+  8: "🧠 خليكي البنت اللي الكل بيسألها: 'عملتي ده إزاي؟'.. مش البنت اللي بتسأل الناس: 'أعمل إيه",
+  9: "💳 تخيلي شعورك وأول فيزا باسمك بتسحب أول مرتب كبير.. اللحظة دي قريبة جداً، كملي.",
+  10: "🎯 النجاح السهل (50%) يعني أنك في قائمة الانتظار مع الجميع.. لكن هدفنا هو القمة، هدفنا هو الاجتياز !",
+  11: "💰 كل قرش دفعتيه هنا، هيرجعلك أضعاف في أول شهر قبض.. انتي دلوقتي بتشتري مستقبلك بجد",
+  12: "👑 النجاح بيليق عليكي، والفلوس هتخلي النجاح ده له طعم تاني خالص.. انتي قدها",
+  13: "🔥 مفيش حد هيحقق لك أحلامك غيرك، اشتغلي دلوقتي عشان تعيشي عيشة الهوانم اللي بجد"
+};
 
       // --- عرض الخريطة والمودال ---
       const levelModal = document.getElementById("level-modal");

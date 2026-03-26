@@ -549,7 +549,7 @@ input::placeholder {
 #question-text {
   font-size: 22px;
   font-weight: 800;
-  margin-bottom: 25px;
+  margin-bottom: 5px;
   color: var(--text);
   line-height: 1.5;
   word-wrap: break-word;
@@ -560,7 +560,6 @@ input::placeholder {
 #answers {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 #answers label {
