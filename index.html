@@ -13,7 +13,18 @@
  
   </head>
 
-  <body>
+<body>
+    <!-- Maintenance Overlay ✅ FIXED -->
+    <div id="maintenance-overlay" class="maintenance-hidden" style="display: none !important;">
+      <div class="maintenance-content">
+
+        <p>الموقع مؤقتًا تحت الصيانة، يمكنك العودة وفتحه مرة أخرى لاحقًا لتجربة أفضل.
+ 🙏</p>
+        <div class="maintenance-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <header>
 <div class="header-content">
@@ -234,7 +245,39 @@
     </div>
     <!-- Firebase و كود التطبيق (سكربت واحد فقط) -->
 <script type="module">
-  // Anti-copy protection
+// ✅ Maintenance Mode Toggle - FIXED & DEBUG
+const maintenanceMode = false; // false = off, true = on - غيّر هنا للاختبار
+console.log('🔧 Maintenance mode:', maintenanceMode ? 'ON (visible)' : 'OFF (hidden)');
+
+if (maintenanceMode) {
+  const overlay = document.getElementById('maintenance-overlay');
+  if (overlay) {
+    overlay.classList.remove('maintenance-hidden');
+    overlay.style.display = 'flex'; // Force show
+    console.log('✅ Maintenance ON - overlay visible');
+  }
+} else {
+  const overlay = document.getElementById('maintenance-overlay');
+  if (overlay) {
+    overlay.classList.add('maintenance-hidden');
+    overlay.style.display = 'none'; // Force hide fallback
+    console.log('✅ Maintenance OFF - overlay hidden');
+  }
+}
+
+// Auto-disable on admin access
+document.addEventListener('DOMContentLoaded', function() {
+  const adminBtn = document.getElementById('admin-btn');
+  if (adminBtn) {
+    const originalClick = adminBtn.onclick;
+    adminBtn.onclick = function(e) {
+      document.getElementById('maintenance-overlay')?.classList.add('maintenance-hidden');
+      if (originalClick) originalClick.call(this, e);
+    };
+  }
+});
+
+// Anti-copy protection
 document.addEventListener('DOMContentLoaded', function() {
     // closest() Polyfill for older browsers
     function closestPolyfill(el, selector) {
