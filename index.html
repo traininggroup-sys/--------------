@@ -235,7 +235,18 @@
     <!-- Firebase و كود التطبيق (سكربت واحد فقط) -->
 <script type="module">
   // Anti-copy protection
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // closest() Polyfill for older browsers
+    function closestPolyfill(el, selector) {
+      if (!el || el.nodeType !== 1) return null;
+      for (; el && el.nodeType === 1; el = el.parentNode) {
+        if (typeof el.matches === 'function' ? el.matches(selector) : el.msMatchesSelector(selector)) {
+          return el;
+        }
+      }
+      return null;
+    }
+
     const protectedElements = document.querySelectorAll('#question-text, #answers, #question-info, .level-card, .review-item');
     
     // CSS protection
@@ -246,16 +257,18 @@
       el.style.mozUserSelect = 'none';
     });
     
-    // Event protections
+    // Event protections - FIXED closest()
     document.addEventListener('contextmenu', e => {
-      if (protectedElements.contains(e.target.closest('#question-box, #result-section, #levels'))) {
+      const targetContainer = closestPolyfill(e.target, '#question-box, #result-section, #levels');
+      if (targetContainer && Array.from(protectedElements).some(el => el.contains(targetContainer))) {
         e.preventDefault();
         return false;
       }
     });
     
     document.addEventListener('selectstart', e => {
-      if (protectedElements.contains(e.target.closest('#question-box, #result-section, #levels'))) {
+      const targetContainer = e.target.closest('#question-box, #result-section, #levels');
+      if (targetContainer && Array.from(protectedElements).some(el => el.contains(targetContainer))) {
         e.preventDefault();
         return false;
       }
@@ -264,7 +277,8 @@
     document.addEventListener('dragstart', e => e.preventDefault());
     document.addEventListener('copy', e => {
       const activeEl = document.activeElement;
-      if (protectedElements.contains(activeEl.closest('#question-box, #result-section, #levels'))) {
+      const targetContainer = activeEl.closest('#question-box, #result-section, #levels');
+      if (targetContainer && Array.from(protectedElements).some(el => el.contains(targetContainer))) {
         e.preventDefault();
         showToast('🚫', 'نسخ المحتوى غير مسموح', 'warn');
         return false;
@@ -274,7 +288,8 @@
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's')) {
         const activeEl = document.activeElement;
-        if (protectedElements.contains(activeEl.closest('#question-box, #result-section, #levels'))) {
+        const targetContainer = activeEl.closest('#question-box, #result-section, #levels');
+        if (targetContainer && Array.from(protectedElements).some(el => el.contains(targetContainer))) {
           e.preventDefault();
           showToast('🚫', 'نسخ/عرض المصدر غير مسموح', 'warn');
           return false;
@@ -286,13 +301,16 @@
       }
     });
     
-    // Disable text selection visually
+    // Disable text selection visually - FIXED Node-safe
     document.addEventListener('selectionchange', () => {
       const selection = window.getSelection();
       if (selection.rangeCount > 0) {
         const selContainer = selection.getRangeAt(0).commonAncestorContainer;
-        if (protectedElements.contains(selContainer.closest('#question-box, #result-section, #levels'))) {
-          selection.removeAllRanges();
+        if (selContainer.nodeType === 1) { // Element only
+          const targetContainer = closestPolyfill(selContainer, '#question-box, #result-section, #levels');
+          if (targetContainer && Array.from(protectedElements).some(el => el.contains(targetContainer))) {
+            selection.removeAllRanges();
+          }
         }
       }
     });
