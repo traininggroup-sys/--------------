@@ -1,15 +1,15 @@
-# TODO List for Task: تصغير حجم الاختيارات إلى 19px
+# Task Progress Tracker
 
-## خطوات التنفيذ:
-- [x] فهم الكود وتحديد الملفات المتأثرة (style.css)
-- [ ] إنشاء TODO.md مع خطوات التنفيذ
-- [x] تعديل style.css لتغيير font-size لـ #answers label إلى 19px
-- [x] تقليل حجم radio buttons إلى 18px
-- [x] تحديث الـ media query للموبايل
-- [ ] اختبار التغييرات في المتصفح
-- [ ] إنهاء المهمة بـ attempt_completion
+## Task: Add ID to question header for styling
 
-## ملاحظات:
-- التعديل في style.css فقط
-- الحجم الحالي: 16px → 19px كما طُلب
+### Step 1: ✅ Analyzed files and identified target
+- index.html: question header is in `#question-info` div (dynamic "السؤال X من Y")
+
+### Step 2: ✅ Plan approved by user ("تمام")
+
+### Step 3: ✅ Edited index.html - added id="question-header"
+
+### Step 4: ✅ Updated TODO.md with completion status
+
+### Step 5: ✅ Task completed successfully
 

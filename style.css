@@ -64,12 +64,11 @@
 /* Reset */
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Tajawal", "Tajawal";
   direction: rtl;
   margin: 0;
   padding: 0;
-  font-weight: bold;
-  font-size: 20px;
+  font-weight: 600;
 }
 
 body {
@@ -244,18 +243,18 @@ h3 {
 /* Buttons - Duolingo Style */
 button {
   cursor: pointer;
-  padding: 2px 9px;
+  padding: 12px 24px;
   background: var(--duo-green);
   border: none;
   /* border-radius: var(--radius-pill); */
   color: white;
-  font-weight: 800;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 18px;
   box-shadow: var(--shadow);
   transition: var(--transition);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  min-height: 44px;
+  min-height: 52px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -282,13 +281,13 @@ button:active {
   flex: 1;
   max-width: 280px;
   margin: 0;
-  padding: 16px 32px;
-  min-height: 60px;
+  padding: 18px 32px;
+  min-height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .back-btn:hover,
@@ -549,7 +548,7 @@ input::placeholder {
 }
 
 #question-text {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   margin-bottom: 5px;
   color: var(--text);
