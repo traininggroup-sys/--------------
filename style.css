@@ -568,7 +568,7 @@ input::placeholder {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 18px 24px;
+  padding: 14px 20px;
   border-radius: var(--radius-sm);
   background: var(--bg);
   color: var(--text);
@@ -576,7 +576,7 @@ input::placeholder {
   transition: var(--transition);
   border: 2px solid var(--gray-200);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 19px;
   box-shadow: 0 4px 0 var(--gray-300);
   margin: 0 4px;
   /* Ensure entire label is clickable */
@@ -600,8 +600,8 @@ input::placeholder {
 }
 
 #answers input[type="radio"] {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--duo-blue);
 }
 
@@ -1414,8 +1414,8 @@ input::placeholder {
   }
 
   #answers label {
-    font-size: 15px;
-    padding: 14px 16px;
+    font-size: 17px;
+    padding: 12px 16px;
   }
 
   .level-card {

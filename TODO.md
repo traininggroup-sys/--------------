@@ -1,18 +1,15 @@
-# ✅✅ TODO: Center Toast on Mobile Screens - FIXED PERMANENTLY!
+# TODO List for Task: تصغير حجم الاختيارات إلى 19px
 
-## Plan Steps:
-- [x] 1. Create this TODO.md  
+## خطوات التنفيذ:
+- [x] فهم الكود وتحديد الملفات المتأثرة (style.css)
+- [ ] إنشاء TODO.md مع خطوات التنفيذ
+- [x] تعديل style.css لتغيير font-size لـ #answers label إلى 19px
+- [x] تقليل حجم radio buttons إلى 18px
+- [x] تحديث الـ media query للموبايل
+- [ ] اختبار التغييرات في المتصفح
+- [ ] إنهاء المهمة بـ attempt_completion
 
-- [x] 3. Test on mobile: 95vw width, `top:50%; left:50%; transform(-50%,-50%)` enforced
-- [x] 4. Update TODO.md (final)
-- [x] 5. attempt_completion
+## ملاحظات:
+- التعديل في style.css فقط
+- الحجم الحالي: 16px → 19px كما طُلب
 
-**Final Changes (Mobile unbreakable centering):**
-```
-.toast.err { position:fixed !important; top:50% !important; left:50% !important; }
-@media(max-width:400px) { .toast { position:fixed !important; top:50% !important; ... } }
-```
-
-**Result:** الـ Toast error "كلمة المرور غير صحيحة" **مركز شاشة 100%** على أي موبايل/تابلت.
-
-**Test:** `start index.html` → ⚙️ → كلمة مرور خاطئة → Toast في **نص الشاشة تمامًا** 🎯
