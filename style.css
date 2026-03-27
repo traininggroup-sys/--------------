@@ -441,7 +441,7 @@ input::placeholder {
 
 .level-card.open .prize-badge,
 .level-card.passed .prize-badge {
-  background: #d4c11a;
+  background: #ffe500;
   color: #000000;
   border-color: #46a302;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
