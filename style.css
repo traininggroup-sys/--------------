@@ -1124,9 +1124,11 @@ input::placeholder {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   backdrop-filter: blur(20px);
-  pointer-events: none; /* Prevents blocking clicks */
+  pointer-events: none;
   gap: 8px;
   padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .toast.show {
@@ -1150,12 +1152,14 @@ input::placeholder {
 
 .toast.err {
   background: #00000073;
-  bottom: 20px; /* Consistent positioning */
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
 }
 
 .toast.err.show {
-  transform: translateY(0);
+  transform: translate(-50%, -50%) scale(1);
 }
 
 #toast-title {
@@ -1264,11 +1268,19 @@ input::placeholder {
   /* Very small screens - stack vertically */
   @media (max-width: 400px) {
     .toast {
-      flex-direction: column;
-      gap: 8px;
-      text-align: center;
+      flex-direction: column !important;
+      gap: 8px !important;
+      text-align: center !important;
       width: 95vw !important;
-      max-width: 400px !important;
+      max-width: 95vw !important;
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) scale(0.8) !important;
+    }
+    .toast.show,
+    .toast.err.show {
+      transform: translate(-50%, -50%) scale(1) !important;
     }
 
     #toast-title {
