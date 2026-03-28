@@ -1,15 +1,8 @@
-# Task Progress Tracker
+# Fix Answers Review Overflow & Auto-Scroll to Bottom
 
-## Task: Add ID to question header for styling
-
-### Step 1: ✅ Analyzed files and identified target
-- index.html: question header is in `#question-info` div (dynamic "السؤال X من Y")
-
-### Step 2: ✅ Plan approved by user ("تمام")
-
-### Step 3: ✅ Edited index.html - added id="question-header"
-
-### Step 4: ✅ Updated TODO.md with completion status
-
-### Step 5: ✅ Task completed successfully
-
+## Steps:
+1. ✅ Create this TODO.md
+2. ✅ Update style.css: Fix #result-section overflow:hidden → overflow-y:auto, ensure mobile full-height
+3. ✅ Update index.html JS: Add scrollTop = scrollHeight in endLevel() after building review
+4. Test on mobile: Review reaches bottom, auto-scrolls there
+5. ✅ attempt_completion
