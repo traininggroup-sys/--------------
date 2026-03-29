@@ -11,6 +11,11 @@ import { level8Questions } from './questions-level8.js';
 import { level9Questions } from './questions-level9.js';
 import { level10Questions } from './questions-level10.js';
 import { level11Questions } from './questions-level11.js';
+import { level12Questions } from './questions-level12.js';
+import { level13Questions } from './questions-level13.js';
+import { level14Questions } from './questions-level14.js';
+import { level15Questions } from './questions-level15.js';
+import { level16Questions } from './questions-level16.js';
 
 export const allLevelsQuestions = {
   1: level1Questions,
@@ -23,7 +28,12 @@ export const allLevelsQuestions = {
   8: level8Questions,
   9: level9Questions,
   10: level10Questions,
-  11: level11Questions
+  11: level11Questions,
+  12: level12Questions,
+  13: level13Questions,
+  14: level14Questions,
+  15: level15Questions,
+  16: level16Questions
 };
 
 // دالة التحميل النهائية (local only)

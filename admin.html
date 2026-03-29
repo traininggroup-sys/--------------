@@ -195,9 +195,37 @@
         <label>اختر المستوى:</label>
         <div style="display: flex; gap: 10px">
           <select id="level-select-prizes">
-            <script>
-              for (let i = 1; i <= 11; i++)
-                document.write(`<option value="${i}">المستوى ${i}</option>`);
+            <script type="module">
+              (async () => {
+                try {
+                  const module = await import("./questions.js");
+                  const allLevelsQuestions = module.allLevelsQuestions;
+                  const levels = Object.keys(allLevelsQuestions)
+                    .map((n) => parseInt(n))
+                    .filter((l) => l > 0)
+                    .sort((a, b) => a - b);
+                  levels.forEach((i) => {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = `المستوى ${i}`;
+                    document
+                      .querySelector("#level-select-prizes")
+                      .appendChild(option);
+                  });
+                  console.log(`✅ Loaded ${levels.length} levels dynamically`);
+                } catch (e) {
+                  console.error("Failed to load levels:", e);
+                  // Fallback hardcoded 1-15
+                  for (let i = 1; i <= 15; i++) {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = `المستوى ${i}`;
+                    document
+                      .querySelector("#level-select-prizes")
+                      .appendChild(option);
+                  }
+                }
+              })();
             </script>
           </select>
           <button class="btn-load" id="btn-fetch-prizes">

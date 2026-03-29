@@ -202,6 +202,25 @@
         </div>
       </div>
 
+      <!-- Password Modal for Level 11 -->
+      <div id="password-modal" class="password-modal">
+        <div class="password-content">
+          <h3>    أتممت المرحلة الأولى بنجاح <br>
+أنت الآن في المرحلة التالية <br>
+
+أدخل كلمة المرور الخاصة بك من جروب المشتركين للمتابعة </h3>
+          <div class="input-group">
+            <input type="password" id="password-input" placeholder="اكتب كلمة المرور هنا">
+          </div>
+                    <button id="password-submit-btn">تأكيد</button>
+
+          <div class="subscribe-row">
+            <span>مش مشترك؟</span>
+            <a href="http://t.me/NaglaFG" target="_blank" class="subscribe-small-btn">اشترك من هنا</a>
+          </div>
+        </div>
+      </div>
+
       <!-- Loading Spinner -->
       <div id="loading-spinner" class="loading-spinner">
         <div class="spinner"></div>
@@ -246,7 +265,7 @@
     <!-- Firebase و كود التطبيق (سكربت واحد فقط) -->
 <script type="module">
 // ✅ Maintenance Mode Toggle - FIXED & DEBUG
-const maintenanceMode = true; // false = off, true = on - غيّر هنا للاختبار
+const maintenanceMode = false; // false = off, true = on - غيّر هنا للاختبار
 console.log('🔧 Maintenance mode:', maintenanceMode ? 'ON (visible)' : 'OFF (hidden)');
 
 if (maintenanceMode) {
@@ -496,23 +515,29 @@ let leaderboardUnsubscribe = null;
 
 
 const levelsData = {
-        1: { questions: 5, passRate: 0.6, time: 1200},
-        2: { questions: 5, passRate: 0.65, time: 1020 },
-        3: { questions: 5, passRate: 0.7, time: 840 },
-        4: { questions: 5, passRate: 0.75, time: 720 },
-        5: { questions: 5, passRate: 0.8, time: 600 },
-        6: { questions: 5, passRate: 0.85, time: 600 },
-        7: { questions: 5, passRate: 0.9, time: 600 },
-        8: { questions: 5, passRate: 0.9, time: 600 },
-        9: { questions: 5, passRate: 0.9, time: 600 },
-        10: { questions: 5, passRate: 0.9, time: 600 },
-11: { questions: 5, passRate: 0.9, time: 2600, passwordHash: "00000037" },
+        1: {  passRate: 0.6, time: 1200},
+        2: {  passRate: 0.65, time: 1020 },
+        3: {  passRate: 0.7, time: 840 },
+        4: {  passRate: 0.75, time: 720 },
+        5: {  passRate: 0.8, time: 600 },
+        6: {  passRate: 0.85, time: 600 },
+        7: {  passRate: 0.9, time: 600 },
+        8: {  passRate: 0.9, time: 600 },
+        9: {  passRate: 0.9, time: 600 },
+        10: {  passRate: 0.9, time: 600 },
+        11: {  passRate: 0.9, time: 2600, passwordHash: "0019d5c0" },
+        12: {  passRate: 0.9, time: 600 },    
+        13: {  passRate: 0.9, time: 600 },
+        14: {  passRate: 0.9, time: 600 },
+        15: {  passRate: 0.9, time: 2600, passwordHash: "001ac640" },
+
 
       };
 
       const defaultPrizes = {
         1: 10, 2: 25, 3: 50, 4: 100, 5: 200, 6: 350, 7: 500, 8: 750, 9: 1000, 10: 1500, 11: 2500
       };
+
 
       let levelPrizes = {...defaultPrizes};
 
@@ -823,7 +848,9 @@ document.getElementById("back-btn-result").addEventListener("click", () => {
   10: "🎯 النجاح السهل (50%) يعني أنك في قائمة الانتظار مع الجميع.. لكن هدفنا هو القمة، هدفنا هو الاجتياز !",
   11: "💰 كل قرش دفعتيه هنا، هيرجعلك أضعاف في أول شهر قبض.. انتي دلوقتي بتشتري مستقبلك بجد",
   12: "👑 النجاح بيليق عليكي، والفلوس هتخلي النجاح ده له طعم تاني خالص.. انتي قدها",
-  13: "🔥 مفيش حد هيحقق لك أحلامك غيرك، اشتغلي دلوقتي عشان تعيشي عيشة الهوانم اللي بجد"
+  13: "🔥 مفيش حد هيحقق لك أحلامك غيرك، اشتغلي دلوقتي عشان تعيشي عيشة الهوانم اللي بجد",
+  14: "🚀 كل خطوة دلوقتي بتقربك من هدفك.. استمري وما توقفيش",
+  15: "🏆 وقت الحصاد وصل.. استمتعي باللي حققتيه",
 };
 
       // --- عرض الخريطة والمودال ---
@@ -924,48 +951,107 @@ async function showLevels() {
         startLevel(currentLevel);
       });
 
-async function startLevel(level) {
-        totalSkips = 0; // Reset skips for new level
-        console.log('🚀 Starting level', level, 'with reset skips');
-        
-        if (levelsData[level]?.passwordHash) {
-          const pass = prompt("أدخل كلمة مرور المستوى:");
-          const inputHash = simpleHash(pass);
-          if (inputHash !== levelsData[level].passwordHash) {
-            showToast("خطأ", "الباسورد غلط", "err");
-            return;
-          }
+async function showPasswordModal() {
+  const modal = document.getElementById('password-modal');
+  const input = document.getElementById('password-input');
+  const submitBtn = document.getElementById('password-submit-btn');
+  const subscribeBtn = modal.querySelector('.subscribe-small-btn');
+  
+  modal.style.display = 'flex';
+  input.value = '';
+  input.focus();
+  
+  const closeModal = () => {
+    modal.style.display = 'none';
+    levelsDiv.style.display = 'flex'; // Return to levels
+  };
+  
+  const checkPassword = () => {
+    const pass = input.value.trim();
+    if (!pass) return showToast('⚠️', 'أدخل كلمة المرور أولاً', 'warn');
+    
+    const inputHash = simpleHash(pass);
+    if (inputHash === levelsData[currentLevel].passwordHash) {
+      closeModal();
+      // Proceed with level
+      currentQuestionIndex = 0;
+      correctAnswers = 0;
+      userAnswers = [];
+      levelsDiv.style.display = "none";
+      questionBox.style.display = "block";
+      resultSection.style.display = "none";
+      resultSection.classList.add("hidden");
+      if (logoutBtn) logoutBtn.classList.remove("show");
+      if (headerCoins) headerCoins.style.display = "none";
+      if (leaderboardBtn) leaderboardBtn.style.display = "none";
+      
+      loadQuestionsFromDB(currentLevel).then(questions => {
+        currentQuestions = questions;
+        if (currentQuestions.length === 0) {
+          throw new Error('No questions');
         }
-
-        currentQuestionIndex = 0;
-        correctAnswers = 0;
-        userAnswers = [];
-        levelsDiv.style.display = "none";
-        questionBox.style.display = "block";
-        resultSection.style.display = "none";
-        resultSection.classList.add("hidden");
-        if (logoutBtn) logoutBtn.classList.remove("show");
-        // إخفاء عملة الهيدر وزر المتصدرين في شاشة الأسئلة
-        if (headerCoins) headerCoins.style.display = "none";
-        if (leaderboardBtn) leaderboardBtn.style.display = "none";
-
-        try {
-          currentQuestions = await loadQuestionsFromDB(level);
-          if (currentQuestions.length === 0) {
-            throw new Error('No questions loaded');
-          }
-          console.log(`📥 Loaded ${currentQuestions.length} questions`);
-        } catch (e) {
-          console.error('❌ Failed to load questions:', e);
-          showToast('❌', 'خطأ في تحميل الأسئلة', 'err');
-          levelsDiv.style.display = "flex";
-          return;
-        }
-        
-        timeLeft = levelsData[level].time;
+        console.log(`✅ Password correct. Loaded ${currentQuestions.length} questions`);
+        timeLeft = levelsData[currentLevel].time;
         levelTimer = setInterval(updateTimer, 1000);
         renderQuestion();
-      }
+      }).catch(e => {
+        console.error('❌ Questions load failed:', e);
+        showToast('❌', 'خطأ في تحميل الأسئلة', 'err');
+        levelsDiv.style.display = "flex";
+      });
+    } else {
+      showToast("❌", "كلمة المرور خاطئة", "err");
+      input.value = '';
+      input.classList.add('shake');
+      setTimeout(() => input.classList.remove('shake'), 500);
+    }
+  };
+  
+  submitBtn.onclick = checkPassword;
+  input.onkeypress = (e) => {
+    if (e.key === 'Enter') checkPassword();
+  };
+  subscribeBtn.onclick = (e) => {
+    e.stopPropagation();
+  };
+  modal.onclick = (e) => {
+    if (e.target === modal) closeModal();
+  };
+}
+
+async function startLevel(level) {
+  totalSkips = 0;
+  console.log('🚀 Starting level', level);
+  
+ if ((level === 11 || level === 15) && levelsData[level]?.passwordHash) {
+    showPasswordModal();
+    return;
+}
+
+  currentQuestionIndex = 0;
+  correctAnswers = 0;
+  userAnswers = [];
+  levelsDiv.style.display = "none";
+  questionBox.style.display = "block";
+  resultSection.style.display = "none";
+  resultSection.classList.add("hidden");
+  if (logoutBtn) logoutBtn.classList.remove("show");
+  if (headerCoins) headerCoins.style.display = "none";
+  if (leaderboardBtn) leaderboardBtn.style.display = "none";
+
+  try {
+    currentQuestions = await loadQuestionsFromDB(level);
+    if (currentQuestions.length === 0) throw new Error('No questions');
+    console.log(`📥 Loaded ${currentQuestions.length} questions`);
+    timeLeft = levelsData[level].time;
+    levelTimer = setInterval(updateTimer, 1000);
+    renderQuestion();
+  } catch (e) {
+    console.error('❌ Failed to load questions:', e);
+    showToast('❌', 'خطأ في تحميل الأسئلة', 'err');
+    levelsDiv.style.display = "flex";
+  }
+}
 
       // --- النهاية والنتائج ---
       async function endLevel() {
