@@ -2062,7 +2062,6 @@ img.awardimg {
   font-size: 48px;
   z-index: 2;
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.25));
-  animation: lockFloat 2.5s ease-in-out infinite;
 }
 
 @keyframes lockFloat {
