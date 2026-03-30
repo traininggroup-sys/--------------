@@ -249,7 +249,6 @@ button {
   color: white;
   font-weight: 700;
   font-size: 18px;
-  box-shadow: var(--shadow);
   transition: var(--transition);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -1989,7 +1988,7 @@ img.awardimg {
   width: 30px;
 }
 
-/* 🔥 Premium Password Modal - Glassmorphism + Hero Design */
+/* 🔥 Premium Password Modal - Glassmorphism + Hero Design (IMPROVED) */
 .password-modal {
   display: none;
   position: fixed;
@@ -2010,52 +2009,60 @@ img.awardimg {
       rgba(120, 219, 255, 0.3) 0%,
       transparent 50%
     ),
-    rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
+    rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(25px) saturate(160%);
   z-index: 1001;
   align-items: center;
   justify-content: center;
   padding: 20px;
   direction: rtl;
+  animation: fadeInOverlay 0.5s ease-out;
 }
 
 .password-modal.show {
-  display: flex;
+  display: flex !important;
 }
 
 .password-modal .password-content {
-  background: rgb(125 234 125 / 63%);
-  backdrop-filter: blur(25px) brightness(1.1);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 250, 252, 0.9) 100%
+  );
+  backdrop-filter: blur(30px) brightness(1.05) contrast(1.1);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 60px 40px;
-  max-width: 440px;
-  width: 92vw;
-  max-height: 85vh;
-  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.8);
   box-shadow:
-    0 32px 64px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  animation: modalHeroSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    0 35px 70px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 20px 40px rgba(88, 204, 2, 0.15);
+  padding: 45px 35px;
+  max-width: 450px;
+  width: 90vw;
+  max-height: 91vh;
+  overflow-y: auto;
+  position: relative;
+  animation:
+    modalSlideIn 0.5s cubic-bezier(0.34, 0.16, 0.5, 1.25),
+    contentPulse 4s ease-in-out infinite;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  position: relative;
+  gap: 28px;
 }
 
 .password-modal .password-content::before {
   content: "🔐";
   position: absolute;
-  top: 20px;
+  top: 149px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 52px;
+  font-size: 48px;
   z-index: 2;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
-  animation: lockFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.25));
+  animation: lockFloat 2.5s ease-in-out infinite;
 }
 
 @keyframes lockFloat {
@@ -2069,11 +2076,16 @@ img.awardimg {
 }
 
 .password-modal .password-content h3 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #181716;
-  margin: 63px 0 8px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #10b981, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 12px 0;
+  text-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  line-height: 1.3;
+  padding: 0;
 }
 
 .input-group {
@@ -2089,21 +2101,27 @@ img.awardimg {
   width: 100%;
   padding: 20px 24px;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
-  border: 3px solid var(--gray-300);
+  border: 3px solid var(--gray-200);
   border-radius: var(--radius);
-  background: white;
-  transition: var(--transition);
+  background: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   direction: ltr;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.06),
+    0 6px 16px rgba(0, 0, 0, 0.12);
+  letter-spacing: 1.2px;
 }
 
 #password-input:focus {
   border-color: var(--duo-orange);
   box-shadow:
-    0 0 0 4px rgba(255, 150, 0, 0.25),
-    inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    0 0 0 6px rgba(255, 150, 0, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.05),
+    0 0 20px rgba(255, 150, 0, 0.4);
   outline: none;
+  transform: scale(1.02);
 }
 
 #password-input.shake {
@@ -2111,29 +2129,54 @@ img.awardimg {
 }
 
 #password-submit-btn {
-  background: var(--duo-green);
+  background: #000000;
   color: white;
   border: none;
-  padding: 16px 32px;
+  padding: 20px 40px;
   border-radius: var(--radius);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 900;
   cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-  min-height: 52px;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  min-height: 68px;
   width: 100%;
-  max-width: 280px;
+  max-width: 360px;
+  position: relative;
+  overflow: hidden;
+}
+
+#password-submit-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+#password-submit-btn:hover::before {
+  left: 100%;
 }
 
 #password-submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--duo-green-dark);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 20px 40px rgba(88, 204, 2, 0.7),
+    0 8px 0 var(--duo-green-dark);
 }
 
 #password-submit-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 var(--duo-green-dark);
+  transform: translateY(-1px) scale(0.98);
+  box-shadow:
+    0 4px 15px rgba(88, 204, 2, 0.6),
+    0 2px 0 var(--duo-green-dark);
 }
 
 .subscribe-row {
@@ -2150,43 +2193,149 @@ img.awardimg {
 .subscribe-row span {
   color: #ffffff;
   white-space: nowrap;
-  font-size: 25px;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
-.subscribe-small-btn {
-  background: #ff0000bf;
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 15px;
-  transition: var(--transition);
-  white-space: nowrap;
-  border: 2px solid transparent;
-  line-height: 1.3;
+/* ✅ SIMPLE VISIBLE SUBSCRIBE - واضح بسيط للموبايل */
+.subscribe-section {
+  display: block !important;
+  text-align: center !important;
+  margin-top: 28px !important;
+  padding: 32px 28px !important;
+  background: #6aeb1f;
+  /* border: 4px solid #f4b400 !important; */
+  border-radius: 24px !important;
+  /* box-shadow: 0 18px 55px rgba(244, 180, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.65) !important; */
+  z-index: 30 !important;
+  /* animation: ctaPulse 2.2s ease-in-out infinite, sectionGlow 3.2s ease-in-out infinite alternate;
 }
 
-.subscribe-small-btn:hover {
-  background: var(--duo-orange-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--duo-orange-dark);
-  color: white !important;
+.subscribe-text {
+  color: #ffffff !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  margin: 0 0 28px 0 !important;
+  line-height: 1.5 !important;
+  /* text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.9) !important; */
+  padding: 0 !important;
+  /* animation: textGlow 2s ease-in-out infinite alternate; */
+}
+.subscribe-btn-hero,
+.subscribe-btn-large {
+  display: inline-block !important;
+  background: #000000;
+  color: #ffffff !important;
+  padding: 2px;
+  border-radius: 20px !important;
+  text-decoration: none !important;
+  font-weight: 900 !important;
+  font-size: 24px !important;
+  /* box-shadow: 0 18px 50px rgba(245, 158, 11, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important; */
+  min-height: 80px !important;
+  line-height: 1.2 !important;
+  position: relative !important;
+  z-index: 35 !important;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.subscribe-small-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 var(--duo-orange-dark);
+.subscribe-btn-hero:hover,
+.subscribe-btn-large:hover {
+  transform: translateY(-6px) scale(1.08) !important;
+  box-shadow:
+    0 25px 60px rgba(245, 158, 11, 0.75),
+    0 0 30px rgba(245, 158, 11, 0.5) !important;
+}
+
+@keyframes ctaPulse {
+  0%,
+  100% {
+    box-shadow: 0 20px 60px rgba(244, 180, 0, 0.45);
+  }
+  50% {
+    box-shadow: 0 25px 70px rgba(244, 180, 0, 0.7);
+  }
+}
+
+@keyframes sectionGlow {
+  0% {
+    border-color: #f4b400;
+  }
+  100% {
+    border-color: #ffed4a;
+    box-shadow: 0 20px 60px rgba(244, 180, 0, 0.6);
+  }
+}
+
+@keyframes textGlow {
+  0% {
+    text-shadow:
+      2px 2px 4px rgba(255, 255, 255, 0.9),
+      0 0 10px rgba(180, 83, 9, 0.3);
+  }
+  100% {
+    text-shadow:
+      2px 2px 4px rgba(255, 255, 255, 0.9),
+      0 0 20px rgba(180, 83, 9, 0.6);
+  }
+}
+
+.subscribe-btn-large:hover {
+  background: #e55a2b !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4) !important;
+}
+
+.subscribe-btn-large:active {
+  transform: scale(0.98) !important;
+}
+
+/* MOBILE PERFECT */
+@media (max-width: 768px) {
+  .subscribe-section {
+    margin: 2px 1px !important;
+    padding: 30px 15px !important;
+  }
+
+  .subscribe-text {
+    font-size: 19px !important;
+  }
+
+  .subscribe-btn-large {
+    width: 95% !important;
+    max-width: 350px !important;
+    padding: 22px 30px !important;
+    font-size: 19px !important;
+  }
 }
 
 @keyframes modalSlideIn {
   from {
     opacity: 0;
-    transform: scale(0.9) translateY(30px);
+    transform: scale(0.85) translateY(40px);
   }
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes contentPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 40px 80px rgba(0, 0, 0, 0.35),
+      0 0 30px rgba(255, 215, 0, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 45px 90px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(255, 215, 0, 0.4);
   }
 }
 
@@ -2206,7 +2355,7 @@ img.awardimg {
 /* Responsive */
 @media (max-width: 500px) {
   .password-modal .password-content {
-    padding: 40px 24px;
+    padding: 10px;
     gap: 24px;
     width: 95vw;
   }
@@ -2236,18 +2385,46 @@ img.awardimg {
 
   #password-submit-btn {
     padding: 18px 24px;
-    font-size: 20px;
+    font-size: 27px;
   }
 }
 
-.password-modal .modal-header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid var(--gray-200);
+/* ============================================
+* Premium Password Modal - Step 3 Polish ✨
+============================================ */
+
+/* Progress Badge - Shimmer + Dynamic */
+.progress-badge {
+  background: linear-gradient(135deg, #58cc02, #ff9600);
+  -webkit-background-clip: Ascending;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 12px 20px;
+  margin: 20px 0;
+  border-radius: var(--radius-pill);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .password-modal .modal-header h2 {
@@ -2325,9 +2502,8 @@ img.awardimg {
 .password-content p {
   font-size: 18px;
   font-weight: 700;
-  color: var(--text);
+  color: #201b1b;
   margin-bottom: 25px;
-  line-line: 1.6;
   text-align: center;
 }
 
@@ -2371,6 +2547,7 @@ img.awardimg {
   font-weight: 600;
   min-width: 250px;
   direction: ltr;
+  margin-top: 15px;
 }
 
 #password-input:focus {

@@ -205,18 +205,28 @@
       <!-- Password Modal for Level 11 -->
       <div id="password-modal" class="password-modal">
         <div class="password-content">
-          <h3>    أتممت المرحلة الأولى بنجاح <br>
-أنت الآن في المرحلة التالية <br>
 
-أدخل كلمة المرور الخاصة بك من جروب المشتركين للمتابعة </h3>
+          <div class="success-msg">
+            <h3>🎉 مبروك! </h3>
+فعلاً أثبت إنك عندك القدرة للاجتياز  
+يلا بينا نكمل الرحلة ونخش على الجد  
+
+ادخل كلمة المرور من جروب المشتركين هنا  
+وافتح باقي المستويات
+</p>          
+          </div>
+
           <div class="input-group">
             <input type="password" id="password-input" placeholder="اكتب كلمة المرور هنا">
           </div>
-                    <button id="password-submit-btn">تأكيد</button>
+          <button id="password-submit-btn">دخول</button>
+          <div class="subscribe-section">
 
-          <div class="subscribe-row">
-            <span>مش مشترك؟ اشترك وخد خصم اللي حوشته من المستويات السابقة</span>
-            <a href="http://t.me/NaglaFG" target="_blank" class="subscribe-small-btn">اشترك من هنا</a>
+<p class="subscribe-text">
+مش مشترك لسه؟ 💰 <br>
+ اشترك وخد خصم اللي حوشته من المستويات السابقة🤩
+</p>            <a href="http://t.me/NaglaFG" target="_blank" class="subscribe-btn-hero"> دوس هنا واشترك</a>
+
           </div>
         </div>
       </div>
@@ -525,7 +535,7 @@ const levelsData = {
         8: {  passRate: 0.9, time: 600 },
         9: {  passRate: 0.9, time: 600 },
         10: {  passRate: 0.9, time: 600 },
-        11: {  passRate: 0.9, time: 600, passwordHash: "0019d5c0" },
+        11: {  passRate: 0.9, time: 2600, passwordHash: "0019d5c0" },
         12: {  passRate: 0.9, time: 600 },    
         13: {  passRate: 0.9, time: 600 },
         14: {  passRate: 0.9, time: 600 },
@@ -958,6 +968,15 @@ async function showPasswordModal() {
   const subscribeBtn = modal.querySelector('.subscribe-small-btn');
   
   modal.style.display = 'flex';
+  
+  // Dynamic level text
+  const levelText = document.getElementById('modal-level-text');
+  const currentLevelEl = document.getElementById('current-level');
+  if (levelText && currentLevelEl) {
+    levelText.textContent = `إتمام المرحلة ${currentLevel}`;
+    currentLevelEl.textContent = currentLevel;
+  }
+  
   input.value = '';
   input.focus();
   
