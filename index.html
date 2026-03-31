@@ -175,7 +175,7 @@
 
 <div class="simple-section">
   <h4>شكل الجروب  👇</h4>
-   <img src="جروب المشتركين.jpg" alt="جروب المشتركين">
+   <img src="جروب المشتركين.jpg" alt="جروب المشتركين" class="imggroup">
   </div>
 
   <p class="slogan-para">
@@ -519,7 +519,8 @@ const adminBtn = document.getElementById("admin-btn");
       let userAnswers = [];
       let levelTimer = null;
       let timeLeft = 0;
-      let selectedOptionIndex = null;
+let selectedOptionIndex = null;
+let isNewLogin = false;
 let leaderboardUnsubscribe = null;
       let levelsScrollPos = 0;
 
@@ -822,6 +823,7 @@ showLoader();
               };
               userCoins = data.coins || 0;
               coinCountEl.textContent = userCoins + " جنيه";
+              isNewLogin = true;
               showLevels();
             } else {
               showToast("خطأ", "كلمة المرور غير صحيحة", "err");
@@ -831,6 +833,7 @@ showLoader();
             currentUser = { username, passedLevels: [], coins: 0 };
             userCoins = 0;
             coinCountEl.textContent = "0 جنيه";
+            isNewLogin = true;
             showLevels();
           }
         } catch (e) {
@@ -900,9 +903,12 @@ async function showLevels() {
         // Load prizes from DB
         await loadPrizesFromDB();
 
-        // رسالة ترحيبية للمستخدم
-        const userCoins = currentUser.coins || 0;
-        showToast("🎉", `أهلاً يا ${currentUser.username}! انت محوش ${userCoins} جنيه شد حيلك النهاردة واكسب اكتر`, "success");
+        // رسالة ترحيبية للمستخدم (فقط عند الدخول الأول)
+        if (isNewLogin) {
+          const userCoins = currentUser.coins || 0;
+          showToast("🎉", `أهلاً يا ${currentUser.username}! انت محوش ${userCoins} جنيه شد حيلك النهاردة واكسب اكتر`, "success");
+          isNewLogin = false;
+        }
 
         const passed = currentUser.passedLevels || [];
         const highest = passed.length ? Math.max(...passed) : 0;

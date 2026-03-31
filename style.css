@@ -3,7 +3,12 @@
 ============================================ */
 
 @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap");
-
+img.imggroup {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  /* max-height: 250px; */
+}
 :root {
   /* Duolingo Colors */
   --duo-green: #58cc02;
