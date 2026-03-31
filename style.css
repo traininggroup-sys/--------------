@@ -425,6 +425,26 @@ input::placeholder {
     0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.prize-badge.strike {
+  position: relative;
+  overflow: hidden;
+}
+
+.prize-badge.strike .amount {
+  filter: blur(4px);
+}
+
+.prize-badge.strike::before {
+  content: "💰";
+  position: absolute;
+  top: 50%;
+  left: 68%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  z-index: 2;
+  opacity: 0.9;
+}
+
 @keyframes prizeGlow {
   0% {
     box-shadow:

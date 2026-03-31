@@ -250,6 +250,101 @@
         </div>
       </div>
 
+      <!-- New Section: شكل عرض السعر -->
+      <div class="section">
+        <h2>🎨 شكل عرض السعر</h2>
+        <label>اختر المستوى:</label>
+        <div style="display: flex; gap: 10px">
+          <select id="level-select-style">
+            <script type="module">
+              (async () => {
+                try {
+                  const module = await import("./questions.js");
+                  const allLevelsQuestions = module.allLevelsQuestions;
+                  const levels = Object.keys(allLevelsQuestions)
+                    .map((n) => parseInt(n))
+                    .filter((l) => l > 0)
+                    .sort((a, b) => a - b);
+                  levels.forEach((i) => {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = `المستوى ${i}`;
+                    document
+                      .querySelector("#level-select-style")
+                      .appendChild(option);
+                  });
+                } catch (e) {
+                  console.error("Failed to load levels:", e);
+                  for (let i = 1; i <= 15; i++) {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = `المستوى ${i}`;
+                    document
+                      .querySelector("#level-select-style")
+                      .appendChild(option);
+                  }
+                }
+              })();
+            </script>
+          </select>
+          <button class="btn-load" id="btn-fetch-style">
+            🔍 جلب الشكل الحالي
+          </button>
+        </div>
+        <div id="style-status" class="status-bar">اختر مستوى واضغط جلب...</div>
+
+        <label>شكل العرض:</label>
+        <div style="display: flex; gap: 15px; margin-bottom: 15px">
+          <label
+            style="
+              flex: 1;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              padding: 10px;
+              background: #f8f9fa;
+              border-radius: 8px;
+              cursor: pointer;
+            "
+          >
+            <input
+              type="radio"
+              name="display-mode"
+              value="normal"
+              style="margin: 0"
+            />
+            عرض طبيعي ✅
+          </label>
+          <label
+            style="
+              flex: 1;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              padding: 10px;
+              background: #f8f9fa;
+              border-radius: 8px;
+              cursor: pointer;
+            "
+          >
+            <input
+              type="radio"
+              name="display-mode"
+              value="strike"
+              style="margin: 0"
+            />
+            شطب على السعر ✏️
+          </label>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-save" id="btn-save-style">💾 حفظ الشكل</button>
+          <button class="btn-delete" id="btn-reset-style">
+            🔄 إعادة افتراضي
+          </button>
+        </div>
+      </div>
+
       <a href="index.html" class="btn-back">🏠 العودة للعبة الرئيسية</a>
     </div>
 
@@ -305,6 +400,10 @@
       const prizesStatus = document.getElementById("prizes-status");
       const prizeInput = document.getElementById("prize-input");
 
+      // Style Management Elements
+      const styleLevelSelect = document.getElementById("level-select-style");
+      const styleStatus = document.getElementById("style-status");
+
       function notify(msg, type = "success") {
         const toast = document.getElementById("toast");
         toast.textContent = msg;
@@ -353,6 +452,64 @@
           notify(`✅ إعادة افتراضي للمستوى ${level}`);
           prizeInput.value = "";
           document.getElementById("btn-fetch-prizes").click();
+        } catch (e) {
+          notify("❌ خطأ: " + e.message, "error");
+        }
+      };
+
+      // === Style Management ===
+      // Fetch Style
+      document.getElementById("btn-fetch-style").onclick = async () => {
+        const level = styleLevelSelect.value;
+        styleStatus.innerHTML = "⏳ جاري التحميل...";
+        try {
+          const snap = await get(ref(db, `levelStyle/${level}/displayMode`));
+          const mode = snap.val();
+          document.querySelector(
+            'input[name="display-mode"][value="' + (mode || "normal") + '"]',
+          ).checked = true;
+          styleStatus.innerHTML =
+            mode === "strike"
+              ? '<span class="badge" style="background:red;">شطب على السعر ✏️</span>'
+              : '<span class="badge success">عرض طبيعي ✅</span>';
+        } catch (e) {
+          styleStatus.innerHTML = '<span class="badge">غير محدد (طبيعي)</span>';
+          document.querySelector(
+            'input[name="display-mode"][value="normal"]',
+          ).checked = true;
+        }
+      };
+
+      // Save Style
+      document.getElementById("btn-save-style").onclick = async () => {
+        const level = styleLevelSelect.value;
+        const selected = document.querySelector(
+          'input[name="display-mode"]:checked',
+        );
+        if (!selected) return notify("❌ اختر شكل العرض!", "error");
+        const mode = selected.value;
+        try {
+          await set(ref(db, `levelStyle/${level}/displayMode`), mode);
+          notify(
+            `✅ حفظ ${mode === "strike" ? "شطب" : "عرض طبيعي"} للمستوى ${level}!`,
+          );
+          document.getElementById("btn-fetch-style").click();
+        } catch (e) {
+          notify("❌ خطأ الحفظ: " + e.message, "error");
+        }
+      };
+
+      // Reset Style
+      document.getElementById("btn-reset-style").onclick = async () => {
+        const level = styleLevelSelect.value;
+        if (!confirm(`🔄 إعادة شكل عرض المستوى ${level} للافتراضي؟`)) return;
+        try {
+          await remove(ref(db, `levelStyle/${level}`));
+          notify(`✅ إعادة افتراضي للمستوى ${level}`);
+          document.querySelector(
+            'input[name="display-mode"][value="normal"]',
+          ).checked = true;
+          document.getElementById("btn-fetch-style").click();
         } catch (e) {
           notify("❌ خطأ: " + e.message, "error");
         }

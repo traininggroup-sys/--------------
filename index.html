@@ -604,6 +604,24 @@ async function loadQuestionsFromDB(level) {
         }
       }
 
+      let levelStyles = {}; // New: default 'normal'
+      
+      async function loadLevelStylesFromDB() {
+        try {
+          const stylesRef = ref(db, 'levelStyle');
+          const snapshot = await get(stylesRef);
+          if (snapshot.exists()) {
+            Object.entries(snapshot.val()).forEach(([level, style]) => {
+              if (style.displayMode) {
+                levelStyles[level] = style.displayMode;
+              }
+            });
+          }
+        } catch (e) {
+          console.log('Using default styles (normal)');
+        }
+      }
+
 function renderQuestion() {
   // FALLBACK: Check for empty questions or invalid index - FIXED HEADER ISSUE
   if (!currentQuestions.length || currentQuestionIndex >= currentQuestions.length) {
@@ -900,8 +918,11 @@ async function showLevels() {
         if (headerCoins) headerCoins.style.display = "flex";
         if (loginCoins) loginCoins.style.display = "none";
 
-        // Load prizes from DB
-        await loadPrizesFromDB();
+        // Load prizes and styles from DB
+        await Promise.all([
+          loadPrizesFromDB(),
+          loadLevelStylesFromDB()
+        ]);
 
         // رسالة ترحيبية للمستخدم (فقط عند الدخول الأول)
         if (isNewLogin) {
@@ -930,7 +951,8 @@ async function showLevels() {
               : "🔒";
 
           const prize = levelPrizes[lvl] || 0;
-          card.innerHTML = `<div class="level-title">المستوى ${lvl} ${icon}<span class="prize-badge">${prize.toLocaleString()} جنيه</span></div>`;
+          const styleClass = (levelStyles[lvl] === 'strike') ? 'strike' : '';
+          card.innerHTML = `<div class="level-title">المستوى ${lvl} ${icon}<span class="prize-badge ${styleClass}">${prize.toLocaleString()} جنيه</span></div>`;
           card.className = `level-card ${passed.includes(lvl) ? "passed" : lvl === highest + 1 ? "open" : "locked"}`;
 
           card.addEventListener("click", async () => {
