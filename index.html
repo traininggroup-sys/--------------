@@ -943,7 +943,8 @@ async function showLevels() {
         Object.keys(levelsData).forEach((lvlStr) => {
           const lvl = +lvlStr;
           const card = document.createElement("div");
-          card.className = "level-card";
+          
+          let baseClass = passed.includes(lvl) ? "passed" : lvl === highest + 1 ? "open" : "locked";
           let icon = passed.includes(lvl)
             ? "✅"
             : lvl === highest + 1
@@ -952,10 +953,17 @@ async function showLevels() {
 
           const prize = levelPrizes[lvl] || 0;
           const styleClass = (levelStyles[lvl] === 'strike') ? 'strike' : '';
+          
+          let revealedClass = '';
+          if (levelStyles[lvl] === 'strike' && (passed.includes(lvl) || lvl === highest + 1)) {
+            revealedClass = ' revealed';
+          }
+          
+          card.className = `level-card ${baseClass}${revealedClass}`;
           card.innerHTML = `<div class="level-title">المستوى ${lvl} ${icon}<span class="prize-badge ${styleClass}">${prize.toLocaleString()} جنيه</span></div>`;
-          card.className = `level-card ${passed.includes(lvl) ? "passed" : lvl === highest + 1 ? "open" : "locked"}`;
 
           card.addEventListener("click", async () => {
+
             if (lvl > highest + 1) {
               showToast("🔒", "هذا المستوى مغلق", "warn");
               return;

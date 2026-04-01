@@ -434,6 +434,14 @@ input::placeholder {
   filter: blur(4px);
 }
 
+.level-card.revealed .prize-badge.strike .amount {
+  filter: none !important;
+}
+
+.level-card.revealed .prize-badge.strike::before {
+  content: none !important;
+}
+
 .prize-badge.strike::before {
   content: "💰";
   position: absolute;
@@ -2925,11 +2933,3 @@ img.awardimg {
 }
 
 /* Remove malformed rules that were in old CSS */
-body.leaderboard-open {
-  overflow: hidden;
-}
-
-span.titlegroup {
-  font-size: 23px;
-  color: #1225ac;
-}
