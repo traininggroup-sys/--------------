@@ -16,6 +16,17 @@ import { level13Questions } from './questions-level13.js';
 import { level14Questions } from './questions-level14.js';
 import { level15Questions } from './questions-level15.js';
 import { level16Questions } from './questions-level16.js';
+import { level17Questions } from './questions-level17.js';
+import { level18Questions } from './questions-level18.js';
+import { level19Questions } from './questions-level19.js';
+import { level20Questions } from './questions-level20.js';
+import { level21Questions } from './questions-level21.js';
+import { level22Questions } from './questions-level22.js';
+import { level23Questions } from './questions-level23.js';
+import { level24Questions } from './questions-level24.js';
+import { level25Questions } from './questions-level25.js';
+
+
 
 export const allLevelsQuestions = {
   1: level1Questions,
@@ -33,7 +44,18 @@ export const allLevelsQuestions = {
   13: level13Questions,
   14: level14Questions,
   15: level15Questions,
-  16: level16Questions
+  16: level16Questions,
+  17: level17Questions,
+  18: level18Questions,
+  19: level19Questions,
+  20: level20Questions,
+  21: level21Questions,
+  22: level22Questions,
+  23: level23Questions,
+  24: level24Questions,
+  25: level25Questions
+
+
 };
 
 // دالة التحميل النهائية (local only)

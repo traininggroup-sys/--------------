@@ -2933,3 +2933,11 @@ img.awardimg {
 }
 
 /* Remove malformed rules that were in old CSS */
+body.leaderboard-open {
+  overflow: hidden;
+}
+
+span.titlegroup {
+  font-size: 23px;
+  color: #1225ac;
+}
