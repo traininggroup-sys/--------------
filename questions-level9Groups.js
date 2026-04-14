@@ -1,6 +1,11 @@
-// بطل سرقة يا حرامي هتروح النار
-const level9Questions = [
+// بطل سرقة يا حرامي هتروح النار 😈
 
+// Level 9 questions SPLITTED into 5 GROUPS
+// User: EDIT arrays to add your questions. Format: {question, options[], answer, explanation}
+
+
+// 1. معلومات عامة (General)
+const general = [
 {
     "question": "من المسؤول عن إصدار القرارات في الاتحاد الأوروبي؟",
     "options": ["المفوضية الأوروبية", "المجلس الأوروبي", "مجلس الاتحاد الأوروبي", "البرلمان الأوروبي", "لا شيء"],
@@ -156,7 +161,11 @@ const level9Questions = [
     "explanation": "الاتحاد الجمركي هو تكتل اقتصادي يجمع بين منطقة تجارة حرة وتعرفة جمركية موحدة وسياسات تجارية خارجية مشتركة."
   },
 
-{
+];
+
+// 2. حاسب (Computer)
+const computer = [
+ {
     "question": "ما هو برنامج معالجة النصوص المرفق مع حزمة مايكروسوفت أوفيس؟",
     "options": ["MS Word", "MS PowerPoint", "MS Excel", "MS Access"],
     "answer": "MS Word"
@@ -345,145 +354,12 @@ const level9Questions = [
           answer: "Unix",
         },
 
- {
-    "question": "What is the name of the person who flies airplanes?",
-    "options": ["Driver", "Sailor", "Pilot", "Soldier"],
-    "answer": "Pilot"
-  },
-  {
-    "question": "What do we use to draw?",
-    "options": ["Brush", "Knife", "Needle", "Chalk"],
-    "answer": "Brush"
-  },
-  {
-    "question": "What do we call the son of a sister?",
-    "options": ["Cousin", "Brother", "Uncle", "Nephew"],
-    "answer": "Nephew"
-  },
-  {
-    "question": "The first meal is ____",
-    "options": ["Lunch", "Breakfast", "Dinner", "Snack"],
-    "answer": "Breakfast"
-  },
-  {
-    "question": "Something you wear on your face to protect against disease is a ____",
-    "options": ["Helmet", "Glasses", "Mask", "Scarf"],
-    "answer": "Mask"
-  },
-
- {
-    "question": "The day between Tuesday and Thursday is ____",
-    "options": ["Saturday", "Wednesday", "Friday", "Monday"],
-    "answer": "Wednesday"
-  },
-  {
-    "question": "How many days do we have in a week?",
-    "options": ["5", "6", "7", "4"],
-    "answer": "7"
-  },
-  {
-    "question": "Which month comes between September and November?",
-    "options": ["October", "August", "November", "September"],
-    "answer": "October"
-  },
-  {
-    "question": "Which month comes before April?",
-    "options": ["February", "May", "June", "March"],
-    "answer": "March"
-  },
-  {
-    "question": "Which month comes after January?",
-    "options": ["March", "February", "May", "June"],
-    "answer": "February"
-  },
+];
 
 
- {
-    "question": "An animal called the (desert ship).",
-    "options": ["Horse", "Elephant", "Camel", "Dog"],
-    "answer": "Camel"
-  },
-  {
-    "question": "A furry pet animal that lives in the house.",
-    "options": ["Cat", "Rabbit", "Bear", "Tiger"],
-    "answer": "Cat"
-  },
-  {
-    "question": "When it rains, we use____.",
-    "options": ["Hat", "Sunglasses", "Towel", "Umbrella"],
-    "answer": "Umbrella"
-  },
-  {
-    "question": "What produces eggs?",
-    "options": ["Duck", "Hen", "Cow", "Dog"],
-    "answer": "Hen"
-  },
-  {
-    "question": "Which insect produces honey?",
-    "options": ["Ant", "Fly", "Bee", "Butterfly"],
-    "answer": "Bee"
-  },
- 
-
+// 3. عربي (Arabic/Grammar)
+const arabic = [
 {
-    "question": "A red round fruit with black seeds inside is ____",
-    "options": ["Tomato", "Watermelon", "Apple", "Strawberry"],
-    "answer": "Watermelon"
-  },
-  {
-    "question": "Where can we put books?",
-    "options": ["Floor", "Bag", "Shelf", "Window"],
-    "answer": "Shelf"
-  },
-  {
-    "question": "A black and white animal is ____",
-    "options": ["Zebra", "Panda", "Cow", "Penguin"],
-    "answer": "Zebra"
-  },
-  {
-    "question": "When we leave we say ____",
-    "options": ["Hello", "Sorry", "Yes", "Goodbye"],
-    "answer": "Goodbye"
-  },
-  {
-    "question": "When we meet a person for the first time we say ____",
-    "options": ["Welcome back", "Nice to meet you", "See you", "Thanks"],
-    "answer": "Nice to meet you"
-  },
-
-
-{
-    "question": "Dr. Magdy Yacoub is___.",
-    "options": ["Surgeon", "Lawyer", "Teacher", "Pharmacist"],
-    "answer": "Surgeon",
-    "explanation": "الدكتور مجدي يعقوب جراح قلب عالمي مصري."
-  },
-  {
-    "question": "What is the result of mixing red color with yellow color?",
-    "options": ["Green", "Brown", "Purple", "Orange"],
-    "answer": "Orange",
-    "explanation": "عند خلط اللون الأحمر مع الأصفر نحصل على اللون البرتقالي."
-  },
-  {
-    "question": "What do we wear on our eyes to protect them from the sun?",
-    "options": ["Blouse", "Sunglasses", "Mask", "Hat"],
-    "answer": "Sunglasses",
-    "explanation": "نرتدي النظارات الشمسية لحماية أعيننا من أشعة الشمس."
-  },
-  {
-    "question": "What is the correct spelling of the word in the sentence: (The volcano _____) ?",
-    "options": ["Exploded", "Expoloded", "Exploaded", "Ecploded"],
-    "answer": "Exploded",
-    "explanation": "التهجئة الصحيحة لكلمة 'انفجر' بالإنجليزية هي Exploded."
-  },
-  {
-    "question": "When we eat, we use ____.",
-    "options": ["Ruler", "Brush", "Pen", "Spoon"],
-    "answer": "Spoon",
-    "explanation": "نستخدم الملعقة لتناول الطعام."
-  },
-
- {
     "question": "الجملة الصحيحة:",
     "options": [
       "لست معصوم عن الخطأ",
@@ -726,10 +602,546 @@ const level9Questions = [
     "answer": "مجزوم وعلامة جزمه حذف حرف العلة"
   },
 
+];
 
 
-]
 
-export { level9Questions };
-console.log('✅ questions-level9.js ready');
 
+
+// 4. انجليزي (English)
+const english = [
+ {
+    "question": "What is the name of the person who flies airplanes?",
+    "options": ["Driver", "Sailor", "Pilot", "Soldier"],
+    "answer": "Pilot"
+  },
+  {
+    "question": "What do we use to draw?",
+    "options": ["Brush", "Knife", "Needle", "Chalk"],
+    "answer": "Brush"
+  },
+  {
+    "question": "What do we call the son of a sister?",
+    "options": ["Cousin", "Brother", "Uncle", "Nephew"],
+    "answer": "Nephew"
+  },
+  {
+    "question": "The first meal is ____",
+    "options": ["Lunch", "Breakfast", "Dinner", "Snack"],
+    "answer": "Breakfast"
+  },
+  {
+    "question": "Something you wear on your face to protect against disease is a ____",
+    "options": ["Helmet", "Glasses", "Mask", "Scarf"],
+    "answer": "Mask"
+  },
+
+ {
+    "question": "The day between Tuesday and Thursday is ____",
+    "options": ["Saturday", "Wednesday", "Friday", "Monday"],
+    "answer": "Wednesday"
+  },
+  {
+    "question": "How many days do we have in a week?",
+    "options": ["5", "6", "7", "4"],
+    "answer": "7"
+  },
+  {
+    "question": "Which month comes between September and November?",
+    "options": ["October", "August", "November", "September"],
+    "answer": "October"
+  },
+  {
+    "question": "Which month comes before April?",
+    "options": ["February", "May", "June", "March"],
+    "answer": "March"
+  },
+  {
+    "question": "Which month comes after January?",
+    "options": ["March", "February", "May", "June"],
+    "answer": "February"
+  },
+
+
+ {
+    "question": "An animal called the (desert ship).",
+    "options": ["Horse", "Elephant", "Camel", "Dog"],
+    "answer": "Camel"
+  },
+  {
+    "question": "A furry pet animal that lives in the house.",
+    "options": ["Cat", "Rabbit", "Bear", "Tiger"],
+    "answer": "Cat"
+  },
+  {
+    "question": "When it rains, we use____.",
+    "options": ["Hat", "Sunglasses", "Towel", "Umbrella"],
+    "answer": "Umbrella"
+  },
+  {
+    "question": "What produces eggs?",
+    "options": ["Duck", "Hen", "Cow", "Dog"],
+    "answer": "Hen"
+  },
+  {
+    "question": "Which insect produces honey?",
+    "options": ["Ant", "Fly", "Bee", "Butterfly"],
+    "answer": "Bee"
+  },
+ 
+
+{
+    "question": "A red round fruit with black seeds inside is ____",
+    "options": ["Tomato", "Watermelon", "Apple", "Strawberry"],
+    "answer": "Watermelon"
+  },
+  {
+    "question": "Where can we put books?",
+    "options": ["Floor", "Bag", "Shelf", "Window"],
+    "answer": "Shelf"
+  },
+  {
+    "question": "A black and white animal is ____",
+    "options": ["Zebra", "Panda", "Cow", "Penguin"],
+    "answer": "Zebra"
+  },
+  {
+    "question": "When we leave we say ____",
+    "options": ["Hello", "Sorry", "Yes", "Goodbye"],
+    "answer": "Goodbye"
+  },
+  {
+    "question": "When we meet a person for the first time we say ____",
+    "options": ["Welcome back", "Nice to meet you", "See you", "Thanks"],
+    "answer": "Nice to meet you"
+  },
+
+
+{
+    "question": "Dr. Magdy Yacoub is___.",
+    "options": ["Surgeon", "Lawyer", "Teacher", "Pharmacist"],
+    "answer": "Surgeon",
+    "explanation": "الدكتور مجدي يعقوب جراح قلب عالمي مصري."
+  },
+  {
+    "question": "What is the result of mixing red color with yellow color?",
+    "options": ["Green", "Brown", "Purple", "Orange"],
+    "answer": "Orange",
+    "explanation": "عند خلط اللون الأحمر مع الأصفر نحصل على اللون البرتقالي."
+  },
+  {
+    "question": "What do we wear on our eyes to protect them from the sun?",
+    "options": ["Blouse", "Sunglasses", "Mask", "Hat"],
+    "answer": "Sunglasses",
+    "explanation": "نرتدي النظارات الشمسية لحماية أعيننا من أشعة الشمس."
+  },
+  {
+    "question": "What is the correct spelling of the word in the sentence: (The volcano _____) ?",
+    "options": ["Exploded", "Expoloded", "Exploaded", "Ecploded"],
+    "answer": "Exploded",
+    "explanation": "التهجئة الصحيحة لكلمة 'انفجر' بالإنجليزية هي Exploded."
+  },
+  {
+    "question": "When we eat, we use ____.",
+    "options": ["Ruler", "Brush", "Pen", "Spoon"],
+    "answer": "Spoon",
+    "explanation": "نستخدم الملعقة لتناول الطعام."
+  },
+];
+
+// 5. تربوي (Educational)
+const educational = [
+{
+          question: "علم النفس النمو يهتم بدراسة:",
+          options: [
+            "سلوك الأفراد في الجماعة",
+            "تغيرات النمو خلال مراحل الحياة",
+            "سلوك المنحرفين",
+            "الصحة النفسية فقط",
+          ],
+          answer: "تغيرات النمو خلال مراحل الحياة",
+        },
+        {
+          question: "يختص علم النفس التربوي بـ:",
+          options: [
+            "تشخيص الأمراض النفسية",
+            "دراسة سلوك الحيوان",
+            "دراسة العمليات العقلية المؤثرة في التعلم",
+            "دراسة المجتمع",
+          ],
+          answer: "دراسة العمليات العقلية المؤثرة في التعلم",
+        },
+        {
+          question: "يتسم النمو الجسدي في مرحلة الطفولة المتأخرة بأن:",
+          options: ["سريع", "بطيء", "غير مستقر", "مستقر"],
+          answer: "مستقر",
+        },
+        {
+          question: "من الصعوبات التي تواجه المعلم عند بدء التدريس:",
+          options: [
+            "اختيار طريقة التدريس",
+            "تحديد الأهداف التعليمية",
+            "اختيار أسلوب التقويم",
+            "إدارة الصف",
+          ],
+          answer: "تحديد الأهداف التعليمية",
+        },
+        {
+          question: "من الطرق غير المناسبة للأطفال ذوي صعوبات التعلم:",
+          options: [
+            "التعلم القائم على النشاط",
+            "التعلم الفردي",
+            "التعلم متعدد الحواس",
+            "التعلم المبني على التكرار الآلي",
+          ],
+          answer: "التعلم المبني على التكرار الآلي",
+        },
+        {
+          question: "أي من الأتي يعد من خصائص التفكير الناقد؟",
+          options: [
+            "التسرع في إصدار الحكم",
+            "تقبل الرأي دون تحليل",
+            "تقييم الأدلة والبراهين",
+            "اتباع الرأي العام",
+          ],
+          answer: "تقييم الأدلة والبراهين",
+        },
+        {
+          question: "التغذية الراجعة في الموقف التعليمي تساعد على:",
+          options: [
+            "تشتت انتباه المتعلم",
+            "تعديل السلوك وتحسين الأداء",
+            "زيادة عبء المعلم",
+            "تقليل دافعية التعلم",
+          ],
+          answer: "تعديل السلوك وتحسين الأداء",
+        },
+        {
+          question: "أي مما يلي يرتبط بالمدرسة السلوكية؟",
+          options: ["الإدراك", "الاستبصار", "التعزيز", "الاكتشاف الذاتي"],
+          answer: "التعزيز",
+        },
+        {
+          question:
+            "أي المقاييس التالية يعد الأعلى من حيث الدقة والقدرة على إجراء العمليات الرياضية؟",
+          options: ["الاسمي", "الرتبي", "الفئوي", "النسبي"],
+          answer: "النسبي",
+        },
+
+        {
+          question: "علم النفس النمو يهتم بدراسة:",
+          options: [
+            "سلوك الأفراد في الجماعة",
+            "تغيرات النمو خلال مراحل الحياة",
+            "سلوك المنحرفين",
+            "الصحة النفسية فقط",
+          ],
+          answer: "تغيرات النمو خلال مراحل الحياة",
+        },
+
+    {
+          question: "مستويات أهداف العلامة (مثل: حضارة، بناء شخصية) هي:",
+          options: ["معرفية", "سلوكية", "تعليمية", "تربوية"],
+          answer: "تربوية",
+        },
+        {
+          question: "أي نوع من الأهداف يهم بالتعليم والتعلم المباشر؟",
+          options: ["معرفية", "سلوكية", "دينية", "تربوية"],
+          answer: "سلوكية",
+        },
+        {
+          question: "من عناصر خطة أو إعداد الدرس كل ما يلي ما عدا؟",
+          options: [
+            "تحديد الزمن",
+            "عنوان الدرس",
+            "تحديد العناصر",
+            "تحليل المحتوى",
+          ],
+          answer: "تحليل المحتوى",
+        },
+        {
+          question: "من مميزات المدونة التعليمية؟",
+          options: [
+            "تركز على النظريات",
+            "تسجيل المعلومات",
+            "استخدامها فرديًا",
+            "إنتاجها",
+          ],
+          answer: "تسجيل المعلومات",
+        },
+        {
+          question:
+            "أي من الاستراتيجيات التالية يمثل حوارًا بين المعلم والطالب أثناء مناقشة المحتوى؟",
+          options: [
+            "الاكتشاف",
+            "الوحدات التعليمية",
+            "اللعب التعليمي",
+            "التدريس التبادلي",
+          ],
+          answer: "التدريس التبادلي",
+        },
+        {
+          question: "ليس من توجيهات تنظيم المحتوى التعليمي نقيه؟",
+          options: ["مادي", "تتبع", "تحليل", "انتقائي"],
+          answer: "مادي",
+        },
+        {
+          question: "سلوك الطالب (مثل: الانتظام أو المشاركة)، فإن هذا يسمى:",
+          options: ["ملاحظة سلوكية", "تكيف", "رد الفعل"],
+          answer: "ملاحظة سلوكية",
+        },
+        {
+          question:
+            "حصيلة الكلمات عند الطفل في عمر 6 سنوات هي كم كلمة تقريبًا؟",
+          options: [
+            "من 10 إلى 100 كلمة",
+            "من 400 إلى 600 كلمة",
+            "من 4000 إلى 6000 كلمة",
+            "من 10000 إلى 20000 كلمة",
+          ],
+          answer: "من 4000 إلى 6000 كلمة",
+        },
+        {
+          question: "الأهداف العامة تصنف كأهداف:",
+          options: ["معرفية", "سلوكية", "تعليمية", "تربوية"],
+          answer: "تربوية",
+        },
+        {
+          question:
+            "نوع من الاسئلة يتطلب فيها من الطالب ربط عمودًا بآخر يسمى ؟",
+          options: ["الاختيار من متعدد", "الصحيح والخطأ", "أكمل", "المزدوجة"],
+          answer: "المزدوجة",
+        },
+      
+
+   {
+          question:
+            "إذا حضر خبير تعليمي إلى المدرسة لإعطاء محاضرة أو ورشة تدريبية، فإن التصرف التربوي السليم منك كمعلم هو:",
+          options: [
+            "تشترك في الحضور وتشجيع التلاميذ على المشاركة",
+            "تعتذر عن الحضور لارتباطات أخرى",
+            "تحضر بمفردك للاستفادة",
+            "تشجيع التلاميذ على الحضور",
+          ],
+          answer: "تشترك في الحضور وتشجيع التلاميذ على المشاركة",
+        },
+        {
+          question: "النمو الانفعالي في مرحلة المراهقة يتميز بـ:",
+          options: [
+            "تقلبات مزاجية وحدة انفعالية",
+            "ضعف في التعبير الانفعالي",
+            "الاستقرار الانفعالي والهدوء",
+            "التحكم الكامل في المشاعر",
+          ],
+          answer: "تقلبات مزاجية وحدة انفعالية",
+        },
+        {
+          question:
+            "إذا كنت تجري استبيانًا لمجموعة من الأميين فإن أنسب نوع من أنواع الاستبيان هو:",
+          options: ["الاستبيان اللفظي", "غير لفظي", "المغلق", "المفتوح"],
+          answer: "الاستبيان اللفظي",
+        },
+        {
+          question: "أي من الأهداف التالية لا يعد هدفًا معرفيًا:",
+          options: [
+            "أن يقدر الطالب دور الفلاح في المجتمع",
+            "أن يشرح الطالب خطوات حل المسألة",
+            "أن يصنّف الطالب أنواع الصخور",
+            "أن يذكر الطالب أسباب الثورة العرابية",
+          ],
+          answer: "أن يقدر الطالب دور الفلاح في المجتمع",
+        },
+        {
+          question:
+            "إذا كان الطلاب بمستوى ضعيف قدموا أداءً عاليًا في اختبار موضوعي، فالسبب الأكثر ترجيحًا هو:",
+          options: [
+            "التخمين",
+            "كثرة الأسئلة المقالية",
+            "وضوح الأسئلة",
+            "التصحيح",
+          ],
+          answer: "التخمين",
+        },
+        {
+          question: "غرس الخلق يحدث في مرحلة:",
+          options: [
+            "الطفولة المبكرة",
+            "الطفولة المتوسطة",
+            "الطفولة المتأخرة",
+            "المراهقة",
+          ],
+          answer: "الطفولة المبكرة",
+        },
+        {
+          question: "طفل يكذب بسبب شعوره بالظلم فإن يعد:",
+          options: ["كذب دفاعي", "كذب انتقامي", "كذب اندفاعي", "كذب تعويضي"],
+          answer: "كذب دفاعي",
+        },
+        {
+          question: "إذا كذب الطفل دون تخطيط مسبق ذلك يعد:",
+          options: ["كذب دفاعي", "كذب انتقامي", "كذب اندفاعي", "كذب تعويضي"],
+          answer: "كذب اندفاعي",
+        },
+        {
+          question: "طفل يكذب بسبب الغيرة من زملائه فإن نوع الكذب هنا:",
+          options: ["كذب دفاعي", "كذب انتقامي", "كذب اندفاعي", "كذب تعويضي"],
+          answer: "كذب انتقامي",
+        },
+        {
+          question: "من صاحب النظرية التأثرية وعلى ماذا تقوم:",
+          options: [
+            "فرويد - التحليل النفسي",
+            "ثورندايك - التعلم بالمحاولة والخطأ",
+            "بياجيه - الاستبصار",
+            "سكنر - الاشتراط الإجرائي",
+          ],
+          answer: "ثورندايك - التعلم بالمحاولة والخطأ",
+        },
+       
+
+ {
+          question: "نظرية الذات في التعلم والإرشاد تنسب إلى:",
+          options: ["بافلوف", "جاردنر", "فرويد", "روجرز"],
+          answer: "روجرز",
+        },
+        {
+          question: "الفرق بين التقويم القبلي والتقويم البعيدي:",
+          options: ["التعليم", "التعلم", "التدريس", "أساليب التقويم"],
+          answer: "التعلم",
+        },
+        {
+          question: "المعلم الذي يؤدي عمله بإخلاص وضمير يكون لديه:",
+          options: ["صدق", "إخلاص", "تعزيز", "تفكير ناقد"],
+          answer: "إخلاص",
+        },
+        {
+          question: "العالم الذي ركز على العمليات الشعورية واللاشعورية هو:",
+          options: ["فيجوتسكي", "سكنر", "بياجيه", "فرويد"],
+          answer: "فرويد",
+        },
+        {
+          question:
+            "عندما يقوم المعلم بإجراء اختبار على الطلاب يهدف لمعرفة مستواهم فإن نتائج الطلاب تعد:",
+          options: ["متغير تابع", "متغير مستقل", "متغير دخيل", "متغير ثابت"],
+          answer: "متغير تابع",
+        },
+        {
+          question: "أي من التالي يعد من خصائص التفكير الناقد؟",
+          options: [
+            "التسرع في إصدار الحكم",
+            "تقبل الرأي دون تحليل",
+            "تقييم الأدلة والبراهين",
+            "اتباع الرأي العام",
+          ],
+          answer: "تقييم الأدلة والبراهين",
+        },
+        {
+          question: "التغذية الراجعة في الموقف التعليمي تساعد على:",
+          options: [
+            "تشتت انتباه المتعلم",
+            "تعديل السلوك وتحسين الأداء",
+            "زيادة عبء المعلم",
+            "تقليل دافعية التعلم",
+          ],
+          answer: "تعديل السلوك وتحسين الأداء",
+        },
+        {
+          question: "أي مما يلي يرتبط بالمدرسة السلوكية؟",
+          options: ["الإدراك", "الاستبصار", "التعزيز", "الاكتشاف الذاتي"],
+          answer: "التعزيز",
+        },
+        {
+          question:
+            "أي المقاييس التالية يعد الأعلى من حيث الدقة والقدرة على إجراء العمليات الرياضية؟",
+          options: ["الاسمي", "الرتبي", "الفئوي", "النسبي"],
+          answer: "النسبي",
+        },
+        {
+          question: "يستخدم أسلوب تمثيل الأدوار بصورة أفضل عندما:",
+          options: [
+            "يبرز بصورة عفوية",
+            "يبحث مشكلة خاصة بالمتدربين مباشرة",
+            "يكون التمثيل إجبارياً",
+            "يلقن المدرب المتعلمين الأدوار",
+          ],
+          answer: "يبحث مشكلة خاصة بالمتدربين مباشرة",
+        },
+       
+
+  {
+          question:
+            "التعلّم المتمايز يتطلب من المعلم: معرفة الفروق الفردية بين الطلاب",
+          options: ["صح", "خطأ"],
+          answer: "صح",
+        },
+        {
+          question: "أي مما يلي يُعد من مميزات التعلّم المتمايز:",
+          options: [
+            "مراعاة أنماط التعلم المختلفة",
+            "استخدام طريقة واحدة في التقييم",
+            "تجاهل الفروق الفردية",
+          ],
+          answer: "مراعاة أنماط التعلم المختلفة",
+        },
+        {
+          question: "أفضل طريقة لعرض الوسيلة التعليمية:",
+          options: ["أثناء الحصة", "قبل الحصة", "الكل صحيح"],
+          answer: "أثناء الحصة",
+        },
+        {
+          question: "أي مما يلي ليس من منظومة التعليم:",
+          options: ["المعلم", "المتعلم", "القياس", "المحتوى"],
+          answer: "القياس",
+        },
+        {
+          question:
+            "إذا كان الطالب يجيب على السؤال من أجل الحصول على نجمة، فهذا يعتبر:",
+          options: [
+            "دافعية",
+            "دافعية داخلية",
+            "دافعية خارجية",
+            "مؤقتة",
+            "مستمرة",
+          ],
+          answer: "دافعية خارجية",
+        },
+        {
+          question:
+            "تم إعداد اختبار رياضيات لكنه يحتوي على العديد من الأسئلة التي تقيس مهارات لغوية أكثر من المهارات الحسابية، فإن هذا الاختبار فقد:",
+          options: ["الصدق", "الشمولية", "الثبات", "التميز"],
+          answer: "الصدق",
+        },
+        {
+          question:
+            "........ كأداة لتحسين التدريس وليس لغرض إصدار الحكم النهائي على المتعلم:",
+          options: ["التقويم البنائي", "التقويم القبلي", "التقويم الختامي"],
+          answer: "التقويم البنائي",
+        },
+        {
+          question: "التقويم الذي يُستخدم لإصدار الحكم النهائي على الطالب:",
+          options: ["التقويم البنائي", "التقويم الختامي", "التقويم القبلي"],
+          answer: "التقويم الختامي",
+        },
+        {
+          question:
+            "إذا تم عمل مشروع تعليمي، فمن أجل معرفة مستوى الملتحقين والنتائج على المشروع بعد ٦ شهور نستخدم التقويم:",
+          options: ["التكويني", "التتبعي", "الختامي"],
+          answer: "التتبعي",
+        },
+        {
+          question: "ملف الإنجاز من أدوات التقويم:",
+          options: ["القبلي", "المستمر", "الختامي"],
+          answer: "المستمر",
+        },
+     
+];
+
+export const level9Groups = {arabic, general, computer, english, educational};
+
+console.log('✅ questions-level9Groups.js: ', {
+  arabic: arabic.length, 
+  general: general.length, 
+  computer: computer.length, 
+  english: english.length, 
+  educational: educational.length
+});

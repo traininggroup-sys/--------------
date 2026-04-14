@@ -1,9 +1,12 @@
-// بطل سرقة يا حرامي هتروح النار
+// بطل سرقة يا حرامي هتروح النار 😈
+
+// Level 1 questions SPLITTED into 5 GROUPS
+// User: EDIT arrays to add your questions. Format: {question, options[], answer, explanation}
 
 
-const level25Questions = [
-
-{
+// 1. معلومات عامة (General)
+const general = [
+ {
         "question": "دُفن محمد أنور السادات في مسقط رأسه المنوفية",
         "options": ["صح", "خطا"],
         "answer": "خطا",
@@ -155,7 +158,11 @@ const level25Questions = [
   "answer": "ECOSOC"
   },
 
- {
+];
+
+// 2. حاسب (Computer)
+const computer = [
+   {
     "question": "وظيفة التعبئة يمكن تنفيذها عبر",
     "options": ["نقرة واحدة", "نقرتين", "ثلاثِِ نقرات", "النقر بزر الفأرة الأيمن"],
     "answer": "نقرتين"
@@ -309,162 +316,14 @@ const level25Questions = [
     "answer": "الصفحة الرئيسية"
   },
 
- {
-    "question": "Which word is correct to use with 'water'?",
-    "options": ["Much", "Many", "Some", "Few"],
-    "answer": "Much",
-    "explanation": "Water اسم غير معدود، لذلك نستخدم معه 'Much'."
-  },
-  {
-    "question": "Which word is correct to use with 'apples'?",
-    "options": ["Much", "Many", "Some", "Few"],
-    "answer": "Many",
-    "explanation": "Apples اسم معدود، لذلك نستخدم معه 'Many'."
-  },
-  {
-    "question": "Which word is correct to use with 'milk'?",
-    "options": ["Much", "Many", "Some", "Few"],
-    "answer": "Much",
-    "explanation": "Milk اسم غير معدود، لذلك نستخدم معه 'Much'."
-  },
-  {
-    "question": "Which word is correct to use with 'chairs'?",
-    "options": ["Much", "Many", "Some", "Few"],
-    "answer": "Many",
-    "explanation": "Chairs اسم معدود، لذلك نستخدم معه 'Many'."
-  },
-  {
-    "question": "Who designs and plans buildings?",
-    "options": ["Pilot", "Lawyer", "Doctor", "Architect"],
-    "answer": "Architect",
-    "explanation": "المهندس المعماري هو من يصمم ويخطط المباني."
-  },
-
-
-  {
-    "question": "What is the opposite of 'thick'?",
-    "options": ["Large", "Thin", "Wide", "Tall"],
-    "answer": "Thin",
-    "explanation": "العكس المباشر لـ thick هو thin ويعني رفيع."
-  },
-  {
-    "question": "Complete the sentence: She ______both when her friend called her.",
-    "options": ["is talk", "talks", "was talking", "talked"],
-    "answer": "was talking",
-    "explanation": "نستخدم was talking لأنها تدل على حدث مستمر في الماضي أثناء حدوث شيء آخر."
-  },
-  {
-    "question": "He was driving ____ it started to rain.",
-    "options": ["Before", "Because", "When", "After"],
-    "answer": "When",
-    "explanation": "نستخدم When عند حدوث شيء أثناء حدث آخر مستمر."
-  },
-  {
-    "question": "____ I was walking to school, I saw a cat.",
-    "options": ["While", "So", "If", "Because"],
-    "answer": "While",
-    "explanation": "نستخدم While مع حدث مستمر في الماضي."
-  },
-  {
-    "question": "She was studying ____ her brother was playing outside.",
-    "options": ["Because", "So", "Before", "While"],
-    "answer": "While",
-    "explanation": "نستخدم While لربط حدثين مستمرين في نفس الوقت في الماضي."
-  },
   
 
- {
-    "question": "What is the past participle of (do)?",
-    "options": ["Do", "Did", "Done", "Doing"],
-    "answer": "Done",
-    "explanation": "التصريف الثالث للفعل 'do' هو (done)."
-  },
-  {
-    "question": "What is the past participle of (write)?",
-    "options": ["Written", "Wrote", "Write", "Writing"],
-    "answer": "Written",
-    "explanation": "التصريف الثالث للفعل 'write' هو 'written'."
-  },
-  {
-    "question": "What is the past participle of (see)?",
-    "options": ["Seeing", "See", "Saw", "Seen"],
-    "answer": "Seen",
-    "explanation": "التصريف الثالث للفعل 'see' هو 'seen'."
-  },
-  {
-    "question": "What is the past participle of (eat)?",
-    "options": ["Ate", "Eaten", "Eating", "Eat"],
-    "answer": "Eaten",
-    "explanation": "التصريف الثالث للفعل 'eat' هو 'eaten'."
-  },
-  {
-    "question": "What is the past participle of (go)?",
-    "options": ["Go", "Went", "Gone", "Going"],
-    "answer": "Gone",
-    "explanation": "التصريف الثالث للفعل 'go' هو 'gone'."
-  },
+];
 
- {
-    "question": "Choose the countable nouns from the following options:",
-    "options": ["Chair", "Water", "Air", "Milk"],
-    "answer": "Chair",
-    "explanation": "Chair هو اسم معدود، لذلك هو الإجابة الصحيحة."
-  },
-  {
-    "question": "Choose the uncountable nouns from the following options:",
-    "options": ["Book", "Rice", "Pen", "Notebook"],
-    "answer": "Rice",
-    "explanation": "Rice اسم غير معدود، لذلك هو الإجابة الصحيحة."
-  },
-  {
-    "question": "Choose the countable noun from the following options:",
-    "options": ["Water", "Sugar", "Air", "Men"],
-    "answer": "Men",
-    "explanation": "Men جمع كلمة Man، وهي اسم معدود."
-  },
-  {
-    "question": "Which of the following is a demonstrative pronoun that refers to something near and singular?",
-    "options": ["Those", "This", "These", "That"],
-    "answer": "This",
-    "explanation": "This يُستخدم للإشارة لشيء مفرد وقريب."
-  },
-  {
-    "question": "Which word is correct to use with 'information'?",
-    "options": ["Much", "Many", "Some", "Few"],
-    "answer": "Much",
-    "explanation": "كلمة Information اسم غير معدود، لذلك نستخدم معها 'Much'."
-  },
- 
 
-  {
-    "question": "The killer who murdered the child was sentenced to death.",
-    "options": ["Imprisonment", "Death", "Warning", "Fine"],
-    "answer": "Death"
-  },
-  {
-    "question": "A hot drink and black is called ____",
-    "options": ["Milk", "Juice", "Tea", "Coffee"],
-    "answer": "Tea"
-  },
-  {
-    "question": "What flowers represent peace?",
-    "options": ["Peace Lily", "Sunflower", "Tulip", "Daisy"],
-    "answer": "Peace Lily"
-  },
-  {
-    "question": "What do we sleep on?",
-    "options": ["Chair", "Sofa", "Table", "Bed"],
-    "answer": "Bed"
-  },
-  {
-    "question": "Which fruit is yellow in color and sour in taste?",
-    "options": ["Banana", "Lemon", "Watermelon", "Mango"],
-    "answer": "Lemon"
-  },
- 
-
-  
- {
+// 3. عربي (Arabic/Grammar)
+const arabic = [
+{
   "question": "استقلت من العمل استقالة واحدة، أعرب كلمة (استقالة)",
   "options": [
     "مفعول به",
@@ -694,7 +553,473 @@ const level25Questions = [
 
 
 
-]
-export { level25Questions };
-console.log('✅ questions-level1.js ready -', level25Questions.length, 'questions (pure JS objects/JSON)');
+];
 
+
+
+
+
+// 4. انجليزي (English)
+const english = [
+   {
+    "question": "Which word is correct to use with 'water'?",
+    "options": ["Much", "Many", "Some", "Few"],
+    "answer": "Much",
+    "explanation": "Water اسم غير معدود، لذلك نستخدم معه 'Much'."
+  },
+  {
+    "question": "Which word is correct to use with 'apples'?",
+    "options": ["Much", "Many", "Some", "Few"],
+    "answer": "Many",
+    "explanation": "Apples اسم معدود، لذلك نستخدم معه 'Many'."
+  },
+  {
+    "question": "Which word is correct to use with 'milk'?",
+    "options": ["Much", "Many", "Some", "Few"],
+    "answer": "Much",
+    "explanation": "Milk اسم غير معدود، لذلك نستخدم معه 'Much'."
+  },
+  {
+    "question": "Which word is correct to use with 'chairs'?",
+    "options": ["Much", "Many", "Some", "Few"],
+    "answer": "Many",
+    "explanation": "Chairs اسم معدود، لذلك نستخدم معه 'Many'."
+  },
+  {
+    "question": "Who designs and plans buildings?",
+    "options": ["Pilot", "Lawyer", "Doctor", "Architect"],
+    "answer": "Architect",
+    "explanation": "المهندس المعماري هو من يصمم ويخطط المباني."
+  },
+
+
+  {
+    "question": "What is the opposite of 'thick'?",
+    "options": ["Large", "Thin", "Wide", "Tall"],
+    "answer": "Thin",
+    "explanation": "العكس المباشر لـ thick هو thin ويعني رفيع."
+  },
+  {
+    "question": "Complete the sentence: She ______both when her friend called her.",
+    "options": ["is talk", "talks", "was talking", "talked"],
+    "answer": "was talking",
+    "explanation": "نستخدم was talking لأنها تدل على حدث مستمر في الماضي أثناء حدوث شيء آخر."
+  },
+  {
+    "question": "He was driving ____ it started to rain.",
+    "options": ["Before", "Because", "When", "After"],
+    "answer": "When",
+    "explanation": "نستخدم When عند حدوث شيء أثناء حدث آخر مستمر."
+  },
+  {
+    "question": "____ I was walking to school, I saw a cat.",
+    "options": ["While", "So", "If", "Because"],
+    "answer": "While",
+    "explanation": "نستخدم While مع حدث مستمر في الماضي."
+  },
+  {
+    "question": "She was studying ____ her brother was playing outside.",
+    "options": ["Because", "So", "Before", "While"],
+    "answer": "While",
+    "explanation": "نستخدم While لربط حدثين مستمرين في نفس الوقت في الماضي."
+  },
+  
+
+ {
+    "question": "What is the past participle of (do)?",
+    "options": ["Do", "Did", "Done", "Doing"],
+    "answer": "Done",
+    "explanation": "التصريف الثالث للفعل 'do' هو (done)."
+  },
+  {
+    "question": "What is the past participle of (write)?",
+    "options": ["Written", "Wrote", "Write", "Writing"],
+    "answer": "Written",
+    "explanation": "التصريف الثالث للفعل 'write' هو 'written'."
+  },
+  {
+    "question": "What is the past participle of (see)?",
+    "options": ["Seeing", "See", "Saw", "Seen"],
+    "answer": "Seen",
+    "explanation": "التصريف الثالث للفعل 'see' هو 'seen'."
+  },
+  {
+    "question": "What is the past participle of (eat)?",
+    "options": ["Ate", "Eaten", "Eating", "Eat"],
+    "answer": "Eaten",
+    "explanation": "التصريف الثالث للفعل 'eat' هو 'eaten'."
+  },
+  {
+    "question": "What is the past participle of (go)?",
+    "options": ["Go", "Went", "Gone", "Going"],
+    "answer": "Gone",
+    "explanation": "التصريف الثالث للفعل 'go' هو 'gone'."
+  },
+
+ {
+    "question": "Choose the countable nouns from the following options:",
+    "options": ["Chair", "Water", "Air", "Milk"],
+    "answer": "Chair",
+    "explanation": "Chair هو اسم معدود، لذلك هو الإجابة الصحيحة."
+  },
+  {
+    "question": "Choose the uncountable nouns from the following options:",
+    "options": ["Book", "Rice", "Pen", "Notebook"],
+    "answer": "Rice",
+    "explanation": "Rice اسم غير معدود، لذلك هو الإجابة الصحيحة."
+  },
+  {
+    "question": "Choose the countable noun from the following options:",
+    "options": ["Water", "Sugar", "Air", "Men"],
+    "answer": "Men",
+    "explanation": "Men جمع كلمة Man، وهي اسم معدود."
+  },
+  {
+    "question": "Which of the following is a demonstrative pronoun that refers to something near and singular?",
+    "options": ["Those", "This", "These", "That"],
+    "answer": "This",
+    "explanation": "This يُستخدم للإشارة لشيء مفرد وقريب."
+  },
+  {
+    "question": "Which word is correct to use with 'information'?",
+    "options": ["Much", "Many", "Some", "Few"],
+    "answer": "Much",
+    "explanation": "كلمة Information اسم غير معدود، لذلك نستخدم معها 'Much'."
+  },
+ 
+
+  {
+    "question": "The killer who murdered the child was sentenced to death.",
+    "options": ["Imprisonment", "Death", "Warning", "Fine"],
+    "answer": "Death"
+  },
+  {
+    "question": "A hot drink and black is called ____",
+    "options": ["Milk", "Juice", "Tea", "Coffee"],
+    "answer": "Tea"
+  },
+  {
+    "question": "What flowers represent peace?",
+    "options": ["Peace Lily", "Sunflower", "Tulip", "Daisy"],
+    "answer": "Peace Lily"
+  },
+  {
+    "question": "What do we sleep on?",
+    "options": ["Chair", "Sofa", "Table", "Bed"],
+    "answer": "Bed"
+  },
+  {
+    "question": "Which fruit is yellow in color and sour in taste?",
+    "options": ["Banana", "Lemon", "Watermelon", "Mango"],
+    "answer": "Lemon"
+  },
+ 
+];
+
+// 5. تربوي (Educational)
+const educational = [
+ {
+          question: "الصدق الداخلي يعني:",
+          options: ["دقة الأداة", "القياس", "التقويم"],
+          answer: "دقة الأداة",
+        },
+        {
+          question: "الطريقة الاستقرائية تبدأ:",
+          options: ["الشرح", "الأمثلة", "التطبيق العملي"],
+          answer: "الأمثلة",
+        },
+        {
+          question: "من أسس بناء المنهج مراعاة:",
+          options: [
+            "مراعاة الطلاب الموهوبين فقط",
+            "الفروق الفردية",
+            "مراعاة الطلاب ذو صعوبات التعلم فقط",
+          ],
+          answer: "الفروق الفردية",
+        },
+        {
+          question: "أحد أنواع الاختبارات التحصيلية:",
+          options: ["الموضوعية", "المقالية"],
+          answer: "المقالية",
+        },
+        {
+          question: "استراتيجية التدريس التي تعتمد على العمل في مجموعات صغيرة:",
+          options: [
+            "التعلم التعاوني",
+            "التعلم بالملاحظة",
+            "التعلم بالمحاولة والخطأ",
+          ],
+          answer: "التعلم التعاوني",
+        },
+        {
+          question: "التقويم الختامي يهتم ب:",
+          options: ["مصادر التعلم", "خبرات المتعلم", "نتائج التعلم"],
+          answer: "نتائج التعلم",
+        },
+        {
+          question: "الاختبارات الموضوعية تتميز ب:",
+          options: ["صدق أعلى", "الصدق النسبي", "الصدق والكذب"],
+          answer: "صدق أعلى",
+        },
+        {
+          question: "المنهج النشاط يركز على خبرات:",
+          options: ["المعلم", "المتعلم"],
+          answer: "المتعلم",
+        },
+        {
+          question: "الهدف السلوكي الجيد يجب أن يكون قابلا:",
+          options: ["للقياس", "الملاحظة", "التقييم", "التقويم"],
+          answer: "للقياس",
+        },
+        {
+          question: "الأساس التاريخي للمنهج يظهر في خبرات:",
+          options: ["الحاضر", "الماضي", "المستقبل"],
+          answer: "الماضي",
+        },
+  
+
+      {
+          question: "الاختبار التشخيصي هدفه معرفة نقاط:",
+          options: ["الضعف", "القوة"],
+          answer: "الضعف",
+        },
+        {
+          question: "من مزايا طريقة المحاضرة توفير:",
+          options: ["الوقت", "المال", "المجهود"],
+          answer: "الوقت",
+        },
+        {
+          question: "عندما يهتم المنهج بالجانب الوجداني:",
+          options: ["أساس نفسي", "أساس اجتماعي", "أساس بيئي"],
+          answer: "أساس نفسي",
+        },
+        {
+          question: "أداة مناسبة لقياس المهارات العملية:",
+          options: ["بطاقة ملاحظة", "القياس", "التقويم"],
+          answer: "بطاقة ملاحظة",
+        },
+        {
+          question: "المنهج المتكامل يركز على:",
+          options: ["الربط بين المواد", "استقلال كل مادة عن الاخري"],
+          answer: "الربط بين المواد",
+        },
+        {
+          question: "طريقة الحوار والمناقشة تنمي:",
+          options: ["التفكير الناقد", "الملاحظة", "التعلم بالمحاولة والخطأ"],
+          answer: "التفكير الناقد",
+        },
+        {
+          question: "معيار النزاهة في الاختبار يعني:",
+          options: ["خلوه من التحيز", "التحيز"],
+          answer: "خلوه من التحيز",
+        },
+        {
+          question: "أساس فلسفي للمنهج هو:",
+          options: [
+            "الفلسفة التربوية",
+            "الفلسفة والمنطق",
+            "الفلسفة الاجتماعية",
+          ],
+          answer: "الفلسفة التربوية",
+        },
+        {
+          question: "أحد أدوات التقويم الذاتي:",
+          options: ["ملف الانجاز", "القياس", "الملاحظة"],
+          answer: "ملف الانجاز",
+        },
+        {
+          question: "التدريس المبني على المواقف الحياتية:",
+          options: ["التعلم بالخبرة", "التعلم بالملاحظة", "التعلم التعاوني"],
+          answer: "التعلم بالخبرة",
+        },
+    
+
+    {
+          question: "صدق الاختبار يعني:",
+          options: [
+            "أن يقيس ما وضع لقياسه",
+            "أن يقيس مستوى ذكاء المتعلمين فقط",
+          ],
+          answer: "أن يقيس ما وضع لقياسه",
+        },
+        {
+          question: "استراتيجية التدريس المناسبة لحل المشكلات:",
+          options: [
+            "التعلم القائم على الملاحظة",
+            "التعلم القائم على الخبرات السابقة",
+            "التعلم القائم على المشكلات",
+          ],
+          answer: "التعلم القائم على المشكلات",
+        },
+        {
+          question: "الأساس الذي يركز على خصائص المتعلم في بناء المنهج:",
+          options: ["الأساس الاجتماعي", "الأساس النفسي", "الأساس البيئي"],
+          answer: "الأساس النفسي",
+        },
+        {
+          question: "الاختبارات الموضوعية من مزاياها:",
+          options: ["سهولة التصحيح", "صعوبة التصحيح"],
+          answer: "سهولة التصحيح",
+        },
+        {
+          question: "الأنشطة الصفية واللاصفية تمثل جانب:",
+          options: [
+            "خبرات الطلاب",
+            "خبرات الإدارة العامة",
+            "الخبرات التعليمية",
+          ],
+          answer: "الخبرات التعليمية",
+        },
+        {
+          question: "أي من طرق التدريس تناسب تعلم القراءة:",
+          options: ["الطريقة الكلية الجزئية", "الطريقة الجزئية الكلية"],
+          answer: "الطريقة الجزئية الكلية",
+        },
+        {
+          question: "عندما يعطي المعلم تغذية راجعة للطلاب، فإنه يمارس:",
+          options: ["التقويم البنائي", "التقويم التشخيصي", "التقويم الختامي"],
+          answer: "التقويم البنائي",
+        },
+        {
+          question: "معيار التشتت الذي يُستخدم في القياس التربوي:",
+          options: ["الوسط", "الوسيط", "الانحراف المعياري"],
+          answer: "الانحراف المعياري",
+        },
+        {
+          question: "المنهج الذي يقوم على المواد الدراسية:",
+          options: ["المنهج الحديث", "المنهج التقليدي"],
+          answer: "المنهج التقليدي",
+        },
+         {
+          question: "أحد أنواع الاختبارات المقالية:",
+          options: ["قصيرة الاستجابة", "متوسطة الاستجابة", "طويلة الاستجابة"],
+          answer: "قصيرة الاستجابة",
+        },
+
+  {
+          question: "التدريس الذي يجعل الطالب محور العملية:",
+          options: ["التدريس الغير نشط", "التدريس النشط", "التدريس الفاعل"],
+          answer: "التدريس النشط",
+        },
+        {
+          question: "الأساس الذي يعتمد على فلسفة المجتمع:",
+          options: ["الأساس الاجتماعي", "الأساس التربوي", "الأساس الفلسفي"],
+          answer: "الأساس الفلسفي",
+        },
+        {
+          question: "عند الحكم على كفاءة التدريس يستخدم:",
+          options: ["التقويم التربوي", "التقييم", "المقياس"],
+          answer: "التقويم التربوي",
+        },
+        {
+          question: "طريقة المناقشة تحقق:",
+          options: ["تدني التفكير", "تنمية التفكير", "تقيد التفكير"],
+          answer: "تنمية التفكير",
+        },
+        {
+          question: "من وظائف القياس التربوي:",
+          options: ["التشخيص والعلاج", "التقويم", "التقييم"],
+          answer: "التشخيص والعلاج",
+        },
+        {
+          question: "أفضل طريقة لتدريس المفاهيم العلمية:",
+          options: ["الاستقصاء", "التجارب العلمية", "المحاضرة"],
+          answer: "الاستقصاء",
+        },
+        {
+          question: "من معايير المنهج الجيد:",
+          options: ["الشمول", "عدم الشمولية", "التركيز ع نقاط الضعف"],
+          answer: "الشمول",
+        },
+        {
+          question: "الاختبار المعياري المرجع يستخدم للمقارنه بين:",
+          options: ["الأفراد", "المجموعات"],
+          answer: "الأفراد",
+        },
+        {
+          question: "التدريس المصغر يستخدم في:",
+          options: ["تدريب المعلمين", "تدريب المتعلمين"],
+          answer: "تدريب المعلمين",
+        },
+        {
+          question: "من أدوات جمع البيانات الكيفية:",
+          options: ["المقابلة", "الاتصال"],
+          answer: "المقابلة",
+        },
+   
+
+    {
+          question:
+            "من العلماء الذين نادوا بأن التعلم يكون من خلال اكتشاف المتعلم للمعلومة (صاحب نظرية التعلم بالاكتشاف):",
+          options: ["فرويد", "ثورندايك", "سكنر", "برونر"],
+          answer: "برونر",
+        },
+        {
+          question: "تبدأ صعوبات التعلم في الظهور عادة عند سن:",
+          options: ["10 سنوات", "8 سنوات", "6 سنوات", "7 سنوات"],
+          answer: "6 سنوات",
+        },
+        {
+          question:
+            "حالة نفسية يمر بها كل إنسان تقريبًا حسب المواقف والضغوط وتعد استجابة طبيعية:",
+          options: ["الخوف", "الاكتئاب", "الذهان", "التوبة العصبية"],
+          answer: "الخوف",
+        },
+        {
+          question:
+            "عندما يُعطي المعلم معلومة بهدف أن يفهمها الطالب ويتذكرها، فإن ذلك يتوافق مع نظرية:",
+          options: ["إريكسون", "ثورندايك", "جان بياجيه"],
+          answer: "جان بياجيه",
+        },
+        {
+          question: "أي من التالي لا يُعد من أهداف التقويم التربوي؟",
+          options: ["التحسين", "إصدار الحكم", "التشخيص", "التعزيز", "التدريب"],
+          answer: "التدريب",
+        },
+        {
+          question: "من وظائف التقويم في العملية التعليمية أنه يحقق:",
+          options: ["استجابة", "تعزيز", "دافعية"],
+          answer: "تعزيز",
+        },
+        {
+          question: "النظرية التي تبني التعلم على المعرفة السابقة للمتعلم هي:",
+          options: ["الاجتماعية", "السلوكية", "البنائية"],
+          answer: "البنائية",
+        },
+        {
+          question: "المجال الذي يهتم بالصحة النفسية للمتعلمين هو:",
+          options: [
+            "علم النفس التربوي",
+            "علم الاجتماع",
+            "علم النفس النمو",
+            "الارشاد النفسي",
+          ],
+          answer: "الارشاد النفسي",
+        },
+        {
+          question:
+            "إذا أجاب الطالب على 10 أسئلة من أصل 50 سؤالًا، فإن نسبته تكون:",
+          options: ["%10", "%15", "%20", "%25"],
+          answer: "%20",
+        },
+        {
+          question: "علم النفس يهتم بـ:",
+          options: [
+            "سلوك الحيوان",
+            "سلوك الإنسان",
+            "العمليات الكيميائية في الجسم",
+            "سلوك الكائنات الحية",
+          ],
+          answer: "سلوك الكائنات الحية",
+        },
+];
+
+export const level25Groups = {arabic, general, computer, english, educational};
+
+console.log('✅ questions-level25Groups.js: ', {
+  arabic: arabic.length, 
+  general: general.length, 
+  computer: computer.length, 
+  english: english.length, 
+  educational: educational.length
+});

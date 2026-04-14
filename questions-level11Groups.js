@@ -1,6 +1,11 @@
-// بطل سرقة يا حرامي هتروح النار
-const level11Questions =[
+// بطل سرقة يا حرامي هتروح النار 😈
 
+// Level 1 questions SPLITTED into 5 GROUPS
+// User: EDIT arrays to add your questions. Format: {question, options[], answer, explanation}
+
+
+// 1. معلومات عامة (General)
+const general = [
 {
     "question": "ينتقل الضوء في مسار _____",
     "options": ["مستقيم", "متعرج", "دائري", "منكسر", "لا شيء"],
@@ -138,15 +143,18 @@ const level11Questions =[
     "options": ["سميرة موسى", "لطيفة الزيات", "حكمت أبو زيد", "عائشة محمد"],
     "answer": "حكمت أبو زيد",
     "explanation": "تُعد حكمت أبو زيد أول سيدة تتولى منصب وزيرة في مصر حيث عُينت وزيرة للشئون الاجتماعية عام 1962 في عهد الرئيس جمال عبد الناصر."
-  },
-  {
+  }, {
     "question": "اختصار منظمة الأمم المتحدة للتنمية الصناعية هو؟",
     "options": ["اليونيدو", "اليونيسكو", "الفاو", "الأونكتاد", "اليونيسف", "الإسيسكو"],
     "answer": "اليونيدو",
     "explanation": "اليونيدو (UNIDO) هي منظمة الأمم المتحدة للتنمية الصناعية."
   },
 
-{
+];
+
+// 2. حاسب (Computer)
+const computer = [
+  {
     "question": "ما الاسم الصحيح لشريط الأوامر في برامج Microsoft Office؟",
     "options": ["شريط الأدوات", "شريط الأوامر", "الشريط (Ribbon)", "شريط القوائم"],
     "answer": "الشريط (Ribbon)"
@@ -313,145 +321,11 @@ const level11Questions =[
     ],
     "answer": "جهاز الإدخال"
   },
-
-  {
-    "question": "What is a very sweet, juicy fruit with an edible peel and a hard pit in the middle that grows on trees?",
-    "options": ["Peach", "Apple", "Orange", "Plum"],
-    "answer": "Peach"
-  },
- 
-  {
-    "question": "What is used for cutting paper?",
-    "options": ["Knife", "Ruler", "Pen", "Scissors"],
-    "answer": "Scissors"
-  },
-  {
-    "question": "Where do we go when someone is sick?",
-    "options": ["Market", "Doctor", "School", "Park"],
-    "answer": "Doctor"
-  },
-  {
-    "question": "If you have an infection, what should you wear to protect others?",
-    "options": ["Cap", "Gloves", "Mask", "Glasses"],
-    "answer": "Mask"
-  },
-          {
-  "question": "What do you buy from the butcher?",
-  "options": ["Meat", "Fish", "Bread", "Cheese"],
-  "answer": "Meat"
-},
-
-  {
-    "question": "The killer who murdered the child was sentenced to death.",
-    "options": ["Imprisonment", "Death", "Warning", "Fine"],
-    "answer": "Death"
-  },
-  {
-    "question": "A hot drink and black is called ____",
-    "options": ["Milk", "Juice", "Tea", "Coffee"],
-    "answer": "Tea"
-  },
-  {
-    "question": "What flowers represent peace?",
-    "options": ["Peace Lily", "Sunflower", "Tulip", "Daisy"],
-    "answer": "Peace Lily"
-  },
-  {
-    "question": "What do we sleep on?",
-    "options": ["Chair", "Sofa", "Table", "Bed"],
-    "answer": "Bed"
-  },
-  {
-    "question": "Which fruit is yellow in color and sour in taste?",
-    "options": ["Banana", "Lemon", "Watermelon", "Mango"],
-    "answer": "Lemon"
-  },
- 
-
-  {
-    "question": "A winter sport that we use to glide over snow is",
-    "options": ["Swimming", "Running", "Skiing", "Football"],
-    "answer": "Skiing"
-  },
-  {
-    "question": "A metallic object used to open a door is called a",
-    "options": ["Key", "Knife", "Ring", "Coin"],
-    "answer": "Key"
-  },
-  {
-    "question": "I have a cough, so I will go to the ____",
-    "options": ["School", "Pharmacy", "Office", "Doctor"],
-    "answer": "Doctor"
-  },
-  {
-    "question": "The color of the sky is ____",
-    "options": ["Green", "Blue", "Red", "Black"],
-    "answer": "Blue"
-  },
-  {
-    "question": "A smooth fruit with a seed inside is a ____",
-    "options": ["Apple", "Pear", "Mango", "Peach"],
-    "answer": "Mango"
-  },
+];
 
 
-  {
-    "question": "Black and white photos of people often give a sense of ____",
-    "options": ["Modernity", "Old Fashioned", "Efficient", "Fashioned"],
-    "answer": "Old Fashioned"
-  },
-  {
-    "question": "Money lent by a bank is called a ____",
-    "options": ["Salary", "Debt", "Loan", "Bill"],
-    "answer": "Loan"
-  },
-  {
-    "question": "What do we use to print paper?",
-    "options": ["Printer", "Scanner", "Tablet", "Photocopier"],
-    "answer": "Printer"
-  },
-  {
-    "question": "Where do people usually go to buy food and groceries?",
-    "options": ["School", "Office", "Hospital", "Market"],
-    "answer": "Market"
-  },
-  {
-    "question": "It is used to store food and drink",
-    "options": ["Table", "Fridge", "Cupboard", "Microwave"],
-    "answer": "Fridge"
-  },
-
-{
-    "question": "Made of metal and plastic and used in writing.",
-    "options": ["Ruler", "Eraser", "Pencil", "Pen"],
-    "answer": "Pen",
-    "explanation": "القلم مصنوع من البلاستيك والمعدن ويُستخدم في الكتابة."
-  },
-  {
-    "question": "When we mix black color with white color, the result is?",
-    "options": ["Red", "Grey", "Black", "White"],
-    "answer": "Grey",
-    "explanation": "عند خلط الأبيض والأسود نحصل على اللون الرمادي."
-  },
-  {
-    "question": "Where do we go to play sports?",
-    "options": ["School", "Mosque", "Club", "Home"],
-    "answer": "Club",
-    "explanation": "نذهب إلى النادي لممارسة الأنشطة الرياضية."
-  },
-  {
-    "question": "What is the season before summer? What is the season after the winter?",
-    "options": ["Winter", "Autumn", "Summer", "Spring"],
-    "answer": "Spring",
-    "explanation": "الربيع يأتي بعد الشتاء وقبل الصيف."
-  },
-  {
-    "question": "We feel cold in the ____.",
-    "options": ["Summer", "Winter", "Autumn", "Summer"],
-    "answer": "Winter",
-    "explanation": "نشعر بالبرد في فصل الشتاء بسبب انخفاض درجات الحرارة."
-  },
-
+// 3. عربي (Arabic/Grammar)
+const arabic = [
 {
   "question": "ولا تلبسوا الحق بالباطل – الفعل (تلبسوا):",
   "options": [
@@ -679,10 +553,495 @@ const level11Questions =[
     ],
     "answer": "نقطتان رأسيتان - نقطة"
   },
+];
 
-  
 
-]
-export { level11Questions };
-console.log('✅ questions-level11.js ready - Password protected level');
 
+
+
+// 4. انجليزي (English)
+const english = [
+ {
+    "question": "What is a very sweet, juicy fruit with an edible peel and a hard pit in the middle that grows on trees?",
+    "options": ["Peach", "Apple", "Orange", "Plum"],
+    "answer": "Peach"
+  },
+ 
+  {
+    "question": "What is used for cutting paper?",
+    "options": ["Knife", "Ruler", "Pen", "Scissors"],
+    "answer": "Scissors"
+  },
+  {
+    "question": "Where do we go when someone is sick?",
+    "options": ["Market", "Doctor", "School", "Park"],
+    "answer": "Doctor"
+  },
+  {
+    "question": "If you have an infection, what should you wear to protect others?",
+    "options": ["Cap", "Gloves", "Mask", "Glasses"],
+    "answer": "Mask"
+  },
+          {
+  "question": "What do you buy from the butcher?",
+  "options": ["Meat", "Fish", "Bread", "Cheese"],
+  "answer": "Meat"
+},
+
+  {
+    "question": "The killer who murdered the child was sentenced to death.",
+    "options": ["Imprisonment", "Death", "Warning", "Fine"],
+    "answer": "Death"
+  },
+  {
+    "question": "A hot drink and black is called ____",
+    "options": ["Milk", "Juice", "Tea", "Coffee"],
+    "answer": "Tea"
+  },
+  {
+    "question": "What flowers represent peace?",
+    "options": ["Peace Lily", "Sunflower", "Tulip", "Daisy"],
+    "answer": "Peace Lily"
+  },
+  {
+    "question": "What do we sleep on?",
+    "options": ["Chair", "Sofa", "Table", "Bed"],
+    "answer": "Bed"
+  },
+  {
+    "question": "Which fruit is yellow in color and sour in taste?",
+    "options": ["Banana", "Lemon", "Watermelon", "Mango"],
+    "answer": "Lemon"
+  },
+ 
+
+  {
+    "question": "A winter sport that we use to glide over snow is",
+    "options": ["Swimming", "Running", "Skiing", "Football"],
+    "answer": "Skiing"
+  },
+  {
+    "question": "A metallic object used to open a door is called a",
+    "options": ["Key", "Knife", "Ring", "Coin"],
+    "answer": "Key"
+  },
+  {
+    "question": "I have a cough, so I will go to the ____",
+    "options": ["School", "Pharmacy", "Office", "Doctor"],
+    "answer": "Doctor"
+  },
+  {
+    "question": "The color of the sky is ____",
+    "options": ["Green", "Blue", "Red", "Black"],
+    "answer": "Blue"
+  },
+  {
+    "question": "A smooth fruit with a seed inside is a ____",
+    "options": ["Apple", "Pear", "Mango", "Peach"],
+    "answer": "Mango"
+  },
+
+
+  {
+    "question": "Black and white photos of people often give a sense of ____",
+    "options": ["Modernity", "Old Fashioned", "Efficient", "Fashioned"],
+    "answer": "Old Fashioned"
+  },
+  {
+    "question": "Money lent by a bank is called a ____",
+    "options": ["Salary", "Debt", "Loan", "Bill"],
+    "answer": "Loan"
+  },
+  {
+    "question": "What do we use to print paper?",
+    "options": ["Printer", "Scanner", "Tablet", "Photocopier"],
+    "answer": "Printer"
+  },
+  {
+    "question": "Where do people usually go to buy food and groceries?",
+    "options": ["School", "Office", "Hospital", "Market"],
+    "answer": "Market"
+  },
+  {
+    "question": "It is used to store food and drink",
+    "options": ["Table", "Fridge", "Cupboard", "Microwave"],
+    "answer": "Fridge"
+  },
+
+{
+    "question": "Made of metal and plastic and used in writing.",
+    "options": ["Ruler", "Eraser", "Pencil", "Pen"],
+    "answer": "Pen",
+    "explanation": "القلم مصنوع من البلاستيك والمعدن ويُستخدم في الكتابة."
+  },
+  {
+    "question": "When we mix black color with white color, the result is?",
+    "options": ["Red", "Grey", "Black", "White"],
+    "answer": "Grey",
+    "explanation": "عند خلط الأبيض والأسود نحصل على اللون الرمادي."
+  },
+  {
+    "question": "Where do we go to play sports?",
+    "options": ["School", "Mosque", "Club", "Home"],
+    "answer": "Club",
+    "explanation": "نذهب إلى النادي لممارسة الأنشطة الرياضية."
+  },
+  {
+    "question": "What is the season before summer? What is the season after the winter?",
+    "options": ["Winter", "Autumn", "Summer", "Spring"],
+    "answer": "Spring",
+    "explanation": "الربيع يأتي بعد الشتاء وقبل الصيف."
+  },
+  {
+    "question": "We feel cold in the ____.",
+    "options": ["Summer", "Winter", "Autumn", "Summer"],
+    "answer": "Winter",
+    "explanation": "نشعر بالبرد في فصل الشتاء بسبب انخفاض درجات الحرارة."
+  },
+];
+
+// 5. تربوي (Educational)
+const educational = [
+ {
+          question: "ما وظيفة جدول المواصفات؟",
+          options: [
+            "تحقيق صدق الاختبار",
+            "تحديد عدد الطلاب",
+            "توزيع المحتوى",
+            "تحديد مستوى",
+          ],
+          answer: "تحقيق صدق الاختبار",
+        },
+        {
+          question: "أداة تُستخدم للحكم على أداء المتعلم في نشاط عملي:",
+          options: ["مقياس تحصيل", "اختبار شفهي", "سلم تقدير", "قائم ملاحظ"],
+          answer: "سلم تقدير",
+        },
+        {
+          question: "التقييم الكمي يعتمد عليه كنظام؟",
+          options: ["نسبي", "مطلق", "كلاهما", "لا شيء مما سبق"],
+          answer: "نسبي",
+        },
+        {
+          question:
+            "التقييم الذي يعتمد على معايير محددة مسبقًا مثل تحديد 60% للنجاح في الامتحان قبل بدء الامتحان؟",
+          options: ["نسبي", "مطلق", "حسابي"],
+          answer: "مطلق",
+        },
+        {
+          question: "أي من النظريات التعليمية تهتم بالتعلم عن طريق اللعب؟",
+          options: [
+            "النظرية البنائية",
+            "النظرية المعرفية",
+            "النظرية السلوكية",
+            "نظرية التحليل النفسي",
+          ],
+          answer: "النظرية البنائية",
+        },
+        {
+          question:
+            "سكب طالب العصير في الفصل، وطلب منه المعلم أن ينظفه بنفسه. ما قام به المعلم يُسمى؟",
+          options: ["عقاب سلبي", "تكلفة الاستجابة", "تصحيح زائد"],
+          answer: "تصحيح زائد",
+        },
+        {
+          question: "عند مواجهة مشكلة إدارية مع مدير المدرسة، يُفضل أن:",
+          options: [
+            "تحدث ضجة بين المتعلمين",
+            "تشتكي للإدارة العليا",
+            "تتجاهل الامر",
+            "تتحدث معه أولا وتحاول حلها",
+          ],
+          answer: "تتحدث معه أولا وتحاول حلها",
+        },
+        {
+          question: "الاختبار الشفوي يستخدم لقياس:",
+          options: [
+            "الذكاء الحركي",
+            "القدرة الحسابية",
+            "المهارات اليدوية",
+            "الطلاقة اللفظية",
+          ],
+          answer: "الطلاقة اللفظية",
+        },
+        {
+          question: "أي من النظريات التالية تفسر النمو الاجتماعي عند المتعلم؟",
+          options: [
+            "نظرية قابلية المعنى",
+            "الجشطلت",
+            "نظرية المحاولة والخطأ",
+            "النظرية الاجتماعية",
+          ],
+          answer: "النظرية الاجتماعية",
+        },
+        {
+          question: "نسبة الاختبار يقصد بها تقييم مستوى جودة الاختبار من حيث؟",
+          options: ["الوسيط", "السهولة", "الصعوبة", "السهولة والصعوبة"],
+          answer: "السهولة والصعوبة",
+        },
+
+    {
+          question:
+            "من العلماء الذين نادوا بأن التعلم يكون من خلال اكتشاف المتعلم للمعلومة (صاحب نظرية التعلم بالاكتشاف):",
+          options: ["فرويد", "ثورندايك", "سكنر", "برونر"],
+          answer: "برونر",
+        },
+        {
+          question: "تبدأ صعوبات التعلم في الظهور عادة عند سن:",
+          options: ["10 سنوات", "8 سنوات", "6 سنوات", "7 سنوات"],
+          answer: "6 سنوات",
+        },
+        {
+          question:
+            "حالة نفسية يمر بها كل إنسان تقريبًا حسب المواقف والضغوط وتعد استجابة طبيعية:",
+          options: ["الخوف", "الاكتئاب", "الذهان", "التوبة العصبية"],
+          answer: "الخوف",
+        },
+        {
+          question:
+            "عندما يُعطي المعلم معلومة بهدف أن يفهمها الطالب ويتذكرها، فإن ذلك يتوافق مع نظرية:",
+          options: ["إريكسون", "ثورندايك", "جان بياجيه"],
+          answer: "جان بياجيه",
+        },
+        {
+          question: "أي من التالي لا يُعد من أهداف التقويم التربوي؟",
+          options: ["التحسين", "إصدار الحكم", "التشخيص", "التعزيز", "التدريب"],
+          answer: "التدريب",
+        },
+        {
+          question: "من وظائف التقويم في العملية التعليمية أنه يحقق:",
+          options: ["استجابة", "تعزيز", "دافعية"],
+          answer: "تعزيز",
+        },
+        {
+          question: "النظرية التي تبني التعلم على المعرفة السابقة للمتعلم هي:",
+          options: ["الاجتماعية", "السلوكية", "البنائية"],
+          answer: "البنائية",
+        },
+        {
+          question: "المجال الذي يهتم بالصحة النفسية للمتعلمين هو:",
+          options: [
+            "علم النفس التربوي",
+            "علم الاجتماع",
+            "علم النفس النمو",
+            "الارشاد النفسي",
+          ],
+          answer: "الارشاد النفسي",
+        },
+        {
+          question:
+            "إذا أجاب الطالب على 10 أسئلة من أصل 50 سؤالًا، فإن نسبته تكون:",
+          options: ["%10", "%15", "%20", "%25"],
+          answer: "%20",
+        },
+        {
+          question: "علم النفس يهتم بـ:",
+          options: [
+            "سلوك الحيوان",
+            "سلوك الإنسان",
+            "العمليات الكيميائية في الجسم",
+            "سلوك الكائنات الحية",
+          ],
+          answer: "سلوك الكائنات الحية",
+        },
+     
+
+  {
+          question:
+            "عندما يعرض المعلم اماكن ويطلب من التلاميذ تصنيفها حسب التضاريس، فأنه يستخدم استراتيجية؟",
+          options: [
+            "التصنيف",
+            "الخرائط الذهنية",
+            "التعلم التبادلي",
+            "الاكتشاف",
+          ],
+          answer: "التصنيف",
+        },
+        {
+          question: "أسئلة التي يكون لها إجابة محددة وصحيحة واحدة، تُسمى:",
+          options: ["تقريبية", "إرشادية", "توليدية", "تبادلية"],
+          answer: "تقريبية",
+        },
+        {
+          question: "كل مايلي يعتبر سؤال اختر ماعدا؟",
+          options: ["الصح والخطأ", "الأختر", "المزوجة", "أكمل"],
+          answer: "أكمل",
+        },
+        {
+          question: "نوع الأسئلة التي تقيس التذكر والمعرفة هي:",
+          options: ["الموضوعية", "المقالية", "الشفهية"],
+          answer: "الموضوعية",
+        },
+        {
+          question: "نوع الأسئلة التي تقيس الفهم والتحليل هي:",
+          options: ["الموضوعية", "المقالية", "الشفهية"],
+          answer: "المقالية",
+        },
+        {
+          question:
+            "أي من المقاييس التالية يهتم بالعمليات الحسابية ولكنه أقل دقة؟",
+          options: ["الفئوي", "النسبي", "الاسمي", "الرتبي"],
+          answer: "الفئوي",
+        },
+        {
+          question:
+            "أي من المقاييس التالية يعد أقل أهمية ودقة في مقياس التربوي؟",
+          options: ["الفئوي", "النسبي", "الاسمي", "الرتبي"],
+          answer: "الاسمي",
+        },
+        {
+          question:
+            "أي نوع من الأسئلة التي يكون لها إجابة محددة (صحيحة أو خاطئة)؟",
+          options: ["شفهية", "مقالية", "موضوعية", "اختبار"],
+          answer: "موضوعية",
+        },
+        {
+          question: "أي من الهرمونات الأنثوية؟",
+          options: [
+            "التستوستيرون",
+            "الأدرينالين",
+            "الإستروجين والبروجسترون",
+            "الأنسولين",
+          ],
+          answer: "الإستروجين والبروجسترون",
+        },
+        {
+          question: "نسبة التخمين في أسئلة الصح والخطأ هي؟",
+          options: ["25%", "33%", "50%", "88%"],
+          answer: "50%",
+        },
+      
+
+  {
+          question:
+            "أي من الاتي يترتب على نظرية ثورندايك في التعلم بالمحاولة والخطأ؟",
+          options: ["العقاب", "الأثر", "الحفظ"],
+          answer: "الأثر",
+        },
+        {
+          question: "الاستقراء هو؟",
+          options: [
+            "حل المشكلة بالتخمين",
+            "تطبيق قاعدة جاهزة",
+            "الانتقال من العام إلى الخاص",
+            "الانتقال من الخاص إلى العام",
+          ],
+          answer: "الانتقال من الخاص إلى العام",
+        },
+        {
+          question: "أي من الجوانب التي تساعد على التذكر والفهم؟",
+          options: ["المعرفة", "الجنب الاجتماعي", "المهارات", "الوجودية"],
+          answer: "المعرفة",
+        },
+        {
+          question: "من أجل استخدام خرائط المفاهيم بشكل أساسي؟",
+          options: [
+            "حل المعادلات",
+            "تنظيم وربط المعلومات",
+            "حفظ الحقائق",
+            "كتابة المقالات",
+          ],
+          answer: "تنظيم وربط المعلومات",
+        },
+        {
+          question: "التعلم على أساس نظرية الجشطالت يعتمد على:",
+          options: [
+            "الصورة الكلية للموقف",
+            "تعزيز الفكر",
+            "التكرار",
+            "حفظ التفاصيل الدقيقة",
+          ],
+          answer: "الصورة الكلية للموقف",
+        },
+        {
+          question: "محك يُميز بين الطلاب الضعفاء والمتفوقين؟",
+          options: ["محك الصدق", "محك الثبات", "محك الموضوعية", "محك التميز"],
+          answer: "محك التميز",
+        },
+        {
+          question: "يقيس الاختبار ما يُفترض أن يقيسه؟",
+          options: ["محك الصدق", "محك الثبات", "محك التميز", "محك الموضوعية"],
+          answer: "محك الصدق",
+        },
+        {
+          question: "عندما يغطي الاختبار جميع جوانب المنهج فإنه يتصف بـ:",
+          options: ["الصدق", "الثبات", "الموضوعية", "الشمولية"],
+          answer: "الشمولية",
+        },
+        {
+          question: "العصف الذهني يُعد من الأنشطة ذات الطبيعة؟",
+          options: ["الاجتماعية", "المادية", "السلوكية", "العقلية"],
+          answer: "العقلية",
+        },
+        {
+          question:
+            "مراحل مثل الاستعداد والتقليد تعد من مكونات أي جانب تعليمي؟",
+          options: ["الاجتماعي", "المهاري", "المعرفي"],
+          answer: "المهاري",
+        },
+      
+
+    {
+          question: "يبدأ الطفل عادة في التحكم في التبول الإرادي في عمر:",
+          options: ["سنة", "سنتان", "٥ سنوات", "٧ سنوات"],
+          answer: "سنتان",
+        },
+        {
+          question: "عندما يكذب الطفل بسرعة قبل أن يفكر فإن ذلك يدل على الكذب:",
+          options: ["ادعائي", "دفاعي", "اندفاعي"],
+          answer: "اندفاعي",
+        },
+        {
+          question:
+            "إذا كان معظم الطلاب في مدرسة يحتاجون إلى إرشاد، فهذا يعني أن المدرسة تحتاج عددًا أكبر من:",
+          options: ["المعلمين", "المرشدين", "الإداريين"],
+          answer: "المرشدين",
+        },
+        {
+          question:
+            "مفهوم يشير إلى العلاقة التربوية بين المعلم والطالب داخل الصف:",
+          options: ["التقويم التربوي", "التفاعل الصفي", "الإدارة الصفية"],
+          answer: "التفاعل الصفي",
+        },
+        {
+          question: "ما طبيعة العلاقة بين الإرشاد والتربية؟",
+          options: ["تبعية", "تنافسية", "تبادلية", "تكاملية"],
+          answer: "تكاملية",
+        },
+        {
+          question: "يُستخدم ملف الإنجاز لـ:",
+          options: ["المعلم", "المتعلم", "المنهج"],
+          answer: "المتعلم",
+        },
+        {
+          question:
+            "إذا تم عمل تقييم للمعلمين والمتعلمين والأبنية التعليمية فإن المقصود:",
+          options: ["المعلمين", "المتعلمين", "مناهج التدريس", "المدرسة"],
+          answer: "المدرسة",
+        },
+        {
+          question: "كم عدد خطوات البيت الدائري؟",
+          options: ["صفر", "٣", "٥", "٦"],
+          answer: "٦",
+        },
+        {
+          question: "الأسرة الممتدة (الممدودة) تساعد الطفل على النمو:",
+          options: ["اللغوي", "الاجتماعي", "النفسي", "جميع ما سبق"],
+          answer: "جميع ما سبق",
+        },
+        {
+          question: "ملف الإنجاز من أدوات التقويم:",
+          options: ["القبلي", "المستمر", "الختامي"],
+          answer: "المستمر",
+        },
+];
+
+export const level11Groups = {arabic, general, computer, english, educational};
+
+console.log('✅ questions-level11Groups.js: ', {
+  arabic: arabic.length, 
+  general: general.length, 
+  computer: computer.length, 
+  english: english.length, 
+  educational: educational.length
+});

@@ -1,6 +1,11 @@
-// بطل سرقة يا حرامي هتروح النار
-const level8Questions = [
+// بطل سرقة يا حرامي هتروح النار 😈
 
+// Level 8 questions SPLITTED into 5 GROUPS
+// User: EDIT arrays to add your questions. Format: {question, options[], answer, explanation}
+
+
+// 1. معلومات عامة (General)
+const general = [
 {
     "question": "أول مشاركة واسعة للمرأة في ثورة كانت في ثورة؟",
     "options": ["1710", "1883", "1952", "1971", "1919"],
@@ -155,6 +160,11 @@ const level8Questions = [
     "answer": "2017",
     "explanation": "صدر قرار إنشاء المجلس القومي للمدفوعات عام 2017 بهدف تقليل استخدام النقد وتعزيز الشمول المالي."
   },
+];
+
+// 2. حاسب (Computer)
+const computer = [
+ 
 
  {
     "question": "يُستخدم NOTEPAD لـ؟",
@@ -394,145 +404,11 @@ const level8Questions = [
           options: ["ويندوز XP", "ويندوز XL", "ويندوز 2000", "ويندوز 98"],
           answer: "ويندوز XL",
         },
-
- {
-    "question": "An animal called the (desert ship).",
-    "options": ["Horse", "Elephant", "Camel", "Dog"],
-    "answer": "Camel"
-  },
-  {
-    "question": "A furry pet animal that lives in the house.",
-    "options": ["Cat", "Rabbit", "Bear", "Tiger"],
-    "answer": "Cat"
-  },
-  {
-    "question": "When it rains, we use____.",
-    "options": ["Hat", "Sunglasses", "Towel", "Umbrella"],
-    "answer": "Umbrella"
-  },
-  {
-    "question": "What produces eggs?",
-    "options": ["Duck", "Hen", "Cow", "Dog"],
-    "answer": "Hen"
-  },
-  {
-    "question": "Which insect produces honey?",
-    "options": ["Ant", "Fly", "Bee", "Butterfly"],
-    "answer": "Bee"
-  },
- 
-
-{
-    "question": "A red round fruit with black seeds inside is ____",
-    "options": ["Tomato", "Watermelon", "Apple", "Strawberry"],
-    "answer": "Watermelon"
-  },
-  {
-    "question": "Where can we put books?",
-    "options": ["Floor", "Bag", "Shelf", "Window"],
-    "answer": "Shelf"
-  },
-  {
-    "question": "A black and white animal is ____",
-    "options": ["Zebra", "Panda", "Cow", "Penguin"],
-    "answer": "Zebra"
-  },
-  {
-    "question": "When we leave we say ____",
-    "options": ["Hello", "Sorry", "Yes", "Goodbye"],
-    "answer": "Goodbye"
-  },
-  {
-    "question": "When we meet a person for the first time we say ____",
-    "options": ["Welcome back", "Nice to meet you", "See you", "Thanks"],
-    "answer": "Nice to meet you"
-  },
+];
 
 
-  {
-      "question": "A calm person who doesn't laugh is:",
-      "options": ["Noisy", "Funny", "Shy", "Talkative"],
-      "answer": "Shy"
-    },
-    {
-      "question": "What do we use to see?",
-      "options": ["Eyes", "Nose", "Ears", "Mouth"],
-      "answer": "Eyes"
-    },
-    {
-      "question": "Hurghada is a tourist city with a beautiful__.",
-      "options": ["Forest", "Mountain", "Desert", "Beach"],
-      "answer": "Beach"
-    },
-    {
-      "question": "Which science studies countries?",
-      "options": ["Math", "Geography", "History", "Chemistry"],
-      "answer": "Geography"
-    },
-    {
-      "question": "Which fruit has a hard stone inside it?",
-      "options": ["Apple", "Banana", "Peach", "Grapes"],
-      "answer": "Peach"
-    },
-
-  {
-    "question": "What gives us milk and cheese?",
-    "options": ["Tiger", "Cow", "Horse", "Lion"],
-    "answer": "Cow"
-  },
-  {
-    "question": "What moves on water?",
-    "options": ["Car", "Train", "Boat", "Bicycle"],
-    "answer": "Boat"
-  },
-  {
-    "question": "What is an instrument made of plastic used for writing with ink?",
-    "options": ["Pen", "Brush", "Ruler", "Spoon"],
-    "answer": "Pen"
-  },
-  {
-    "question": "The sun goes down and the sky gets dark in the __.",
-    "options": ["Afternoon", "Noon", "Morning", "Evening"],
-    "answer": "Evening"
-  },
-  {
-    "question": "The _ of the film makes me laugh.",
-    "options": ["Fear", "Humor", "Drama", "Sadness"],
-    "answer": "Humor"
-  },
-
-
-{
-    "question": "What do we use to protect our skin from the sun?",
-    "options": ["Sunscreen", "Powder", "Soap", "Moisturizer"],
-    "answer": "Sunscreen",
-    "explanation": "نستخدم كريم الوقاية من الشمس (Sunscreen) لحماية بشرتنا من الأشعة الضارة."
-  },
-  {
-    "question": "People learn from ____.",
-    "options": ["Himself", "People", "Experiences", "Experience"],
-    "answer": "Experience",
-    "explanation": "الناس يتعلمون من الخبرة لأنها تمثل ما يكتسبه الإنسان من مواقف وتجارب."
-  },
-  {
-    "question": "Who was the poet of the prophet?",
-    "options": ["Ahmed Shawqi", "Imru' al-Qais", "Al-Mutanabbi", "Hassan bin Thabit"],
-    "answer": "Hassan bin Thabit",
-    "explanation": "حسان بن ثابت هو شاعر النبي صلى الله عليه وسلم ومدّاحه."
-  },
-  {
-    "question": "A farmer with a sick cow goes to____.",
-    "options": ["Teacher", "Veterinarian", "Chef", "Mechanic"],
-    "answer": "Veterinarian",
-    "explanation": "الطبيب البيطري هو المختص بعلاج الحيوانات."
-  },
-  {
-    "question": "The country that is known for making films is_____",
-    "options": ["Brazil", "Egypt", "United States of America", "China"],
-    "answer": "United States of America",
-    "explanation": "الولايات المتحدة مشهورة بصناعة السينما خاصة في هوليوود."
-  },
-
+// 3. عربي (Arabic/Grammar)
+const arabic = [
 {
     "question": "العصا لمن عصى — العصا ، عصى:",
     "options": [
@@ -754,11 +630,541 @@ const level8Questions = [
     "answer":  "جاءت ست وعشرون طالبةّ"
   },
 
+];
 
 
 
-]
 
-export { level8Questions };
-console.log('✅ questions-level8.js ready -', level8Questions.length, 'questions');
 
+// 4. انجليزي (English)
+const english = [
+  {
+    "question": "An animal called the (desert ship).",
+    "options": ["Horse", "Elephant", "Camel", "Dog"],
+    "answer": "Camel"
+  },
+  {
+    "question": "A furry pet animal that lives in the house.",
+    "options": ["Cat", "Rabbit", "Bear", "Tiger"],
+    "answer": "Cat"
+  },
+  {
+    "question": "When it rains, we use____.",
+    "options": ["Hat", "Sunglasses", "Towel", "Umbrella"],
+    "answer": "Umbrella"
+  },
+  {
+    "question": "What produces eggs?",
+    "options": ["Duck", "Hen", "Cow", "Dog"],
+    "answer": "Hen"
+  },
+  {
+    "question": "Which insect produces honey?",
+    "options": ["Ant", "Fly", "Bee", "Butterfly"],
+    "answer": "Bee"
+  },
+ 
+
+{
+    "question": "A red round fruit with black seeds inside is ____",
+    "options": ["Tomato", "Watermelon", "Apple", "Strawberry"],
+    "answer": "Watermelon"
+  },
+  {
+    "question": "Where can we put books?",
+    "options": ["Floor", "Bag", "Shelf", "Window"],
+    "answer": "Shelf"
+  },
+  {
+    "question": "A black and white animal is ____",
+    "options": ["Zebra", "Panda", "Cow", "Penguin"],
+    "answer": "Zebra"
+  },
+  {
+    "question": "When we leave we say ____",
+    "options": ["Hello", "Sorry", "Yes", "Goodbye"],
+    "answer": "Goodbye"
+  },
+  {
+    "question": "When we meet a person for the first time we say ____",
+    "options": ["Welcome back", "Nice to meet you", "See you", "Thanks"],
+    "answer": "Nice to meet you"
+  },
+
+
+  {
+      "question": "A calm person who doesn't laugh is:",
+      "options": ["Noisy", "Funny", "Shy", "Talkative"],
+      "answer": "Shy"
+    },
+    {
+      "question": "What do we use to see?",
+      "options": ["Eyes", "Nose", "Ears", "Mouth"],
+      "answer": "Eyes"
+    },
+    {
+      "question": "Hurghada is a tourist city with a beautiful__.",
+      "options": ["Forest", "Mountain", "Desert", "Beach"],
+      "answer": "Beach"
+    },
+    {
+      "question": "Which science studies countries?",
+      "options": ["Math", "Geography", "History", "Chemistry"],
+      "answer": "Geography"
+    },
+    {
+      "question": "Which fruit has a hard stone inside it?",
+      "options": ["Apple", "Banana", "Peach", "Grapes"],
+      "answer": "Peach"
+    },
+
+  {
+    "question": "What gives us milk and cheese?",
+    "options": ["Tiger", "Cow", "Horse", "Lion"],
+    "answer": "Cow"
+  },
+  {
+    "question": "What moves on water?",
+    "options": ["Car", "Train", "Boat", "Bicycle"],
+    "answer": "Boat"
+  },
+  {
+    "question": "What is an instrument made of plastic used for writing with ink?",
+    "options": ["Pen", "Brush", "Ruler", "Spoon"],
+    "answer": "Pen"
+  },
+  {
+    "question": "The sun goes down and the sky gets dark in the __.",
+    "options": ["Afternoon", "Noon", "Morning", "Evening"],
+    "answer": "Evening"
+  },
+  {
+    "question": "The _ of the film makes me laugh.",
+    "options": ["Fear", "Humor", "Drama", "Sadness"],
+    "answer": "Humor"
+  },
+
+
+{
+    "question": "What do we use to protect our skin from the sun?",
+    "options": ["Sunscreen", "Powder", "Soap", "Moisturizer"],
+    "answer": "Sunscreen",
+    "explanation": "نستخدم كريم الوقاية من الشمس (Sunscreen) لحماية بشرتنا من الأشعة الضارة."
+  },
+  {
+    "question": "People learn from ____.",
+    "options": ["Himself", "People", "Experiences", "Experience"],
+    "answer": "Experience",
+    "explanation": "الناس يتعلمون من الخبرة لأنها تمثل ما يكتسبه الإنسان من مواقف وتجارب."
+  },
+  {
+    "question": "Who was the poet of the prophet?",
+    "options": ["Ahmed Shawqi", "Imru' al-Qais", "Al-Mutanabbi", "Hassan bin Thabit"],
+    "answer": "Hassan bin Thabit",
+    "explanation": "حسان بن ثابت هو شاعر النبي صلى الله عليه وسلم ومدّاحه."
+  },
+  {
+    "question": "A farmer with a sick cow goes to____.",
+    "options": ["Teacher", "Veterinarian", "Chef", "Mechanic"],
+    "answer": "Veterinarian",
+    "explanation": "الطبيب البيطري هو المختص بعلاج الحيوانات."
+  },
+  {
+    "question": "The country that is known for making films is_____",
+    "options": ["Brazil", "Egypt", "United States of America", "China"],
+    "answer": "United States of America",
+    "explanation": "الولايات المتحدة مشهورة بصناعة السينما خاصة في هوليوود."
+  },
+
+];
+
+// 5. تربوي (Educational)
+const educational = [
+   {
+          question:
+            "إذا حضر خبير تعليمي إلى المدرسة لإعطاء محاضرة أو ورشة تدريبية، فإن التصرف التربوي السليم منك كمعلم هو:",
+          options: [
+            "تشترك في الحضور وتشجيع التلاميذ على المشاركة",
+            "تعتذر عن الحضور لارتباطات أخرى",
+            "تحضر بمفردك للاستفادة",
+            "تشجيع التلاميذ على الحضور",
+          ],
+          answer: "تشترك في الحضور وتشجيع التلاميذ على المشاركة",
+        },
+        {
+          question: "النمو الانفعالي في مرحلة المراهقة يتميز بـ:",
+          options: [
+            "تقلبات مزاجية وحدة انفعالية",
+            "ضعف في التعبير الانفعالي",
+            "الاستقرار الانفعالي والهدوء",
+            "التحكم الكامل في المشاعر",
+          ],
+          answer: "تقلبات مزاجية وحدة انفعالية",
+        },
+        {
+          question:
+            "إذا كنت تجري استبيانًا لمجموعة من الأميين فإن أنسب نوع من أنواع الاستبيان هو:",
+          options: ["الاستبيان اللفظي", "غير لفظي", "المغلق", "المفتوح"],
+          answer: "الاستبيان اللفظي",
+        },
+        {
+          question: "أي من الأهداف التالية لا يعد هدفًا معرفيًا:",
+          options: [
+            "أن يقدر الطالب دور الفلاح في المجتمع",
+            "أن يشرح الطالب خطوات حل المسألة",
+            "أن يصنّف الطالب أنواع الصخور",
+            "أن يذكر الطالب أسباب الثورة العرابية",
+          ],
+          answer: "أن يقدر الطالب دور الفلاح في المجتمع",
+        },
+        {
+          question:
+            "إذا كان الطلاب بمستوى ضعيف قدموا أداءً عاليًا في اختبار موضوعي، فالسبب الأكثر ترجيحًا هو:",
+          options: [
+            "التخمين",
+            "كثرة الأسئلة المقالية",
+            "وضوح الأسئلة",
+            "التصحيح",
+          ],
+          answer: "التخمين",
+        },
+        {
+          question: "غرس الخلق يحدث في مرحلة:",
+          options: [
+            "الطفولة المبكرة",
+            "الطفولة المتوسطة",
+            "الطفولة المتأخرة",
+            "المراهقة",
+          ],
+          answer: "الطفولة المبكرة",
+        },
+        {
+          question: "طفل يكذب بسبب شعوره بالظلم فإن يعد:",
+          options: ["كذب دفاعي", "كذب انتقامي", "كذب اندفاعي", "كذب تعويضي"],
+          answer: "كذب دفاعي",
+        },
+        {
+          question: "إذا كذب الطفل دون تخطيط مسبق ذلك يعد:",
+          options: ["كذب دفاعي", "كذب انتقامي", "كذب اندفاعي", "كذب تعويضي"],
+          answer: "كذب اندفاعي",
+        },
+        {
+          question: "طفل يكذب بسبب الغيرة من زملائه فإن نوع الكذب هنا:",
+          options: ["كذب دفاعي", "كذب انتقامي", "كذب اندفاعي", "كذب تعويضي"],
+          answer: "كذب انتقامي",
+        },
+        {
+          question: "من صاحب النظرية التأثرية وعلى ماذا تقوم:",
+          options: [
+            "فرويد - التحليل النفسي",
+            "ثورندايك - التعلم بالمحاولة والخطأ",
+            "بياجيه - الاستبصار",
+            "سكنر - الاشتراط الإجرائي",
+          ],
+          answer: "ثورندايك - التعلم بالمحاولة والخطأ",
+        },
+       
+
+ {
+          question: "نظرية الذات في التعلم والإرشاد تنسب إلى:",
+          options: ["بافلوف", "جاردنر", "فرويد", "روجرز"],
+          answer: "روجرز",
+        },
+        {
+          question: "الفرق بين التقويم القبلي والتقويم البعيدي:",
+          options: ["التعليم", "التعلم", "التدريس", "أساليب التقويم"],
+          answer: "التعلم",
+        },
+        {
+          question: "المعلم الذي يؤدي عمله بإخلاص وضمير يكون لديه:",
+          options: ["صدق", "إخلاص", "تعزيز", "تفكير ناقد"],
+          answer: "إخلاص",
+        },
+        {
+          question: "العالم الذي ركز على العمليات الشعورية واللاشعورية هو:",
+          options: ["فيجوتسكي", "سكنر", "بياجيه", "فرويد"],
+          answer: "فرويد",
+        },
+        {
+          question:
+            "عندما يقوم المعلم بإجراء اختبار على الطلاب يهدف لمعرفة مستواهم فإن نتائج الطلاب تعد:",
+          options: ["متغير تابع", "متغير مستقل", "متغير دخيل", "متغير ثابت"],
+          answer: "متغير تابع",
+        },
+        {
+          question: "أي من التالي يعد من خصائص التفكير الناقد؟",
+          options: [
+            "التسرع في إصدار الحكم",
+            "تقبل الرأي دون تحليل",
+            "تقييم الأدلة والبراهين",
+            "اتباع الرأي العام",
+          ],
+          answer: "تقييم الأدلة والبراهين",
+        },
+        {
+          question: "التغذية الراجعة في الموقف التعليمي تساعد على:",
+          options: [
+            "تشتت انتباه المتعلم",
+            "تعديل السلوك وتحسين الأداء",
+            "زيادة عبء المعلم",
+            "تقليل دافعية التعلم",
+          ],
+          answer: "تعديل السلوك وتحسين الأداء",
+        },
+        {
+          question: "أي مما يلي يرتبط بالمدرسة السلوكية؟",
+          options: ["الإدراك", "الاستبصار", "التعزيز", "الاكتشاف الذاتي"],
+          answer: "التعزيز",
+        },
+        {
+          question:
+            "أي المقاييس التالية يعد الأعلى من حيث الدقة والقدرة على إجراء العمليات الرياضية؟",
+          options: ["الاسمي", "الرتبي", "الفئوي", "النسبي"],
+          answer: "النسبي",
+        },
+        {
+          question: "يستخدم أسلوب تمثيل الأدوار بصورة أفضل عندما:",
+          options: [
+            "يبرز بصورة عفوية",
+            "يبحث مشكلة خاصة بالمتدربين مباشرة",
+            "يكون التمثيل إجبارياً",
+            "يلقن المدرب المتعلمين الأدوار",
+          ],
+          answer: "يبحث مشكلة خاصة بالمتدربين مباشرة",
+        },
+       
+
+{
+    "question": "دخل ولي أمر أحد التلاميذ إلى الفصل أثناء الحصة لتسليم شيء لابنه، ما التصرف الأنسب من المعلم؟",
+    "options": [
+      "توبيخ ولي الأمر علنًا",
+      "التعامل مع الموقف بهدوء وتفهم السبب"
+    ],
+    "answer": "التعامل مع الموقف بهدوء وتفهم السبب"
+  },
+  {
+    "question": "عندما يستخدم المعلم إيماءات وتفاعل أثناء الشرح، فإنه يسعى لتحقيق:",
+    "options": [
+      "الحل السلوكي",
+      "خلق مناخ نفسي واجتماعي داعم",
+      "ضبط الصف"
+    ],
+    "answer": "خلق مناخ نفسي واجتماعي داعم"
+  },
+  {
+    question: "أفضل طريقة لتعليم سلوك معين هي:",
+    options: ["الشرح النظري","العقاب","التطبيق العملي","التجاهل"],
+    answer: "التطبيق العملي"
+  },
+   {
+    "question": "إذا كان المعلم يشرح جزئية معينة وتوقف للإجابة كنوع من توضيح الفهم، فالسلوك التربوي الأفضل من المعلم هو:",
+    "options": [
+      "يوقف الطالب عن الإجابة",
+      "يعطيه خبرة وهو يُجيب",
+      "يشجعه بإيماءات غير لفظية"
+    ],
+    "answer": "يشجعه بإيماءات غير لفظية"
+  },
+  {
+    question: "الذكاء المسؤول عن حل الألغاز العددية هو او نلاحظ على أحد الطلاب حبه لحل الألغاز الرياضية وقدرته العالية على اكتشاف الأنماط والعلاقات بين الأرقام، هذا يدل على امتلاكه ل:",
+    options: ["الذكاء اللغوي","البصري المكاني","الجسمي الحركي","منطقي رياضي"],
+    answer: "منطقي رياضي"
+  },
+  {
+    question: "القدرة على التحدث والكتابة بطلاقة تدل على ذكاء:",
+    options: ["موسيقي","لغوي","اجتماعي","طبيعي"],
+    answer: "لغوي"
+  },
+  {
+    question: "القدرة على تمييز النغمات تشير إلى ذكاء:",
+    options: ["بصري","موسيقي","جسمي","شخصي"],
+    answer: "موسيقي"
+  },
+  {
+    "question": "الأسرة الممتدة (الممدودة) تساعد الطفل على النمو:",
+    "options": [
+      "اللغوي",
+      "الاجتماعي",
+      "النفسي",
+      "جميع ما سبق"
+    ],
+    "answer": "جميع ما سبق"
+  },
+  {
+    "question": "الأسرة الممتدة (الممدودة) تساعد الطفل على النمو:",
+    "options": [
+      "اللغوي",
+      "الاجتماعي",
+      "النفسي"
+    ],
+    "answer": "الاجتماعي"
+  },
+   {
+    "question": " إذا اشتكى أغلب الطلاب من صعوبة الفهم رغم استخدام المعلم لوسائل متعددة فالخلل يكون في",
+    "options": [
+      "المنهج",
+      "الطالب",
+      "المعلم"
+    ],
+    "answer": "المعلم"
+  },
+ 
+
+
+   {
+          question: "أفضل توقيت لاستخدام الخريطة في حصة الدراسات الاجتماعية:",
+          options: [
+            "قبل الحصة",
+            "بداية الحصة",
+            "نهاية الحصة",
+            "عند شرح الجزئية التي تحتاج لخريطة",
+          ],
+          answer: "عند شرح الجزئية التي تحتاج لخريطة",
+        },
+        {
+          question: "قال المعلم: الطالب حصل على 18 من 20 في الاختبار الأسبوعي:",
+          options: ["اختبار", "قياس", "تقييم", "تقويم"],
+          answer: "قياس",
+        },
+        {
+          question:
+            "قال المعلم: مستوى الطالب جيد ويحتاج إلى تحسين مهاراته في التعبير الكتابي:",
+          options: ["اختبار", "تقييم", "قياس", "تقويم"],
+          answer: "تقييم",
+        },
+        {
+          question:
+            "قام المعلم بتحديد نقاط الضعف لدى الطالب في مهارة القراءة ووضع خطة علاجية لتحسين مستواه، هذا يعد:",
+          options: ["اختبار", "قياس", "تقييم", "تقويم"],
+          answer: "تقويم",
+        },
+        {
+          question:
+            "أعد المعلم اختبارًا في نهاية الوحدة الدراسية لقياس مدى تحقيق الأهداف، هذا المثال يعد:",
+          options: ["التقويم", "التقييم", "القياس", "الاختبار"],
+          answer: "التقويم",
+        },
+        {
+          question:
+            "قام المعلم بإعداد مجموعة من الأسئلة الكتابية الموحدة لطلاب الصف لقياس تحصيلهم الدراسي في نهاية الفصل الدراسي، هذا يعد:",
+          options: ["القياس", "التقييم", "الاختبار", "التقويم"],
+          answer: "الاختبار",
+        },
+        {
+          question: "في التعلم بالاكتشاف يكون دور المعلم هو:",
+          options: ["مصحح", "الملقن للمعلومات", "المساعد في بناء المفهوم"],
+          answer: "المساعد في بناء المفهوم",
+        },
+        {
+          question: "يقصد بالتعلم بالاكتشاف هو:",
+          options: [
+            "تعلم يقوم على حل التمارين المكررة",
+            "أسلوب يعتمد على التلقين",
+            "أسلوب يشجع المتعلم على طرح الأسئلة والبحث عن إجابات",
+          ],
+          answer: "أسلوب يشجع المتعلم على طرح الأسئلة والبحث عن إجابات",
+        },
+        {
+          question: "يُستخدم أسلوب لعب الأدوار في التدريس بشكل خاص لتنمية:",
+          options: [
+            "المهارات الاجتماعية والتواصل",
+            "المهارات اليدوية",
+            "مهارات الحفظ والتكرار",
+            "المهارات الحسابية",
+          ],
+          answer: "المهارات الاجتماعية والتواصل",
+        },
+        {
+          question: "يعد التعلم من خلال اللعب وسيلة فعالة في:",
+          options: [
+            "تنمية التفكير والإبداع لدى المتعلم",
+            "الاعتماد الكامل على المعلم كمصدر وحيد",
+            "تحقيق التلقين السريع للمعلومة",
+          ],
+          answer: "تنمية التفكير والإبداع لدى المتعلم",
+        },
+     
+ 
+ 
+ 
+
+
+    {
+          question:
+            "أعطى اختبار لطلاب مرتين بفاصل زمني بسيط وكانت النتائج مختلفة تمامًا، فإن الاختبار يفتقر إلى:",
+          options: ["الشمول", "الصدق", "الموضوعية", "الثبات"],
+          answer: "الثبات",
+        },
+        {
+          question:
+            "تم إعداد اختبار رياضيات لكن احتوى على العديد من الأسئلة التي تقيس مهارات لغوية، فإنه فقد:",
+          options: ["الشمولية", "الصدق", "الثبات", "الموضوعية"],
+          answer: "الصدق",
+        },
+        {
+          question: "الذكاء المنطقي الرياضي يُقصد به:",
+          options: [
+            "استخدام الأرقام وحل المشكلات مثل العلماء",
+            "استخدام الجسد واليدين مثل الرياضيين",
+          ],
+          answer: "استخدام الأرقام وحل المشكلات مثل العلماء",
+        },
+        {
+          question:
+            "تخفيف الواجب عن طالب نظراً لأنه قام بحل الواجب بالوقت المحدد مع الإجابات الصحيحة، هذا يُعد:",
+          options: ["تعزيز سلبي", "تعزيز إيجابي"],
+          answer: "تعزيز سلبي",
+        },
+        {
+          question:
+            "عند إعطاء الطالب واجبًا إضافيًا نظرًا لعدم تسليمه الواجب السابق في الوقت المحدد، هذا يعني:",
+          options: ["عقاب إيجابي", "عقاب سلبي", "تعزيز إيجابي", "تعزيز سلبي"],
+          answer: "عقاب إيجابي",
+        },
+        {
+          question: "عند إعفاء طالب من الرسوم الجامعية نظرًا لتفوقه، يُعد:",
+          options: ["تعزيز سلبي", "تعزيز إيجابي", "عقاب إيجابي"],
+          answer: "تعزيز سلبي",
+        },
+        {
+          question:
+            "عند ضرب المعلم الطالب بسبب الشغب في الفصل أثناء الحصة، هذا يُعد:",
+          options: ["عقاب إيجابي", "عقاب سلبي", "تعزيز إيجابي", "تعزيز سلبي"],
+          answer: "عقاب إيجابي",
+        },
+        {
+          question: "التعلّم بالنمذجة (القدوة) هو:",
+          options: ["المعلم", "المتعلم", "الأقران"],
+          answer: "المعلم",
+        },
+        {
+          question: "التعلّم بالنمذجة يُسهم في:",
+          options: [
+            "اكتساب الطلاب للمهارات من خلال التقليد",
+            "مراعاة أنماط التعلّم المختلفة",
+          ],
+          answer: "اكتساب الطلاب للمهارات من خلال التقليد",
+        },
+        {
+          question: "من شروط استخدام النمذجة في التعليم:",
+          options: [
+            "أن يكون النموذج واضحا وقابلا للتقليد",
+            "عدم تكرار النموذج",
+            "أن يعتمد على الحفظ فقط",
+          ],
+          answer: "أن يكون النموذج واضحا وقابلا للتقليد",
+        },
+      
+  
+  
+];
+
+export const level8Groups = {arabic, general, computer, english, educational};
+
+console.log('✅ questions-level8Groups.js: ', {
+  arabic: arabic.length, 
+  general: general.length, 
+  computer: computer.length, 
+  english: english.length, 
+  educational: educational.length
+});

@@ -1,6 +1,11 @@
-// بطل سرقة يا حرامي هتروح النار
-const level7Questions =[
+// بطل سرقة يا حرامي هتروح النار 😈
 
+// Level 7 questions SPLITTED into 5 GROUPS
+// User: EDIT arrays to add your questions. Format: {question, options[], answer, explanation}
+
+
+// 1. معلومات عامة (General)
+const general = [
 {
     "question": "اليوم العالمي للغة العربية يوافق يوم؟",
     "options": ["18 ديسمبر", "28 ديسمبر", "18 سبتمبر", "13 ديسمبر", "8 ديسمبر"],
@@ -156,9 +161,11 @@ const level7Questions =[
     "answer": "2023",
     "explanation": "تم افتتاح ميناء أكتوبر الجاف عام 2023 لدعم منظومة النقل واللوجستيات في مصر."
   },
+];
 
-
-   {
+// 2. حاسب (Computer)
+const computer = [
+    {
     "question": "عبارة عن شريحة إلكترونية تقوم بمعالجة البيانات ______؟",
     "options": [
       "وحدة التحكم",
@@ -387,145 +394,11 @@ const level7Questions =[
           options: ["Windows", "Android OS", "macOS", "Linux"],
           answer: "Android OS",
         },
-
-  {
-      "question": "A calm person who doesn't laugh is:",
-      "options": ["Noisy", "Funny", "Shy", "Talkative"],
-      "answer": "Shy"
-    },
-    {
-      "question": "What do we use to see?",
-      "options": ["Eyes", "Nose", "Ears", "Mouth"],
-      "answer": "Eyes"
-    },
-    {
-      "question": "Hurghada is a tourist city with a beautiful__.",
-      "options": ["Forest", "Mountain", "Desert", "Beach"],
-      "answer": "Beach"
-    },
-    {
-      "question": "Which science studies countries?",
-      "options": ["Math", "Geography", "History", "Chemistry"],
-      "answer": "Geography"
-    },
-    {
-      "question": "Which fruit has a hard stone inside it?",
-      "options": ["Apple", "Banana", "Peach", "Grapes"],
-      "answer": "Peach"
-    },
-
-  {
-    "question": "What gives us milk and cheese?",
-    "options": ["Tiger", "Cow", "Horse", "Lion"],
-    "answer": "Cow"
-  },
-  {
-    "question": "What moves on water?",
-    "options": ["Car", "Train", "Boat", "Bicycle"],
-    "answer": "Boat"
-  },
-  {
-    "question": "What is an instrument made of plastic used for writing with ink?",
-    "options": ["Pen", "Brush", "Ruler", "Spoon"],
-    "answer": "Pen"
-  },
-  {
-    "question": "The sun goes down and the sky gets dark in the __.",
-    "options": ["Afternoon", "Noon", "Morning", "Evening"],
-    "answer": "Evening"
-  },
-  {
-    "question": "The _ of the film makes me laugh.",
-    "options": ["Fear", "Humor", "Drama", "Sadness"],
-    "answer": "Humor"
-  },
+];
 
 
- {
-      "question": "The person who helps the doctor?",
-      "options": ["Chef", "Teacher", "Nurse", "Driver"],
-      "answer": "Nurse"
-    },
-    {
-      "question": "A rubbery thing that is used in sports?",
-      "options": ["Ball", "Cap", "Net", "Bat"],
-      "answer": "Ball"
-    },
-    {
-      "question": "What is a piece of clothing worn above the trousers?",
-      "options": ["Shorts", "Pants", "Socks", "Shirt"],
-      "answer": "Shirt"
-    },
-    {
-      "question": "What does the athlete wear on his feet?",
-      "options": ["Boots", "Sneakers", "Sandals", "Slippers"],
-      "answer": "Sneakers"
-    },
-    {
-      "question": "What is the name of the toy described as a circular object that moves up and down on a long piece of string?",
-      "options": ["Doll", "Car", "Yo-yo", "Kite"],
-      "answer": "Yo-yo"
-    },
- 
-
-  {
-      "question": "A big animal with a trunk and gray color",
-      "options": ["Camel", "Elephant", "Bear", "Zebra"],
-      "answer": "Elephant"
-    },
-    {
-      "question": "A pet animal that barks is",
-      "options": ["Rabbit", "Cat", "Dog", "Horse"],
-      "answer": "Dog"
-    },
-    {
-      "question": "Which animal lives in African forests and has a long neck?",
-      "options": ["Giraffe", "Lion", "Zebra", "Elephant"],
-      "answer": "Giraffe"
-    },
-    {
-      "question": "The person who works in petroleum engineering",
-      "options": ["Mechanical engineer", "Electrician", "Driver", "Petroleum engineer"],
-      "answer": "Petroleum engineer"
-    },
-    {
-      "question": "What do we wear on our hands or wrists?",
-      "options": ["Shoes", "Bracelet / Watch", "Hat", "Gloves"],
-      "answer": "Bracelet / Watch"
-    },
- 
-
-{
-    "question": "Which animal is well known for its ability to mimic human actions?",
-    "options": ["Horse 🐎", "Dog 🐕", "Monkey 🐒", "Cat 🐈"],
-    "answer": "Monkey 🐒",
-    "explanation": "القرد معروف بقدرته على تقليد تصرفات الإنسان."
-  },
-  {
-    "question": "Which animal has wings and a beak?",
-    "options": ["Dog 🐶", "Fish 🐟", "Rabbit 🐰", "Bird 🐦"],
-    "answer": "Bird 🐦",
-    "explanation": "الطائر هو الكائن الوحيد هنا اللي عنده جناحات ومنقار."
-  },
-  {
-    "question": "What is the fastest animal?",
-    "options": ["Lion 🦁", "Horse 🐎", "Cheetah 🐆", "Elephant 🐘"],
-    "answer": "Cheetah 🐆",
-    "explanation": "الفهد هو أسرع حيوان بري على الإطلاق."
-  },
-  {
-    "question": "Which animal is white and lays eggs?",
-    "options": ["Hen / chicken 🐔", "Dog 🐶", "Cat 🐱", "Cow 🐄"],
-    "answer": "Hen / chicken 🐔",
-    "explanation": "الدجاجة لونها أبيض وهي تبيض، عكس الحيوانات الأخرى."
-  },
-  {
-    "question": "What is the plural of (Woman)?",
-    "options": ["Wimen", "Womanses", "Women", "Womans"],
-    "answer": "Women",
-    "explanation": "جمع كلمة 'woman' هو 'women' وليس بإضافة 's' فقط."
-  },
-
+// 3. عربي (Arabic/Grammar)
+const arabic = [
 {
     "question": "قال المعلم لتلاميذه ( ) أنتم المستقبل:",
     "options": [":", "؛", "،"],
@@ -732,10 +605,523 @@ const level7Questions =[
     "answer": "اجبر"
   },
 
+];
 
 
-]
 
-export { level7Questions };
-console.log('✅ questions-level7.js ready -', level7Questions.length, 'questions');
 
+
+// 4. انجليزي (English)
+const english = [
+ {
+      "question": "A calm person who doesn't laugh is:",
+      "options": ["Noisy", "Funny", "Shy", "Talkative"],
+      "answer": "Shy"
+    },
+    {
+      "question": "What do we use to see?",
+      "options": ["Eyes", "Nose", "Ears", "Mouth"],
+      "answer": "Eyes"
+    },
+    {
+      "question": "Hurghada is a tourist city with a beautiful__.",
+      "options": ["Forest", "Mountain", "Desert", "Beach"],
+      "answer": "Beach"
+    },
+    {
+      "question": "Which science studies countries?",
+      "options": ["Math", "Geography", "History", "Chemistry"],
+      "answer": "Geography"
+    },
+    {
+      "question": "Which fruit has a hard stone inside it?",
+      "options": ["Apple", "Banana", "Peach", "Grapes"],
+      "answer": "Peach"
+    },
+
+  {
+    "question": "What gives us milk and cheese?",
+    "options": ["Tiger", "Cow", "Horse", "Lion"],
+    "answer": "Cow"
+  },
+  {
+    "question": "What moves on water?",
+    "options": ["Car", "Train", "Boat", "Bicycle"],
+    "answer": "Boat"
+  },
+  {
+    "question": "What is an instrument made of plastic used for writing with ink?",
+    "options": ["Pen", "Brush", "Ruler", "Spoon"],
+    "answer": "Pen"
+  },
+  {
+    "question": "The sun goes down and the sky gets dark in the __.",
+    "options": ["Afternoon", "Noon", "Morning", "Evening"],
+    "answer": "Evening"
+  },
+  {
+    "question": "The _ of the film makes me laugh.",
+    "options": ["Fear", "Humor", "Drama", "Sadness"],
+    "answer": "Humor"
+  },
+
+
+ {
+      "question": "The person who helps the doctor?",
+      "options": ["Chef", "Teacher", "Nurse", "Driver"],
+      "answer": "Nurse"
+    },
+    {
+      "question": "A rubbery thing that is used in sports?",
+      "options": ["Ball", "Cap", "Net", "Bat"],
+      "answer": "Ball"
+    },
+    {
+      "question": "What is a piece of clothing worn above the trousers?",
+      "options": ["Shorts", "Pants", "Socks", "Shirt"],
+      "answer": "Shirt"
+    },
+    {
+      "question": "What does the athlete wear on his feet?",
+      "options": ["Boots", "Sneakers", "Sandals", "Slippers"],
+      "answer": "Sneakers"
+    },
+    {
+      "question": "What is the name of the toy described as a circular object that moves up and down on a long piece of string?",
+      "options": ["Doll", "Car", "Yo-yo", "Kite"],
+      "answer": "Yo-yo"
+    },
+ 
+
+  {
+      "question": "A big animal with a trunk and gray color",
+      "options": ["Camel", "Elephant", "Bear", "Zebra"],
+      "answer": "Elephant"
+    },
+    {
+      "question": "A pet animal that barks is",
+      "options": ["Rabbit", "Cat", "Dog", "Horse"],
+      "answer": "Dog"
+    },
+    {
+      "question": "Which animal lives in African forests and has a long neck?",
+      "options": ["Giraffe", "Lion", "Zebra", "Elephant"],
+      "answer": "Giraffe"
+    },
+    {
+      "question": "The person who works in petroleum engineering",
+      "options": ["Mechanical engineer", "Electrician", "Driver", "Petroleum engineer"],
+      "answer": "Petroleum engineer"
+    },
+    {
+      "question": "What do we wear on our hands or wrists?",
+      "options": ["Shoes", "Bracelet / Watch", "Hat", "Gloves"],
+      "answer": "Bracelet / Watch"
+    },
+ 
+
+{
+    "question": "Which animal is well known for its ability to mimic human actions?",
+    "options": ["Horse 🐎", "Dog 🐕", "Monkey 🐒", "Cat 🐈"],
+    "answer": "Monkey 🐒",
+    "explanation": "القرد معروف بقدرته على تقليد تصرفات الإنسان."
+  },
+  {
+    "question": "Which animal has wings and a beak?",
+    "options": ["Dog 🐶", "Fish 🐟", "Rabbit 🐰", "Bird 🐦"],
+    "answer": "Bird 🐦",
+    "explanation": "الطائر هو الكائن الوحيد هنا اللي عنده جناحات ومنقار."
+  },
+  {
+    "question": "What is the fastest animal?",
+    "options": ["Lion 🦁", "Horse 🐎", "Cheetah 🐆", "Elephant 🐘"],
+    "answer": "Cheetah 🐆",
+    "explanation": "الفهد هو أسرع حيوان بري على الإطلاق."
+  },
+  {
+    "question": "Which animal is white and lays eggs?",
+    "options": ["Hen / chicken 🐔", "Dog 🐶", "Cat 🐱", "Cow 🐄"],
+    "answer": "Hen / chicken 🐔",
+    "explanation": "الدجاجة لونها أبيض وهي تبيض، عكس الحيوانات الأخرى."
+  },
+  {
+    "question": "What is the plural of (Woman)?",
+    "options": ["Wimen", "Womanses", "Women", "Womans"],
+    "answer": "Women",
+    "explanation": "جمع كلمة 'woman' هو 'women' وليس بإضافة 's' فقط."
+  },
+];
+
+// 5. تربوي (Educational)
+const educational = [
+{
+    "question": "دخل ولي أمر أحد التلاميذ إلى الفصل أثناء الحصة لتسليم شيء لابنه، ما التصرف الأنسب من المعلم؟",
+    "options": [
+      "توبيخ ولي الأمر علنًا",
+      "التعامل مع الموقف بهدوء وتفهم السبب"
+    ],
+    "answer": "التعامل مع الموقف بهدوء وتفهم السبب"
+  },
+  {
+    "question": "عندما يستخدم المعلم إيماءات وتفاعل أثناء الشرح، فإنه يسعى لتحقيق:",
+    "options": [
+      "الحل السلوكي",
+      "خلق مناخ نفسي واجتماعي داعم",
+      "ضبط الصف"
+    ],
+    "answer": "خلق مناخ نفسي واجتماعي داعم"
+  },
+  {
+    question: "أفضل طريقة لتعليم سلوك معين هي:",
+    options: ["الشرح النظري","العقاب","التطبيق العملي","التجاهل"],
+    answer: "التطبيق العملي"
+  },
+   {
+    "question": "إذا كان المعلم يشرح جزئية معينة وتوقف للإجابة كنوع من توضيح الفهم، فالسلوك التربوي الأفضل من المعلم هو:",
+    "options": [
+      "يوقف الطالب عن الإجابة",
+      "يعطيه خبرة وهو يُجيب",
+      "يشجعه بإيماءات غير لفظية"
+    ],
+    "answer": "يشجعه بإيماءات غير لفظية"
+  },
+  {
+    question: "الذكاء المسؤول عن حل الألغاز العددية هو او نلاحظ على أحد الطلاب حبه لحل الألغاز الرياضية وقدرته العالية على اكتشاف الأنماط والعلاقات بين الأرقام، هذا يدل على امتلاكه ل:",
+    options: ["الذكاء اللغوي","البصري المكاني","الجسمي الحركي","منطقي رياضي"],
+    answer: "منطقي رياضي"
+  },
+  {
+    question: "القدرة على التحدث والكتابة بطلاقة تدل على ذكاء:",
+    options: ["موسيقي","لغوي","اجتماعي","طبيعي"],
+    answer: "لغوي"
+  },
+  {
+    question: "القدرة على تمييز النغمات تشير إلى ذكاء:",
+    options: ["بصري","موسيقي","جسمي","شخصي"],
+    answer: "موسيقي"
+  },
+  {
+    "question": "الأسرة الممتدة (الممدودة) تساعد الطفل على النمو:",
+    "options": [
+      "اللغوي",
+      "الاجتماعي",
+      "النفسي",
+      "جميع ما سبق"
+    ],
+    "answer": "جميع ما سبق"
+  },
+  {
+    "question": "الأسرة الممتدة (الممدودة) تساعد الطفل على النمو:",
+    "options": [
+      "اللغوي",
+      "الاجتماعي",
+      "النفسي"
+    ],
+    "answer": "الاجتماعي"
+  },
+   {
+    "question": " إذا اشتكى أغلب الطلاب من صعوبة الفهم رغم استخدام المعلم لوسائل متعددة فالخلل يكون في",
+    "options": [
+      "المنهج",
+      "الطالب",
+      "المعلم"
+    ],
+    "answer": "المعلم"
+  },
+ 
+
+
+   {
+          question: "أفضل توقيت لاستخدام الخريطة في حصة الدراسات الاجتماعية:",
+          options: [
+            "قبل الحصة",
+            "بداية الحصة",
+            "نهاية الحصة",
+            "عند شرح الجزئية التي تحتاج لخريطة",
+          ],
+          answer: "عند شرح الجزئية التي تحتاج لخريطة",
+        },
+        {
+          question: "قال المعلم: الطالب حصل على 18 من 20 في الاختبار الأسبوعي:",
+          options: ["اختبار", "قياس", "تقييم", "تقويم"],
+          answer: "قياس",
+        },
+        {
+          question:
+            "قال المعلم: مستوى الطالب جيد ويحتاج إلى تحسين مهاراته في التعبير الكتابي:",
+          options: ["اختبار", "تقييم", "قياس", "تقويم"],
+          answer: "تقييم",
+        },
+        {
+          question:
+            "قام المعلم بتحديد نقاط الضعف لدى الطالب في مهارة القراءة ووضع خطة علاجية لتحسين مستواه، هذا يعد:",
+          options: ["اختبار", "قياس", "تقييم", "تقويم"],
+          answer: "تقويم",
+        },
+        {
+          question:
+            "أعد المعلم اختبارًا في نهاية الوحدة الدراسية لقياس مدى تحقيق الأهداف، هذا المثال يعد:",
+          options: ["التقويم", "التقييم", "القياس", "الاختبار"],
+          answer: "التقويم",
+        },
+        {
+          question:
+            "قام المعلم بإعداد مجموعة من الأسئلة الكتابية الموحدة لطلاب الصف لقياس تحصيلهم الدراسي في نهاية الفصل الدراسي، هذا يعد:",
+          options: ["القياس", "التقييم", "الاختبار", "التقويم"],
+          answer: "الاختبار",
+        },
+        {
+          question: "في التعلم بالاكتشاف يكون دور المعلم هو:",
+          options: ["مصحح", "الملقن للمعلومات", "المساعد في بناء المفهوم"],
+          answer: "المساعد في بناء المفهوم",
+        },
+        {
+          question: "يقصد بالتعلم بالاكتشاف هو:",
+          options: [
+            "تعلم يقوم على حل التمارين المكررة",
+            "أسلوب يعتمد على التلقين",
+            "أسلوب يشجع المتعلم على طرح الأسئلة والبحث عن إجابات",
+          ],
+          answer: "أسلوب يشجع المتعلم على طرح الأسئلة والبحث عن إجابات",
+        },
+        {
+          question: "يُستخدم أسلوب لعب الأدوار في التدريس بشكل خاص لتنمية:",
+          options: [
+            "المهارات الاجتماعية والتواصل",
+            "المهارات اليدوية",
+            "مهارات الحفظ والتكرار",
+            "المهارات الحسابية",
+          ],
+          answer: "المهارات الاجتماعية والتواصل",
+        },
+        {
+          question: "يعد التعلم من خلال اللعب وسيلة فعالة في:",
+          options: [
+            "تنمية التفكير والإبداع لدى المتعلم",
+            "الاعتماد الكامل على المعلم كمصدر وحيد",
+            "تحقيق التلقين السريع للمعلومة",
+          ],
+          answer: "تنمية التفكير والإبداع لدى المتعلم",
+        },
+     
+ 
+ 
+ 
+
+ {
+    question: "يشير النضج إلى:",
+    options: ["نتائج البيئة الاجتماعية فقط","تغيرات فسيولوجية تحدث نتيجة النمو الداخلي الطبيعي","تطور في المهارات الدراسية","تطور تدريجي نتيجة التدريب"],
+    answer: "تغيرات فسيولوجية تحدث نتيجة النمو الداخلي الطبيعي"
+  },
+  {
+    question: "أي مما يلي يميز النضج عن النمو:",
+    options: ["يعتمد على العوامل البيولوجية ولا يحتاج إلى تدريب","يرتبط فقط بتغيرات الجسم الخارجية","يحدث نتيجة تدريب خارجي","يتأثر بالتعلم بدرجة كبيرة"],
+    answer: "يعتمد على العوامل البيولوجية ولا يحتاج إلى تدريب"
+  },
+  {
+    question: "أي من مدارس علم النفس تهتم بالسلوك القابل للملاحظة فقط؟",
+    options: ["المدرسة المعرفية","المدرسة السلوكية","مدرسة التحليل النفسي","المدرسة الإنسانية"],
+    answer: "المدرسة السلوكية"
+  },
+  {
+    question: "أي من الإجراءات التالية أقل فائدة لطالب لديه ضعف بصري:",
+    options: ["النمذجة","التسلسل","التعزيز","التشكيل"],
+    answer: "النمذجة"
+  },
+  {
+    question: "أي مخطط نستخدم للمقارنة بين الكل والجزء؟",
+    options: ["بياني خطي","دائري","عمودي","أعمدة مزدوجة"],
+    answer: "دائري"
+  },
+  {
+    question: "أي مخطط هو الأنسب لعرض تغير السلوكيات عبر الزمن؟",
+    options: ["مخطط نقطي","شريطي","دائري","خطي"],
+    answer: "خطي"
+  },
+  {
+    question: "خطوات الاستقصاء تبدأ بـ:",
+    options: ["الشعور بالمشكلة","حل المشكلة","الوصول للنتائج","لا شئ"],
+    answer: "الشعور بالمشكلة"
+  },
+  {
+    question: "كل الآتي من أهداف معرفية ما عدا:",
+    options: ["التحليل","الميل","التذكر","الفهم"],
+    answer: "الميل"
+  },
+  {
+    question: "أي من الآتي يعد هدفا وجدانيا؟",
+    options: ["تصنيف الصخور","كتابة تقرير","إظهار احترام آراء الآخرين","حل مسألة"],
+    answer: "إظهار احترام آراء الآخرين"
+  },
+  {
+    question: "الأهداف الوجدانية تركز على:",
+    options: ["المهارات العقلية","المهارات اليدوية","المشاعر والاتجاهات","المعارف"],
+    answer: "المشاعر والاتجاهات"
+  },
+  
+
+  {
+    "question": "قام المعلم بعمل بطاقات صغيرة لتضاريس مصر ووزعها على الطلبة، هذه الطريقة تهدف إلى:",
+    "options": [
+      "تنمية مهارات التفكير البصري والمشاركة النشطة",
+      "تقوية الكتابة والإملاء",
+      "حفظ المعلومات فقط",
+      "تقليل وقت الحصة"
+    ],
+    "answer": "تنمية مهارات التفكير البصري والمشاركة النشطة"
+  },
+  {
+    "question": "أي مما يلي يُعبر بدقة عن مفهوم المنهج؟",
+    "options": [
+      "كل الخبرات التي يمر بها المتعلم داخل المدرسة",
+      "مجموعة من المقررات الدراسية",
+      "الكتاب المدرسي فقط",
+      "الامتحانات النهائية"
+    ],
+    "answer": "كل الخبرات التي يمر بها المتعلم داخل المدرسة"
+  },
+   {
+    "question": "أي من المراحل التالية تُعد الأسرع في النمو؟",
+    "options": [
+      "الحمل",
+      "الطفولة المتأخرة",
+      "المراهقة",
+      "جميعها متساوية"
+    ],
+    "answer": "الحمل"
+  },
+  {
+    "question": "طالب يعاني من التوتر من الأسئلة، أفضل حل إعطاؤه سؤال:",
+    "options": [
+      "من كتاب مفتوح",
+      "صح وخطأ",
+      "اختيار من متعدد",
+      "مقالي قصير"
+    ],
+    "answer": "من كتاب مفتوح"
+  },
+  {
+    "question": "لتخفيف التوتر عند طالب يُنصح بإعطائه سؤال:",
+    "options": [
+      "صح وخطأ",
+      "اختيار من متعدد",
+      "أكمل",
+      "مقالي قصير"
+    ],
+    "answer": "اختيار من متعدد"
+  },
+  {
+    "question": "لتخفيف التوتر عند طالب يُنصح بإعطائه سؤال يتطلب:",
+    "options": [
+      "اختيار استجابة",
+      "إنتاج استجابة",
+      "مقالي قصير",
+      "مقالي طويل"
+    ],
+    "answer": "اختيار استجابة"
+  },
+  {
+    "question": "إذا اشتكى أغلب الطلاب من صعوبة الفهم رغم استخدام المعلم لوسائل متعددة، فالخلل يكون في:",
+    "options": [
+      "الزمن المخصص للحصة",
+      "المنهج",
+      "الطالب",
+      "المعلم"
+    ],
+    "answer": "المعلم"
+  },
+  {
+    question: "إذا استمرت الشكوى رغم تغيير المعلم فالخلل في:",
+    options: ["الإدارة","المنهج","الطالب","المعلم"],
+    answer: "المنهج"
+  },
+  {
+    question: "إذا فهم معظم الفصل ما عدا قلة فالخلل عند:",
+    options: ["الطريقة","المنهج","الطالب","المعلم"],
+    answer: "الطالب"
+  },
+   {
+    "question": "دخلت إلى حصة فرعية ووجدت عددًا من الطلاب يتهامسون أثناء الشرح، أفضل طريقة للتعامل:",
+    "options": [
+      "فرض عقاب جماعي",
+      "إخراج الطلاب مؤقتًا",
+      "استخدام أنشطة جذابة تشغل أذهان الطلاب"
+    ],
+    "answer": "استخدام أنشطة جذابة تشغل أذهان الطلاب"
+  },
+  
+
+   {
+          question: "من أهم أسباب التخلف العقلي",
+          options: ["الوراثة", "البيئة", "نقص نسبة الذكاء"],
+          answer: "الوراثة",
+        },
+        {
+          question: "أي مما يلي ليس من عناصر التدريس الأساسية",
+          options: ["القياس", "المحتوى", "المعلم", "الطالب"],
+          answer: "القياس",
+        },
+        {
+          question:
+            "إن المناهج الدراسية التي يضعها المعلم لذوي الاحتياجات الخاصة لا تصلح مع",
+          options: [
+            "الطلاب الموهوبين",
+            "الطلاب ذوي الإعاقات البصرية",
+            "ذوي الإعاقات الحركية",
+          ],
+          answer: "الطلاب الموهوبين",
+        },
+       
+        {
+          question: "ما الهدف الرئيسي من المناهج المصممة للطلاب الموهوبين؟",
+          options: [
+            "تحفيز التفكير الإبداعي",
+            "تبسيط المعلومات",
+            "تكرار الدروس",
+          ],
+          answer: "تحفيز التفكير الإبداعي",
+        },
+        {
+          question:
+            "أي الأنماط التالية لإدارة الصف يتميز بمنح التلاميذ حرية زائدة دون توجيه؟",
+          options: ["ديمقراطي", "تسلطي", "نمط متساهل وفوضوي"],
+          answer: "نمط متساهل وفوضوي",
+        },
+        {
+          question:
+            "إذا لاحظت خلال زيارة صفية أن الطلاب يشعرون بالقلق ويركزون على الحفظ دون فهم، فإن نمط إدارة المعلم يكون",
+          options: ["نمط تسلطي", "نمط متساهل", "نمط موضوعي", "نمط ديمقراطي"],
+          answer: "نمط تسلطي",
+        },
+        {
+          question: "أكثر أنواع الكذب شيوعًا بين الأطفال هو الكذب",
+          options: ["التقليدي", "الانتقامي", "الدفاعي", "الاندفاعي"],
+          answer: "الدفاعي",
+        },
+        {
+          question:
+            "الطفل الذي يتعمد الكذب لإلحاق الأذى بزميله، الكذب يُعرف بـ",
+          options: ["تقليدي", "خيالي", "دفاعي", "انتقامي"],
+          answer: "انتقامي",
+        },
+        {
+          question: "عندما يُغطي الاختبار جميع جوانب المنهج، فإنه يتصف بـ",
+          options: ["الصدق", "الثبات", "الشمولية", "الموضوعية"],
+          answer: "الشمولية",
+        },
+        {
+          question: "من أهم أسباب التخلف العقلي",
+          options: ["الوراثة", "البيئة", "نقص نسبة الذكاء"],
+          answer: "الوراثة",
+        },
+];
+
+export const level7Groups = {arabic, general, computer, english, educational};
+
+console.log('✅ questions-level7Groups.js: ', {
+  arabic: arabic.length, 
+  general: general.length, 
+  computer: computer.length, 
+  english: english.length, 
+  educational: educational.length
+});

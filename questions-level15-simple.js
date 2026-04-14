@@ -1,7 +1,11 @@
-// بطل سرقة يا حرامي هتروح النار
+// بطل سرقة يا حرامي هتروح النار 😈
+
+// Level 1 questions SPLITTED into 5 GROUPS
+// User: EDIT arrays to add your questions. Format: {question, options[], answer, explanation}
 
 
-const level15Questions = [
+// 1. معلومات عامة (General)
+const behavioral = [
 
  
  
@@ -918,7 +922,7 @@ const level15Questions = [
   },
   {
     "question": "كيف تتعامل مع أعضاء الفريق ذوي الأداء الضعيف؟",
-    "options": ["أتجنّب التدخل المباشر", "أناقشهم بلُطف لأفهم الأسباب", "أقدّم لهم دعمًا وتوجيهًا مباشرًا"],
+    "options": ["أتجنّب التدخل المباشر", "أناقشهم  لأفهم الأسباب فقط", "أقدّم لهم دعمًا وتوجيهًا مباشرًا"],
     "answer": "أقدّم لهم دعمًا وتوجيهًا مباشرًا"
   },
   {
@@ -933,7 +937,7 @@ const level15Questions = [
   },
   {
     "question": "ما موقفك من الاستماع لآراء الآخرين؟",
-    "options": ["أفضّل أن أعتمد على قراراتي", "أستمع إذا كانت الآراء منطقية", "أعتبرها ضرورية دائمًا"],
+    "options": ["أفضّل أن أعتمد على قراراتي", "نادرا ما استمع لاراء الاخرين", "أعتبرها ضرورية دائمًا"],
     "answer": "أعتبرها ضرورية دائمًا"
   },
   {
@@ -1391,6 +1395,9 @@ const level15Questions = [
 
 ]
 
-export { level15Questions };
-console.log('✅ questions-level1.js ready -', level15Questions.length, 'questions (pure JS objects/JSON)');
+export const level15Groups = {behavioral};
 
+console.log('✅ questions-level15Groups.js: ', {
+  behavioral: behavioral.length, 
+
+});
